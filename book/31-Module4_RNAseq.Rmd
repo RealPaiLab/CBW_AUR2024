@@ -1,0 +1,334 @@
+# Module 4: Finding differentially expressed genes with RNA-seq {-}
+
+We are going to look at genes differentially expressed between Luminal and Basal subtypes of breast cancer.
+
+For this we are going to download data from The Cancer Genome Atlas [ADD LINK] readily available in BioConductor.
+
+## Mini introduction to BioConductor {-}
+BioConductor is the most popular software repository for genomics data analysis, and is worth exploring in detail.
+This R-based ecosystem is open-source and community built. It contains software **LINK** packages but also **DATA** and **ANNOTATION** packages.
+
+
+Examples of packages in BioConductor:
+
+* Data package: The entire human genome sequence e.g., for the current GRCH38 build
+* Data package: Multi-modal genomic data from The Cancer Genome Atlas for various tumour types
+* Annotation package: Annotation for the Illumina DNA methylation array
+* Software: `DEseq` to process RNAseq data, `minfi` to process DNA methylation array data, CHIPseeker for Chip-Seq data, etc., 
+
+As we will see, BioConductor also has specialized *data structures* for bioinformatics operations.
+Data structures are specialized, standardized formats for organizing, accessing, modifying and storing data.
+
+Examples of BioConductor data structures:
+
+* `GenomicRanges`: for working with genomic coordinates
+* `SummarizedExperiment`: container for storing data and metadata about an experiment
+* `MultiAssayExperiment`: container for experiments where multiple genomic assays were run on the same samples
+
+BioConductor uses its own package manager to install packages. Instead of `install.packages()` we use, `BiocManager::install()`.
+
+```{r, class.source="codeblock",eval=FALSE}
+ if (!requireNamespace("curatedTCGAData", quietly = TRUE)) 
+    BiocManager::install("curatedTCGAData")
+```
+
+## Fetch breast cancer data using `curatedTCGAData`  {-}
+
+Load the package:
+```{r, class.source="codeblock",eval=FALSE}
+suppressMessages(library(curatedTCGAData))
+```
+
+Let's take a look at the available data for breast cancer, without downloading anything (set `dry.run=TRUE`). 
+Each row shows a data layer available. e.g., "*mRNA*" is transcriptomic data, "*CNA*" is chromosomal copy number aberration data, etc., 
+
+```{r dge-brca-dryrun, class.source="codeblock",eval=FALSE}
+curatedTCGAData(diseaseCode="BRCA", assays="*",dry.run=TRUE, version="2.0.1")
+```
+
+We want to get unprocessed gene expression read counts, so let's fetch the `BRCA_RNASeq2Gene-20160128` layer. You can use `?curatedTCGAData` to see a description of all data layers. 
+
+
+```{r dge-fetchbrca, class.source="codeblock",eval=FALSE}
+brca <- suppressMessages(
+    curatedTCGAData(
+        "BRCA",
+        assays="RNASeqGene",
+        dry.run=FALSE, 
+        version="2.0.1")
+)
+```
+
+This call returns a `MultiAssayExperiment` object. Recall that this is a container for storing multiple assays performed on the same set of samples. [See this tutorial](https://bioconductor.org/packages/release/bioc/vignettes/MultiAssayExperiment/inst/doc/QuickStartMultiAssay.html) to learn more.
+
+Let's briefly explore the `brca` `MultiAssayExperiment` object.
+
+```{r, class.source="codeblock",eval=FALSE}
+brca
+```
+
+`assays()` returns a `list` with all -omic data associated with this object. Here we just have the one we downloaded. 
+
+```{r, class.source="codeblock",eval=FALSE}
+summary(assays(brca))
+```
+`names()` shows the datatypes in each slot of `assays()`:
+
+```{r, class.source="codeblock",eval=FALSE}
+names(assays(brca))
+```
+So gene expression in slot 1.
+
+We can subset the data to see what it looks like. Let's look at just the first five measures, for the first 10 samples:
+
+```{r dge-xprsubset, class.source="codeblock",eval=FALSE}
+xpr <- assays(brca)[[1]]
+head(xpr[1:10,1:5])
+```
+
+How many measures do we have?
+```{r, class.source="codeblock",eval=FALSE}
+nrow(xpr)
+```
+
+### Prepare data for differential expression analysis {-}
+
+Process the expression values:
+```{r dge-brca-prepare, class.source="codeblock",eval=FALSE}
+cnames <- colnames(xpr)
+hpos <- gregexpr("-",cnames)
+tmp <- sapply(1:length(cnames),function(i) {substr(cnames[i],1,hpos[[i]][3]-1)})
+idx <- !duplicated(tmp)
+
+# subset values
+tmp <- tmp[idx]
+xpr <- xpr[,idx]
+colnames(xpr) <- tmp
+```
+
+Patient metadata is contained in the `colData()` slot. Rows contain data for each patient and columns contain measures such as clinical characteristics:
+
+```{r dge-phenolook, class.source="codeblock",eval=FALSE}
+pheno <- colData(brca)
+colnames(pheno)[1:20]
+head(pheno[,1:5])
+```
+
+Let's confirm that samples are in the same order in the `xpr` matrix and in the metadata table `pheno`.
+
+```{r, class.source="codeblock",eval=FALSE}
+ids_in_both <- intersect(pheno$patientID, colnames(xpr))
+pheno <- pheno[which(pheno$patientID %in% ids_in_both),]
+xpr <- xpr[,which(colnames(xpr) %in% ids_in_both)]
+
+if (all.equal(pheno$patientID, colnames(xpr))!=TRUE) {
+    midx <- match(pheno$patientID, colnames(xpr))
+    xpr <- xpr[,midx]
+}
+```
+
+```{block,type="rmd-caution"}
+Always check that samples are in the same order in the tables you are comparing, and use `match()` to reorder them if necessary.
+If they are not in the same order, you are matching data to the wrong sample, and your results will be wrong.
+```
+
+This table has many columns. Let's just keep those related to tumour type according to the PAM50 classification.
+What tumour types do we have in this dataset?
+
+```{r dge-pheno-table, class.source="codeblock",eval=FALSE}
+pheno <- pheno[,c("patientID","PAM50.mRNA")]
+table(pheno$PAM50.mRNA)
+```
+
+Let's limit the comparison to `Luminal A` and `Basal` type tumours. 
+```{r dge-phenomatch, class.source="codeblock",eval=FALSE}
+idx <- which(pheno$PAM50.mRNA %in% c("Luminal A","Basal-like"))
+pheno <- pheno[idx,]
+xpr <- xpr[,idx] 
+
+dim(pheno)
+dim(xpr)
+```
+
+## Differential expression analysis with `edgeR` {-}
+
+Now that the data are prepared, let's created a `DGEList` object (DGE stands for "Differential Gene Expression"). This object is what we will use for our differential expression analysis.
+
+Note: Make phenotype of interest categorical. In R that means converting to a `factor` type with categorical `levels`. You can think of levels as ordinal representations (e.g., first level = 1, second = 2, etc., )
+
+If `levels=` are not set, the default uses alphabetical order.  We recommend explicitly setting levels so that there are no assumptions.
+
+Load the `edgeR` package:
+
+```{r , class.source="codeblock",eval=FALSE}
+suppressMessages(require(edgeR))
+```
+
+Let's create a `DGEList` object for the differential expression analysis.  Note that `group` must be a categorical variable (use `factor()` to convert it to one):
+
+```{r dge-create, class.source="codeblock",eval=FALSE}
+group <- factor(
+        pheno$PAM50.mRNA,
+        levels=c("Luminal A","Basal-like")
+    )
+dge <- DGEList(
+    counts = xpr,
+    group = group
+    )
+```
+
+Remove low-count genes: To filter low count genes, we're going to use a normalized count measure called `cpm` (counts per million). We are going to keep genes with 100 or greater counts per million for at least two samples:
+
+```{r dge-seecounts, class.source="codeblock",eval=FALSE}
+(dge$counts[1:6,1:20])
+```
+
+Look at counts per million using `cpm`:
+
+```{r dge-cpm, class.source="codeblock",eval=FALSE}
+cpm(dge)[1:5,1:5]
+```
+This next line is a bit complex so let's unpack it:
+
+*  We are using `cpm(dge)>100` as a logical test ("which genes have cpm > 100?"). 
+*  For each gene, we want that test to be true for at least two samples. For this we use `rowSums()` to add up how many samples meet that criteria. 
+  
+```{r dge-libsize, class.source="codeblock",eval=FALSE}
+dim(dge) #before 
+tokeep <- rowSums(cpm(dge)>100) >= 2
+dge <- dge[tokeep,keep.lib.sizes = FALSE]
+dim(dge) #after
+```
+
+Normalize the data:
+```{r dge-calcnorm, class.source="codeblock",eval=FALSE}
+dge <- calcNormFactors(dge)
+```
+
+Visualize the data:
+```{r, class.source="codeblock",eval=FALSE}
+plotMDS(
+    dge, 
+    col=as.numeric(dge$samples$group), 
+    pch=16
+)
+legend(
+    "bottomleft", 
+    as.character(unique(dge$samples$group)),
+    col=c(1,2), pch=16
+    )
+```
+
+Let's create a model design to identify genes with a `group` effect:
+
+```{r dge-model, class.source="codeblock",eval=FALSE}
+group <- dge$samples$group
+mod <- model.matrix(~group)
+```
+
+Estimate variation ("dispersion") for each gene:
+```{r dge-disp, class.source="codeblock",eval=FALSE}
+dge <- estimateDisp(dge, mod)
+```
+
+Call differentially expressed genes. 
+
+Here we:
+
+* fit a model for each gene, using `glmFit`
+* we have built in an estimate of gene-wise dispersion to better identify treatment effect (or "contrast")
+* for each gene, we run a likelihood ratio test which compares which model fits the data better: a null model (treatment effect = 0)
+ or a full model (treatment effect is non-zero)
+
+Note that `coef=2` fetches the effects for the treatment effect; `coef=1` would fetch effects of the intercept term.<br>
+&nbsp; <br>
+<img src="images/model_coefs.png" width="75%">
+
+
+```{r dge-diffex, class.source="codeblock",eval=FALSE}
+fit <- glmFit(dge,mod)
+diffEx <- glmLRT(fit, coef = 2) # get coefficients for group term
+```
+
+Look at the top 10 differentially expressed genes:
+```{r dge-toptags, class.source="codeblock",eval=FALSE}
+tt <- topTags(diffEx, n=10)
+tt
+```
+
+For the next steps we're going to need stats on all the genes we've tested. So let's get those:
+```{r, top-tags-full,class.source="codeblock",eval=FALSE}
+tt <- as.data.frame(
+    topTags(diffEx, n=nrow(dge)
+    )
+)
+```
+
+A QQplot directly compares the pvalues from our statistical tests to the expected values from a random uniform distribution (p-value selected at random).
+
+A deviation from the x=y line (diagonal) towards the top indicates an enrichment of signal.
+
+```{r, qqplot, class.source="codeblock",eval=FALSE}
+qqplot(
+    tt$PValue, 
+    runif(nrow(tt)), # randomly sample from uniform distribution
+    xlab="p-values from real data",
+    ylab="Randomly-sampled values from Uniform distribution",
+    pch=16,cex=0.5
+)
+
+# x=y line as reference
+abline(0,1,col="red")
+```
+
+Now let's call differentially expressed genes using the `decideTestDGE()` function and use `summary()` to see how many genes are upregulated (value `+1`), downregulated (value `-1`) and not called as changed (value `0`)
+```{r, decide-tests-dge, class.source="codeblock",eval=FALSE}
+diffEx2 <- decideTestsDGE(diffEx, 
+    adjust.method="BH", 
+    p.value=0.05
+)
+summary(diffEx2)
+```
+
+A **volcano plot** can help visualize effect magnitude - log2 fold-change or `log2FC` in the table ` against the corresponding p-value. Here we create a volcano plot, and colour-code upregulated genes in red, and downregulated genes in blue.
+
+Note that we are combining two different tables, `tt` and `diffEx2` so we need to ensure the order is the same. Otherwise the colours will be in the wrong order *(try it for yourself!)*.
+
+```{r, class.source="codeblock",eval=FALSE}
+midx <- match(rownames(tt), rownames(diffEx2))
+diffEx2 <- diffEx2[midx,]
+
+cols <- rep("black",nrow(diffEx2))
+cols[which(diffEx2>0 )]  <- "red"
+cols[which(diffEx2<0)]  <- "blue"
+# volcano plot
+plot(tt$logFC,-log10(tt$PValue),pch=16,
+    col=cols)
+abline(v=0,lty=3)
+```
+
+Finally we can write our differential expression results out to file:
+```{r, class.source="codeblock",eval=FALSE}
+write.table(tt,file="diffEx.results.txt",
+    sep="\t",
+    col=TRUE,
+    row=TRUE,
+    quote=FALSE
+)
+```
+
+## Exercise {-}
+
+* Install the `yeastRNASeq` package from Bioconductor and `library` it into your environment
+* Import the geneLevelData using: `data("geneLevelData")`
+* Learn about this data and then put it through the same workflow we just did for the breast cancer: 
+1. Create a new `DGEList` object with your gene counts
+2. Filter genes with CPM > 25 in at least two samples
+3. Normalize and plot your data
+4. Create a model matrix for analysis
+5. Fit your model 
+6. How many significantly up-regulated genes are there at the 5% FDR level? How many significantly down-regulated genes? How many in total
+7. Create a volcano plot
+8. Bonus: Create a histogram of p-values. Is there a signal?
+
+Is there anything about the data that might make you question the results?

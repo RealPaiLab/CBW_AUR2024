@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Module 4: Finding differentially expressed genes with RNA-seq | Analysis Using R</title>
+  <meta name="description" content="Principles of exploratory data analysis, RNAseq differential expression, and generalized linear models" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Module 4: Finding differentially expressed genes with RNA-seq | Analysis Using R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Principles of exploratory data analysis, RNAseq differential expression, and generalized linear models" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Module 4: Finding differentially expressed genes with RNA-seq | Analysis Using R" />
+  
+  <meta name="twitter:description" content="Principles of exploratory data analysis, RNAseq differential expression, and generalized linear models" />
+  
+
+<meta name="author" content="Instructors: Shraddha Pai, Chaitra Sarathy" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="module-3-exercise-results.html"/>
+<link rel="next" href="module-4-exercise-results.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<img src="images/bioinfologo_big.png">
+<li><a href="./">2024 CBW Analysis Using R Workshop</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#meet-your-faculty"><i class="fa fa-check"></i>Meet your Faculty</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#pre-workshop-materials-and-laptop-setup-instructions"><i class="fa fa-check"></i>Pre-workshop Materials and Laptop Setup Instructions</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#laptop-setup-instructions"><i class="fa fa-check"></i>Laptop Setup Instructions</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-packages"><i class="fa fa-check"></i>R packages</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="lecture-slides.html"><a href="lecture-slides.html"><i class="fa fa-check"></i>Lecture slides</a></li>
+<li class="chapter" data-level="" data-path="module-1-exploratory-data-analysis-and-clustering.html"><a href="module-1-exploratory-data-analysis-and-clustering.html"><i class="fa fa-check"></i>Module 1: Exploratory Data Analysis and Clustering</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-1-exploratory-data-analysis-and-clustering.html"><a href="module-1-exploratory-data-analysis-and-clustering.html#load-mouse-data"><i class="fa fa-check"></i>Load <code>mouse</code> data</a></li>
+<li class="chapter" data-level="" data-path="module-1-exploratory-data-analysis-and-clustering.html"><a href="module-1-exploratory-data-analysis-and-clustering.html#correlations-distances-and-clustering"><i class="fa fa-check"></i>Correlations, distances, and clustering</a></li>
+<li class="chapter" data-level="" data-path="module-1-exploratory-data-analysis-and-clustering.html"><a href="module-1-exploratory-data-analysis-and-clustering.html#hierarchical-clustering"><i class="fa fa-check"></i>Hierarchical clustering</a></li>
+<li class="chapter" data-level="" data-path="module-1-exploratory-data-analysis-and-clustering.html"><a href="module-1-exploratory-data-analysis-and-clustering.html#k-means-clustering"><i class="fa fa-check"></i>K-means clustering</a></li>
+<li class="chapter" data-level="" data-path="module-1-exploratory-data-analysis-and-clustering.html"><a href="module-1-exploratory-data-analysis-and-clustering.html#using-clvalid-to-determine-number-of-clusters"><i class="fa fa-check"></i>Using <code>clValid</code> to determine number of clusters</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-2-dimensionality-reduction.html"><a href="module-2-dimensionality-reduction.html"><i class="fa fa-check"></i>Module 2: Dimensionality reduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-2-dimensionality-reduction.html"><a href="module-2-dimensionality-reduction.html#principal-component-analysis"><i class="fa fa-check"></i>Principal Component Analysis</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-2-dimensionality-reduction.html"><a href="module-2-dimensionality-reduction.html#step-1.-preparing-our-data"><i class="fa fa-check"></i>Step 1. Preparing Our Data</a></li>
+<li class="chapter" data-level="" data-path="module-2-dimensionality-reduction.html"><a href="module-2-dimensionality-reduction.html#step-2.-apply-pca"><i class="fa fa-check"></i>Step 2. Apply PCA</a></li>
+<li class="chapter" data-level="" data-path="module-2-dimensionality-reduction.html"><a href="module-2-dimensionality-reduction.html#step-3.-visualisation-of-pca-results"><i class="fa fa-check"></i>Step 3. Visualisation of PCA results</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-2-dimensionality-reduction.html"><a href="module-2-dimensionality-reduction.html#t-distributed-stochastic-neighbor-embedding-t-sne"><i class="fa fa-check"></i>t-Distributed Stochastic Neighbor Embedding (t-SNE)</a></li>
+<li class="chapter" data-level="" data-path="module-2-dimensionality-reduction.html"><a href="module-2-dimensionality-reduction.html#uniform-manifold-approximation-and-projection-umap"><i class="fa fa-check"></i>Uniform Manifold Approximation and Projection (UMAP)</a></li>
+<li class="chapter" data-level="" data-path="module-2-dimensionality-reduction.html"><a href="module-2-dimensionality-reduction.html#exercise"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-2-exercise-results.html"><a href="module-2-exercise-results.html"><i class="fa fa-check"></i>Module 2: Exercise Results</a></li>
+<li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html"><i class="fa fa-check"></i>Module 3: Generalized Linear Models</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html#essential-r-read-tables-from-files-and-merge"><i class="fa fa-check"></i>Essential R: Read tables from files and merge</a></li>
+<li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html#read-data-from-files-and-explore-variable-distribution"><i class="fa fa-check"></i>Read data from files and explore variable distribution</a></li>
+<li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html#explore-missing-data"><i class="fa fa-check"></i>Explore missing data</a></li>
+<li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html#create-plots-with-ggplot2-to-explore-variable-relationships"><i class="fa fa-check"></i>Create plots with <code>ggplot2</code> to explore variable relationships</a></li>
+<li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html#fit-binary-response-variable-using-glm-and-logistic-regression"><i class="fa fa-check"></i>Fit binary response variable using <code>glm()</code> and logistic regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html#exercise-1"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-3-exercise-results.html"><a href="module-3-exercise-results.html"><i class="fa fa-check"></i>Module 3: Exercise Results</a></li>
+<li class="chapter" data-level="" data-path="module-4-finding-differentially-expressed-genes-with-rna-seq.html"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html"><i class="fa fa-check"></i>Module 4: Finding differentially expressed genes with RNA-seq</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-4-finding-differentially-expressed-genes-with-rna-seq.html"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#mini-introduction-to-bioconductor"><i class="fa fa-check"></i>Mini introduction to BioConductor</a></li>
+<li class="chapter" data-level="" data-path="module-4-finding-differentially-expressed-genes-with-rna-seq.html"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#fetch-breast-cancer-data-using-curatedtcgadata"><i class="fa fa-check"></i>Fetch breast cancer data using <code>curatedTCGAData</code></a>
+<ul>
+<li class="chapter" data-level="" data-path="module-4-finding-differentially-expressed-genes-with-rna-seq.html"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#prepare-data-for-differential-expression-analysis"><i class="fa fa-check"></i>Prepare data for differential expression analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-4-finding-differentially-expressed-genes-with-rna-seq.html"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#differential-expression-analysis-with-edger"><i class="fa fa-check"></i>Differential expression analysis with <code>edgeR</code></a></li>
+<li class="chapter" data-level="" data-path="module-4-finding-differentially-expressed-genes-with-rna-seq.html"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#exercise-2"><i class="fa fa-check"></i>Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-4-exercise-results.html"><a href="module-4-exercise-results.html"><i class="fa fa-check"></i>Module 4: Exercise Results</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Analysis Using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="module-4-finding-differentially-expressed-genes-with-rna-seq" class="section level1 unnumbered hasAnchor">
+<h1>Module 4: Finding differentially expressed genes with RNA-seq<a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#module-4-finding-differentially-expressed-genes-with-rna-seq" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We are going to look at genes differentially expressed between Luminal and Basal subtypes of breast cancer.</p>
+<p>For this we are going to download data from The Cancer Genome Atlas [ADD LINK] readily available in BioConductor.</p>
+<div id="mini-introduction-to-bioconductor" class="section level2 unnumbered hasAnchor">
+<h2>Mini introduction to BioConductor<a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#mini-introduction-to-bioconductor" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>BioConductor is the most popular software repository for genomics data analysis, and is worth exploring in detail.
+This R-based ecosystem is open-source and community built. It contains software <strong>LINK</strong> packages but also <strong>DATA</strong> and <strong>ANNOTATION</strong> packages.</p>
+<p>Examples of packages in BioConductor:</p>
+<ul>
+<li>Data package: The entire human genome sequence e.g., for the current GRCH38 build</li>
+<li>Data package: Multi-modal genomic data from The Cancer Genome Atlas for various tumour types</li>
+<li>Annotation package: Annotation for the Illumina DNA methylation array</li>
+<li>Software: <code>DEseq</code> to process RNAseq data, <code>minfi</code> to process DNA methylation array data, CHIPseeker for Chip-Seq data, etc.,</li>
+</ul>
+<p>As we will see, BioConductor also has specialized <em>data structures</em> for bioinformatics operations.
+Data structures are specialized, standardized formats for organizing, accessing, modifying and storing data.</p>
+<p>Examples of BioConductor data structures:</p>
+<ul>
+<li><code>GenomicRanges</code>: for working with genomic coordinates</li>
+<li><code>SummarizedExperiment</code>: container for storing data and metadata about an experiment</li>
+<li><code>MultiAssayExperiment</code>: container for experiments where multiple genomic assays were run on the same samples</li>
+</ul>
+<p>BioConductor uses its own package manager to install packages. Instead of <code>install.packages()</code> we use, <code>BiocManager::install()</code>.</p>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb229-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb229-1" tabindex="-1"></a> <span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;curatedTCGAData&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) </span>
+<span id="cb229-2"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb229-2" tabindex="-1"></a>    BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;curatedTCGAData&quot;</span>)</span></code></pre></div>
+</div>
+<div id="fetch-breast-cancer-data-using-curatedtcgadata" class="section level2 unnumbered hasAnchor">
+<h2>Fetch breast cancer data using <code>curatedTCGAData</code><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#fetch-breast-cancer-data-using-curatedtcgadata" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Load the package:</p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb230-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb230-1" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(curatedTCGAData))</span></code></pre></div>
+<p>Let’s take a look at the available data for breast cancer, without downloading anything (set <code>dry.run=TRUE</code>).
+Each row shows a data layer available. e.g., “<em>mRNA</em>” is transcriptomic data, “<em>CNA</em>” is chromosomal copy number aberration data, etc.,</p>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb231-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb231-1" tabindex="-1"></a><span class="fu">curatedTCGAData</span>(<span class="at">diseaseCode=</span><span class="st">&quot;BRCA&quot;</span>, <span class="at">assays=</span><span class="st">&quot;*&quot;</span>,<span class="at">dry.run=</span><span class="cn">TRUE</span>, <span class="at">version=</span><span class="st">&quot;2.0.1&quot;</span>)</span></code></pre></div>
+<p>We want to get unprocessed gene expression read counts, so let’s fetch the <code>BRCA_RNASeq2Gene-20160128</code> layer. You can use <code>?curatedTCGAData</code> to see a description of all data layers.</p>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb232-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb232-1" tabindex="-1"></a>brca <span class="ot">&lt;-</span> <span class="fu">suppressMessages</span>(</span>
+<span id="cb232-2"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb232-2" tabindex="-1"></a>    <span class="fu">curatedTCGAData</span>(</span>
+<span id="cb232-3"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb232-3" tabindex="-1"></a>        <span class="st">&quot;BRCA&quot;</span>,</span>
+<span id="cb232-4"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb232-4" tabindex="-1"></a>        <span class="at">assays=</span><span class="st">&quot;RNASeqGene&quot;</span>,</span>
+<span id="cb232-5"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb232-5" tabindex="-1"></a>        <span class="at">dry.run=</span><span class="cn">FALSE</span>, </span>
+<span id="cb232-6"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb232-6" tabindex="-1"></a>        <span class="at">version=</span><span class="st">&quot;2.0.1&quot;</span>)</span>
+<span id="cb232-7"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb232-7" tabindex="-1"></a>)</span></code></pre></div>
+<p>This call returns a <code>MultiAssayExperiment</code> object. Recall that this is a container for storing multiple assays performed on the same set of samples. <a href="https://bioconductor.org/packages/release/bioc/vignettes/MultiAssayExperiment/inst/doc/QuickStartMultiAssay.html">See this tutorial</a> to learn more.</p>
+<p>Let’s briefly explore the <code>brca</code> <code>MultiAssayExperiment</code> object.</p>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb233-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb233-1" tabindex="-1"></a>brca</span></code></pre></div>
+<p><code>assays()</code> returns a <code>list</code> with all -omic data associated with this object. Here we just have the one we downloaded.</p>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb234-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb234-1" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">assays</span>(brca))</span></code></pre></div>
+<p><code>names()</code> shows the datatypes in each slot of <code>assays()</code>:</p>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb235-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb235-1" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">assays</span>(brca))</span></code></pre></div>
+<p>So gene expression in slot 1.</p>
+<p>We can subset the data to see what it looks like. Let’s look at just the first five measures, for the first 10 samples:</p>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb236-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb236-1" tabindex="-1"></a>xpr <span class="ot">&lt;-</span> <span class="fu">assays</span>(brca)[[<span class="dv">1</span>]]</span>
+<span id="cb236-2"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb236-2" tabindex="-1"></a><span class="fu">head</span>(xpr[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])</span></code></pre></div>
+<p>How many measures do we have?</p>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb237-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb237-1" tabindex="-1"></a><span class="fu">nrow</span>(xpr)</span></code></pre></div>
+<div id="prepare-data-for-differential-expression-analysis" class="section level3 unnumbered hasAnchor">
+<h3>Prepare data for differential expression analysis<a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#prepare-data-for-differential-expression-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Process the expression values:</p>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb238-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb238-1" tabindex="-1"></a>cnames <span class="ot">&lt;-</span> <span class="fu">colnames</span>(xpr)</span>
+<span id="cb238-2"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb238-2" tabindex="-1"></a>hpos <span class="ot">&lt;-</span> <span class="fu">gregexpr</span>(<span class="st">&quot;-&quot;</span>,cnames)</span>
+<span id="cb238-3"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb238-3" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(cnames),<span class="cf">function</span>(i) {<span class="fu">substr</span>(cnames[i],<span class="dv">1</span>,hpos[[i]][<span class="dv">3</span>]<span class="sc">-</span><span class="dv">1</span>)})</span>
+<span id="cb238-4"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb238-4" tabindex="-1"></a>idx <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">duplicated</span>(tmp)</span>
+<span id="cb238-5"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb238-5" tabindex="-1"></a></span>
+<span id="cb238-6"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb238-6" tabindex="-1"></a><span class="co"># subset values</span></span>
+<span id="cb238-7"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb238-7" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> tmp[idx]</span>
+<span id="cb238-8"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb238-8" tabindex="-1"></a>xpr <span class="ot">&lt;-</span> xpr[,idx]</span>
+<span id="cb238-9"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb238-9" tabindex="-1"></a><span class="fu">colnames</span>(xpr) <span class="ot">&lt;-</span> tmp</span></code></pre></div>
+<p>Patient metadata is contained in the <code>colData()</code> slot. Rows contain data for each patient and columns contain measures such as clinical characteristics:</p>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb239-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb239-1" tabindex="-1"></a>pheno <span class="ot">&lt;-</span> <span class="fu">colData</span>(brca)</span>
+<span id="cb239-2"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb239-2" tabindex="-1"></a><span class="fu">colnames</span>(pheno)[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>]</span>
+<span id="cb239-3"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb239-3" tabindex="-1"></a><span class="fu">head</span>(pheno[,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])</span></code></pre></div>
+<p>Let’s confirm that samples are in the same order in the <code>xpr</code> matrix and in the metadata table <code>pheno</code>.</p>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb240-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb240-1" tabindex="-1"></a>ids_in_both <span class="ot">&lt;-</span> <span class="fu">intersect</span>(pheno<span class="sc">$</span>patientID, <span class="fu">colnames</span>(xpr))</span>
+<span id="cb240-2"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb240-2" tabindex="-1"></a>pheno <span class="ot">&lt;-</span> pheno[<span class="fu">which</span>(pheno<span class="sc">$</span>patientID <span class="sc">%in%</span> ids_in_both),]</span>
+<span id="cb240-3"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb240-3" tabindex="-1"></a>xpr <span class="ot">&lt;-</span> xpr[,<span class="fu">which</span>(<span class="fu">colnames</span>(xpr) <span class="sc">%in%</span> ids_in_both)]</span>
+<span id="cb240-4"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb240-4" tabindex="-1"></a></span>
+<span id="cb240-5"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb240-5" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">all.equal</span>(pheno<span class="sc">$</span>patientID, <span class="fu">colnames</span>(xpr))<span class="sc">!=</span><span class="cn">TRUE</span>) {</span>
+<span id="cb240-6"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb240-6" tabindex="-1"></a>    midx <span class="ot">&lt;-</span> <span class="fu">match</span>(pheno<span class="sc">$</span>patientID, <span class="fu">colnames</span>(xpr))</span>
+<span id="cb240-7"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb240-7" tabindex="-1"></a>    xpr <span class="ot">&lt;-</span> xpr[,midx]</span>
+<span id="cb240-8"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb240-8" tabindex="-1"></a>}</span></code></pre></div>
+<div class="rmd-caution">
+<p>
+Always check that samples are in the same order in the tables you are
+comparing, and use <code>match()</code> to reorder them if necessary. If
+they are not in the same order, you are matching data to the wrong
+sample, and your results will be wrong.
+</p>
+</div>
+<p>This table has many columns. Let’s just keep those related to tumour type according to the PAM50 classification.
+What tumour types do we have in this dataset?</p>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb241-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb241-1" tabindex="-1"></a>pheno <span class="ot">&lt;-</span> pheno[,<span class="fu">c</span>(<span class="st">&quot;patientID&quot;</span>,<span class="st">&quot;PAM50.mRNA&quot;</span>)]</span>
+<span id="cb241-2"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb241-2" tabindex="-1"></a><span class="fu">table</span>(pheno<span class="sc">$</span>PAM50.mRNA)</span></code></pre></div>
+<p>Let’s limit the comparison to <code>Luminal A</code> and <code>Basal</code> type tumours.</p>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb242-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb242-1" tabindex="-1"></a>idx <span class="ot">&lt;-</span> <span class="fu">which</span>(pheno<span class="sc">$</span>PAM50.mRNA <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Luminal A&quot;</span>,<span class="st">&quot;Basal-like&quot;</span>))</span>
+<span id="cb242-2"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb242-2" tabindex="-1"></a>pheno <span class="ot">&lt;-</span> pheno[idx,]</span>
+<span id="cb242-3"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb242-3" tabindex="-1"></a>xpr <span class="ot">&lt;-</span> xpr[,idx] </span>
+<span id="cb242-4"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb242-4" tabindex="-1"></a></span>
+<span id="cb242-5"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb242-5" tabindex="-1"></a><span class="fu">dim</span>(pheno)</span>
+<span id="cb242-6"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb242-6" tabindex="-1"></a><span class="fu">dim</span>(xpr)</span></code></pre></div>
+</div>
+</div>
+<div id="differential-expression-analysis-with-edger" class="section level2 unnumbered hasAnchor">
+<h2>Differential expression analysis with <code>edgeR</code><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#differential-expression-analysis-with-edger" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now that the data are prepared, let’s created a <code>DGEList</code> object (DGE stands for “Differential Gene Expression”). This object is what we will use for our differential expression analysis.</p>
+<p>Note: Make phenotype of interest categorical. In R that means converting to a <code>factor</code> type with categorical <code>levels</code>. You can think of levels as ordinal representations (e.g., first level = 1, second = 2, etc., )</p>
+<p>If <code>levels=</code> are not set, the default uses alphabetical order. We recommend explicitly setting levels so that there are no assumptions.</p>
+<p>Load the <code>edgeR</code> package:</p>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb243-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb243-1" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">require</span>(edgeR))</span></code></pre></div>
+<p>Let’s create a <code>DGEList</code> object for the differential expression analysis. Note that <code>group</code> must be a categorical variable (use <code>factor()</code> to convert it to one):</p>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb244-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb244-1" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">factor</span>(</span>
+<span id="cb244-2"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb244-2" tabindex="-1"></a>        pheno<span class="sc">$</span>PAM50.mRNA,</span>
+<span id="cb244-3"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb244-3" tabindex="-1"></a>        <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Luminal A&quot;</span>,<span class="st">&quot;Basal-like&quot;</span>)</span>
+<span id="cb244-4"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb244-4" tabindex="-1"></a>    )</span>
+<span id="cb244-5"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb244-5" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">DGEList</span>(</span>
+<span id="cb244-6"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb244-6" tabindex="-1"></a>    <span class="at">counts =</span> xpr,</span>
+<span id="cb244-7"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb244-7" tabindex="-1"></a>    <span class="at">group =</span> group</span>
+<span id="cb244-8"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb244-8" tabindex="-1"></a>    )</span></code></pre></div>
+<p>Remove low-count genes: To filter low count genes, we’re going to use a normalized count measure called <code>cpm</code> (counts per million). We are going to keep genes with 100 or greater counts per million for at least two samples:</p>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb245-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb245-1" tabindex="-1"></a>(dge<span class="sc">$</span>counts[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>])</span></code></pre></div>
+<p>Look at counts per million using <code>cpm</code>:</p>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb246-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb246-1" tabindex="-1"></a><span class="fu">cpm</span>(dge)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code></pre></div>
+<p>This next line is a bit complex so let’s unpack it:</p>
+<ul>
+<li>We are using <code>cpm(dge)&gt;100</code> as a logical test (“which genes have cpm &gt; 100?”).</li>
+<li>For each gene, we want that test to be true for at least two samples. For this we use <code>rowSums()</code> to add up how many samples meet that criteria.</li>
+</ul>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb247-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb247-1" tabindex="-1"></a><span class="fu">dim</span>(dge) <span class="co">#before </span></span>
+<span id="cb247-2"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb247-2" tabindex="-1"></a>tokeep <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">cpm</span>(dge)<span class="sc">&gt;</span><span class="dv">100</span>) <span class="sc">&gt;=</span> <span class="dv">2</span></span>
+<span id="cb247-3"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb247-3" tabindex="-1"></a>dge <span class="ot">&lt;-</span> dge[tokeep,keep.lib.sizes <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb247-4"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb247-4" tabindex="-1"></a><span class="fu">dim</span>(dge) <span class="co">#after</span></span></code></pre></div>
+<p>Normalize the data:</p>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb248-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb248-1" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">calcNormFactors</span>(dge)</span></code></pre></div>
+<p>Visualize the data:</p>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb249-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb249-1" tabindex="-1"></a><span class="fu">plotMDS</span>(</span>
+<span id="cb249-2"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb249-2" tabindex="-1"></a>    dge, </span>
+<span id="cb249-3"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb249-3" tabindex="-1"></a>    <span class="at">col=</span><span class="fu">as.numeric</span>(dge<span class="sc">$</span>samples<span class="sc">$</span>group), </span>
+<span id="cb249-4"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb249-4" tabindex="-1"></a>    <span class="at">pch=</span><span class="dv">16</span></span>
+<span id="cb249-5"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb249-5" tabindex="-1"></a>)</span>
+<span id="cb249-6"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb249-6" tabindex="-1"></a><span class="fu">legend</span>(</span>
+<span id="cb249-7"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb249-7" tabindex="-1"></a>    <span class="st">&quot;bottomleft&quot;</span>, </span>
+<span id="cb249-8"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb249-8" tabindex="-1"></a>    <span class="fu">as.character</span>(<span class="fu">unique</span>(dge<span class="sc">$</span>samples<span class="sc">$</span>group)),</span>
+<span id="cb249-9"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb249-9" tabindex="-1"></a>    <span class="at">col=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">pch=</span><span class="dv">16</span></span>
+<span id="cb249-10"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb249-10" tabindex="-1"></a>    )</span></code></pre></div>
+<p>Let’s create a model design to identify genes with a <code>group</code> effect:</p>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb250-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb250-1" tabindex="-1"></a>group <span class="ot">&lt;-</span> dge<span class="sc">$</span>samples<span class="sc">$</span>group</span>
+<span id="cb250-2"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb250-2" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>group)</span></code></pre></div>
+<p>Estimate variation (“dispersion”) for each gene:</p>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb251-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb251-1" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">estimateDisp</span>(dge, mod)</span></code></pre></div>
+<p>Call differentially expressed genes.</p>
+<p>Here we:</p>
+<ul>
+<li>fit a model for each gene, using <code>glmFit</code></li>
+<li>we have built in an estimate of gene-wise dispersion to better identify treatment effect (or “contrast”)</li>
+<li>for each gene, we run a likelihood ratio test which compares which model fits the data better: a null model (treatment effect = 0)
+or a full model (treatment effect is non-zero)</li>
+</ul>
+<p>Note that <code>coef=2</code> fetches the effects for the treatment effect; <code>coef=1</code> would fetch effects of the intercept term.<br>
+  <br>
+<img src="images/model_coefs.png" width="75%"></p>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb252-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb252-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">glmFit</span>(dge,mod)</span>
+<span id="cb252-2"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb252-2" tabindex="-1"></a>diffEx <span class="ot">&lt;-</span> <span class="fu">glmLRT</span>(fit, <span class="at">coef =</span> <span class="dv">2</span>) <span class="co"># get coefficients for group term</span></span></code></pre></div>
+<p>Look at the top 10 differentially expressed genes:</p>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb253-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb253-1" tabindex="-1"></a>tt <span class="ot">&lt;-</span> <span class="fu">topTags</span>(diffEx, <span class="at">n=</span><span class="dv">10</span>)</span>
+<span id="cb253-2"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb253-2" tabindex="-1"></a>tt</span></code></pre></div>
+<p>For the next steps we’re going to need stats on all the genes we’ve tested. So let’s get those:</p>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb254-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb254-1" tabindex="-1"></a>tt <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(</span>
+<span id="cb254-2"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb254-2" tabindex="-1"></a>    <span class="fu">topTags</span>(diffEx, <span class="at">n=</span><span class="fu">nrow</span>(dge)</span>
+<span id="cb254-3"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb254-3" tabindex="-1"></a>    )</span>
+<span id="cb254-4"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb254-4" tabindex="-1"></a>)</span></code></pre></div>
+<p>A QQplot directly compares the pvalues from our statistical tests to the expected values from a random uniform distribution (p-value selected at random).</p>
+<p>A deviation from the x=y line (diagonal) towards the top indicates an enrichment of signal.</p>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb255-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb255-1" tabindex="-1"></a><span class="fu">qqplot</span>(</span>
+<span id="cb255-2"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb255-2" tabindex="-1"></a>    tt<span class="sc">$</span>PValue, </span>
+<span id="cb255-3"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb255-3" tabindex="-1"></a>    <span class="fu">runif</span>(<span class="fu">nrow</span>(tt)), <span class="co"># randomly sample from uniform distribution</span></span>
+<span id="cb255-4"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb255-4" tabindex="-1"></a>    <span class="at">xlab=</span><span class="st">&quot;p-values from real data&quot;</span>,</span>
+<span id="cb255-5"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb255-5" tabindex="-1"></a>    <span class="at">ylab=</span><span class="st">&quot;Randomly-sampled values from Uniform distribution&quot;</span>,</span>
+<span id="cb255-6"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb255-6" tabindex="-1"></a>    <span class="at">pch=</span><span class="dv">16</span>,<span class="at">cex=</span><span class="fl">0.5</span></span>
+<span id="cb255-7"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb255-7" tabindex="-1"></a>)</span>
+<span id="cb255-8"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb255-8" tabindex="-1"></a></span>
+<span id="cb255-9"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb255-9" tabindex="-1"></a><span class="co"># x=y line as reference</span></span>
+<span id="cb255-10"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb255-10" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p>Now let’s call differentially expressed genes using the <code>decideTestDGE()</code> function and use <code>summary()</code> to see how many genes are upregulated (value <code>+1</code>), downregulated (value <code>-1</code>) and not called as changed (value <code>0</code>)</p>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb256-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb256-1" tabindex="-1"></a>diffEx2 <span class="ot">&lt;-</span> <span class="fu">decideTestsDGE</span>(diffEx, </span>
+<span id="cb256-2"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb256-2" tabindex="-1"></a>    <span class="at">adjust.method=</span><span class="st">&quot;BH&quot;</span>, </span>
+<span id="cb256-3"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb256-3" tabindex="-1"></a>    <span class="at">p.value=</span><span class="fl">0.05</span></span>
+<span id="cb256-4"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb256-4" tabindex="-1"></a>)</span>
+<span id="cb256-5"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb256-5" tabindex="-1"></a><span class="fu">summary</span>(diffEx2)</span></code></pre></div>
+<p>A <strong>volcano plot</strong> can help visualize effect magnitude - log2 fold-change or <code>log2FC</code> in the table ` against the corresponding p-value. Here we create a volcano plot, and colour-code upregulated genes in red, and downregulated genes in blue.</p>
+<p>Note that we are combining two different tables, <code>tt</code> and <code>diffEx2</code> so we need to ensure the order is the same. Otherwise the colours will be in the wrong order <em>(try it for yourself!)</em>.</p>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb257-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb257-1" tabindex="-1"></a>midx <span class="ot">&lt;-</span> <span class="fu">match</span>(<span class="fu">rownames</span>(tt), <span class="fu">rownames</span>(diffEx2))</span>
+<span id="cb257-2"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb257-2" tabindex="-1"></a>diffEx2 <span class="ot">&lt;-</span> diffEx2[midx,]</span>
+<span id="cb257-3"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb257-3" tabindex="-1"></a></span>
+<span id="cb257-4"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb257-4" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&quot;black&quot;</span>,<span class="fu">nrow</span>(diffEx2))</span>
+<span id="cb257-5"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb257-5" tabindex="-1"></a>cols[<span class="fu">which</span>(diffEx2<span class="sc">&gt;</span><span class="dv">0</span> )]  <span class="ot">&lt;-</span> <span class="st">&quot;red&quot;</span></span>
+<span id="cb257-6"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb257-6" tabindex="-1"></a>cols[<span class="fu">which</span>(diffEx2<span class="sc">&lt;</span><span class="dv">0</span>)]  <span class="ot">&lt;-</span> <span class="st">&quot;blue&quot;</span></span>
+<span id="cb257-7"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb257-7" tabindex="-1"></a><span class="co"># volcano plot</span></span>
+<span id="cb257-8"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb257-8" tabindex="-1"></a><span class="fu">plot</span>(tt<span class="sc">$</span>logFC,<span class="sc">-</span><span class="fu">log10</span>(tt<span class="sc">$</span>PValue),<span class="at">pch=</span><span class="dv">16</span>,</span>
+<span id="cb257-9"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb257-9" tabindex="-1"></a>    <span class="at">col=</span>cols)</span>
+<span id="cb257-10"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb257-10" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>,<span class="at">lty=</span><span class="dv">3</span>)</span></code></pre></div>
+<p>Finally we can write our differential expression results out to file:</p>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb258-1"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb258-1" tabindex="-1"></a><span class="fu">write.table</span>(tt,<span class="at">file=</span><span class="st">&quot;diffEx.results.txt&quot;</span>,</span>
+<span id="cb258-2"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb258-2" tabindex="-1"></a>    <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,</span>
+<span id="cb258-3"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb258-3" tabindex="-1"></a>    <span class="at">col=</span><span class="cn">TRUE</span>,</span>
+<span id="cb258-4"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb258-4" tabindex="-1"></a>    <span class="at">row=</span><span class="cn">TRUE</span>,</span>
+<span id="cb258-5"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb258-5" tabindex="-1"></a>    <span class="at">quote=</span><span class="cn">FALSE</span></span>
+<span id="cb258-6"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#cb258-6" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+<div id="exercise-2" class="section level2 unnumbered hasAnchor">
+<h2>Exercise<a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#exercise-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li>Install the <code>yeastRNASeq</code> package from Bioconductor and <code>library</code> it into your environment</li>
+<li>Import the geneLevelData using: <code>data("geneLevelData")</code></li>
+<li>Learn about this data and then put it through the same workflow we just did for the breast cancer:</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Create a new <code>DGEList</code> object with your gene counts</li>
+<li>Filter genes with CPM &gt; 25 in at least two samples</li>
+<li>Normalize and plot your data</li>
+<li>Create a model matrix for analysis</li>
+<li>Fit your model</li>
+<li>How many significantly up-regulated genes are there at the 5% FDR level? How many significantly down-regulated genes? How many in total</li>
+<li>Create a volcano plot</li>
+<li>Bonus: Create a histogram of p-values. Is there a signal?</li>
+</ol>
+<p>Is there anything about the data that might make you question the results?</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="module-3-exercise-results.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="module-4-exercise-results.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,276 @@
+# Module 3: Generalized Linear Models {-}
+
+ In this module we're going to cover:
+
+ * Reading data from files and evaluating missingness
+ * Creating publication-quality plots with `ggplot2`
+ * Fitting models with binary outcomes using generalized linear models
+
+## Essential R: Read tables from files and merge {-}
+
+For this we're going to use two data files available in the course data directory.
+
+[Download these](https://drive.google.com/drive/folders/1hKRa7ui-DmQCbqoKlgkmvhlrbXDmbgsV?usp=sharing) for use and put them in your R working directory.
+
+* `tomerge1.csv` : comma-separated values
+* `tomerge2.txt` : space-delimited values
+
+Use `read.delim()` to read in tables. Note the use of the `sep=` parameter to indicate what the column separator is:
+
+```{r, class.source="codeblock",eval=FALSE}
+x1 <- read.delim("data/tomerge1.csv",sep=",")
+head(x1)
+
+x2 <- read.delim("data/tomerge2.txt",sep=" ")
+head(x2)
+```
+
+Use `merge()` to combine the two tables by sample ID. Note the use of `by.x` and `by.y` to tell `merge()` which columns are equivalent:
+
+```{r, class.source="codeblock", eval=FALSE}
+x_merge <- merge(x1, x2, by.x = "Sample_ID", by.y = "sampleID")
+head(x_merge)
+```
+
+
+## Read data from files and explore variable distribution {-}
+
+We're going to use a popular dataset for data analysis, pertaining to survival of passengers aboard the Titanic. 
+
+Download [the dataset here](https://drive.google.com/file/d/1PdP7bZTbmcRrPPPYFf1Mr8vfucom-d4k/view?usp=sharing) and copy it into your working directory.
+
+Let's read in the data from a file:
+```{r, class.source="codeblock",eval=FALSE}
+dat <- read.delim(
+    "data/titanic.csv",
+    sep="," # indicate the column separator
+    ) 
+```
+
+Examine the columns:
+```{r, class.source="codeblock",eval=FALSE}
+head(dat)
+```
+
+Some of the columns are categorical, use `table()` to look at the tallies:
+Examine the columns:
+```{r, class.source="codeblock",eval=FALSE}
+table(dat$Survived)
+table(dat$Pclass)
+```
+
+Use `summary()` to look at continuous-valued data:
+```{r, class.source="codeblock",eval=FALSE}
+summary(dat$Age)
+```
+
+Notice that there are 177 `NA` (missing) values for age.
+Let's visualize the missing data more systematically.
+
+## Explore missing data {-}
+
+For this let's use a little script that converts a table into black and white squares to visualize missing data. For this, install the `plotrix` package
+
+```{r, class.source="codeblock",eval=FALSE}
+if (!requireNamespace("plotrix", quietly = TRUE)) install.packages("plotrix")
+
+suppressMessages(require(plotrix))
+
+#' show data missingness as a chequered matrix
+#' 
+#' @param x (matrix) data matrix.
+#' @param outFile (char) path to file for printing graph
+#' @param wd (numeric) width in inches
+#' @param ht (numeric) height in inches
+#' @return plots missingness matrix to file
+#' @import plotrix
+#' @export
+plotMissMat <- function(x,xlab="columns",
+		ylab="rows",border=NA) {
+	
+	x <- !is.na(x)
+	class(x) <- "numeric"
+	color2D.matplot(x,show.values=FALSE,axes=FALSE,
+		cs1=c(1,0),cs2=c(1,0),cs3=c(1,0),border=border,
+		cex=0.8,
+		xlab=xlab,ylab=ylab)
+}
+```
+
+Let's look at the missingness in the Titanic dataset. Missing data is shown as a white cell, and non-missing data is shown in black.
+
+```{r, class.source="codeblock",eval=FALSE}
+plotMissMat(dat)
+```
+
+We can see a column with many missing values. This is probably the "age" data. 
+Let's count the number of missing values on a per-column level.
+
+For this we combine `is.na()`, which returns a TRUE/FALSE value for NA values, and `colSums()` which adds up the TRUE values down the columns.
+
+```{r count-missing, class.source="codeblock",eval=FALSE}
+colSums(is.na(dat))
+```
+This confirms that `Age` is the only column with missing data.
+
+Now let's explore the data using plots.
+
+## Create plots with `ggplot2` to explore variable relationships {-}
+
+`ggplot2` is a popular plotting package that uses an additive paradigm to build plots. The [ggplot2 website](https://ggplot2.tidyverse.org/) is a wealth of reference information, so here we just touch on the basics to get you started. 
+
+Anytime you need to generate a specific kind of plot, the website will most likely have documentation for how to achieve it.
+
+Let's start by creating a scatterplot. For this let's load a dataset measuring statistics around quality of life in US states in the late 70's:
+
+```{r, class.source="codeblock",eval=FALSE}
+state.x77 <- as.data.frame(state.x77)
+head(state.x77)
+```
+
+Create a base plot using the `ggplot` function. Then "add" a scatterplot to it. Notice that the plot has been assigned to a variable named `p`. 
+
+This setup is standard for `ggplot2` and allows multiple visualizations to be applied to the same base plot.
+
+We use `aes` to tell ggplot what the `x` and `y` axes are, and later, if we want to colour-code by a particular column.
+
+
+```{r load-states-data, class.source="codeblock",eval=FALSE}
+require(ggplot2)
+p <- ggplot(state.x77, 
+    aes(x = Illiteracy,y = Income)
+    )
+
+p <- p + geom_point() # scatter plot
+p
+```
+
+Now let's add confidence intervals:
+```{r states-geomsmooth, class.source="codeblock",eval=FALSE}
+p + geom_smooth()
+```
+
+
+It looks like there is a negative relationship between illiteracy and income.
+We can confirm this by looking at correlation:
+```{r test-cor, class.source="codeblock",eval=FALSE}
+x <- state.x77$Illiteracy
+y <- state.x77$Income
+cor.test(x,y)
+cor.test(x,y)$p.value
+```
+
+Let's now examine categorical variables. 
+In the titanic set, let's look at the fare paid based on passenger class:
+```{r boxplot, class.source="codeblock",eval=FALSE}
+p <- ggplot(dat)
+p + geom_boxplot(
+    aes(x = factor(Pclass), # make categorical
+        y = Fare))
+```
+
+We can use barplots to examine counts and proportions.
+Let's look at number of survivors, split by passenger class
+```{r  barplot, class.source="codeblock",eval=FALSE}
+p + geom_bar(
+    aes(fill=factor(Survived), Pclass)
+)
+```
+
+The plot above shows count data. Let's convert this to proportions. We can see that the fraction of non-survivors in "Class 3" is high.
+```{r barplot2 , class.source="codeblock",eval=FALSE}
+p + geom_bar(
+    aes(fill=factor(Survived), Pclass),
+    position = "fill"
+)
+```
+
+How about males versus females?
+```{r finish-titanic, class.source="codeblock",eval=FALSE}
+p + geom_bar(
+    aes(fill=factor(Survived), Sex),
+    position = "fill"
+)
+```
+
+## Fit binary response variable using `glm()` and logistic regression {-}
+
+Let's fit a model to a binary outcome. For this we load a dataset that measures physiological variables in a cohort of Pima Indians.
+
+```{r load-pima, class.source="codeblock",eval=FALSE}
+require(mlbench)
+data(PimaIndiansDiabetes2)
+# type ?PimaIndiansDiabetes2 to learn more about the dataset.
+
+dat <- PimaIndiansDiabetes2
+head(dat)
+```
+
+Let's look at the impact of blood glucose levels on diabetes diagnosis. First let's make a scatterplot. 
+
+Could there be a relationship?
+
+```{r plot-diabetes-vs-glucose, class.source="codeblock",eval=FALSE}
+p <- ggplot(dat, aes(x = glucose, y = factor(diabetes)))
+p + geom_point()
+```
+
+Could this be fit with a linear model?
+
+```{r, class.source="codeblock",eval=FALSE}
+p <- ggplot(dat, aes(x = glucose, y = factor(diabetes)))
+p + geom_point() + geom_smooth()
+```
+
+This is a situation where a logistic regression model would be an appropriate choice. We're going to use `glm()` to fit a model to these data:
+
+```{r diabetes-model , class.source="codeblock",eval=FALSE}
+mod <- glm(factor(diabetes)~glucose, 
+    dat,
+    family = "binomial" # set to model binary outcome
+)
+summary(mod)
+```
+
+Which factors explain a diabetes diagnosis?
+
+What if we include a couple other factors?
+```{r diabetes-model-expanded, class.source="codeblock",eval=FALSE}
+mod <- glm(factor(diabetes)~ glucose + pregnant + age + pressure + triceps,
+    dat,
+    family = "binomial")
+summary(mod)
+```
+
+```{block,type="rmd-caution"}
+Note: This morning's session only intends to introduce you to fitting non-linear models. 
+
+In practice you may need to do more work to test multiple models to ascertain best fits your data, using measures such as goodness-of-fit. You will also likely compute odds ratio (odds of increased Y per unit increase X), which is out of scope for the current tutorial. 
+
+We strongly recommend that you learn these topics before applying these methods to your own data.
+```
+
+## Exercise {-}
+
+Now let's apply the ideas above to a dataset for classifying a breast cell as being either benign or malignant. 
+
+```{r bc-load, class.source="codeblock",eval=FALSE}
+data(BreastCancer)
+bc <- BreastCancer
+for (k in 2:10) # altered for current lab
+    bc[,k] <- as.numeric(bc[,k]) 
+head(bc)
+```
+
+Learn more about the dataset:
+```{r bc-explore, class.source="codeblock",eval=FALSE}
+?BreastCancer
+```
+
+
+For your exercise, answer the following questions:
+
+* Is there missing data?
+* Which columns are 
+* Use plots to explore the relationship between explanatory variables.
+* Fit a logistic model to identify which factors explain class (benign vs. malignant).

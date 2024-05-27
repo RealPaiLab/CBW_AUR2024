@@ -1,0 +1,5 @@
+sample	age	sex
+A	23	M
+B	35	M
+C	42	F
+D	5	

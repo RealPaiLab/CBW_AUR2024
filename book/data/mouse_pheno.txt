@@ -1,0 +1,7 @@
+SampleID	Type
+M1	Mesenchymal
+M2	Mesenchymal
+M3	Mesenchymal
+NC1	Neural-crest
+NC2	Neural-crest
+NC3	Neural-crest

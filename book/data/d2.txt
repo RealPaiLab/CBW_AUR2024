@@ -1,0 +1,4 @@
+sample	status
+A	responder
+B	nonresponder
+D	responder

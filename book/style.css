@@ -1,0 +1,155 @@
+p.caption {
+  color: #777;
+  margin-top: 10px;
+}
+p code {
+  white-space: inherit;
+}
+pre {
+  word-break: normal;
+  word-wrap: normal;
+}
+pre code {
+  white-space: inherit;
+}
+
+/* CUSTOM BLOCKS */
+/* Taken from: https://github.com/BaderLab/CBW_Pathways_2021/blob/master/style.css */
+
+h1 {
+  background-image: url("images/Bioinfo_Logo.jpeg");
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-size: 10%;
+}
+
+
+.rmd-task {
+  padding: 0em 0em 0em 3em;
+  margin-bottom: 2px;
+  background:  #9ad4fe  url("images/iconfinder_document_309087.png") left center/3em no-repeat /*!important*/;
+  border-style:solid;
+  border-color: #9ad4fe;
+}
+.rmd-task:before {
+  color: #fcf403;
+  font-size: 24px;
+  content: "Task";
+}
+
+.rmd-caution {
+  padding: 0em 0em 0em 3em;
+  margin-bottom: 2px;
+  background:  #ff9090  url("images/iconfinder_attention_309101.png") left center/3em no-repeat /*!important*/;
+  /* background: url("images/iconfinder_attention_309101.png") left center/3em no-repeat*/  /*!important*/ 
+}
+.rmd-caution:before {
+  color: #ff6347;
+  font-size: 24px;
+  content: "";
+}
+
+.rmd-design{
+  padding: 0em 0em 0em 3em;
+  margin-bottom: 2px;
+  background: #ffe9fe  url("images/iconfinder_art-tools_1291734.png") left top/3em no-repeat /*!important*/; 
+}
+.rmd-design:before {
+  padding: 0em 0em 0em 0.5em;
+  color: #42076a;
+  font-size: 24px;
+  content: "Design notes";
+}
+
+
+.rmd-troubleshooting {
+  padding: 0em 0em 0em 4em;
+  margin-bottom: 2px;
+  background:  /*#FFFF00*/  url("images/iconfinder_support_309071") left center/3em no-repeat /*!important*/;
+  border-style:solid;
+  border-color:#000000;
+}
+.rmd-troubleshooting:before {
+  color: #ff6347;
+  font-size: 24px;
+  content: "Troubleshooting";
+}
+
+.rmd-tip {
+  padding: 0em 0em 0em 3em;
+  margin-bottom: 2px;
+  background:  #d1ebfe  url("images/iconfinder_idea_309059.png") left center/3em no-repeat /*!important*/;
+}
+.rmd-tip:before {
+  color: #b68d04;
+  font-size: 24px;
+  content: "Tip";
+}
+
+
+.rmd-note {
+  padding: 0em 0em 0em 3em;
+  margin-bottom: 2px;
+  background:  #d1ebfe  url("images/iconfinder_document_309087.png") left center/3em no-repeat /*!important*/;
+}
+.rmd-note:before {
+  color: #332d54;
+  font-size: 24px;
+  content: "Note";
+}
+
+.rmd-cbw {
+  padding: 0em 0em 0em 3em;
+  margin-right: 2px;
+  background:  #fafbff  url("images/Bioinfo_Logo.jpg") left center/7em no-repeat /*!important*/;
+  border-style:solid;
+  border-color: #fafbff;
+}
+.rmd-cbw:before {
+  color: #fcf403;
+  font-size: 24px;
+  content: "";
+}
+
+.rmd-outlook {
+  padding: 0em 0em 0em 3em;
+  margin-bottom: 2px;
+  background:  #d1ebfe  url("images/iconfinder_3687825_adventure_road_street_sign_way_icon_128px.png") left center/3em no-repeat /*!important*/;
+}
+
+.rmd-outlook:before {
+  color: #b68d04;
+  font-size: 24px;
+  content: "";
+}
+
+
+.rmd-datadownload {
+  padding: 0em 0em 0em 3em;
+  margin-bottom: 2px;
+  background:  /*#FFFF00*/  url("images/iconfinder_downloads_309074.png") left center/3em no-repeat /*!important*/;
+  border-style:solid;
+  border-color:#169c40;
+}
+.rmd-datadownload:before {
+  color: #169c40;
+  font-size: 24px;
+  content: "Download Instructions";
+}
+
+.rmd-question {
+  padding: 0em 0em 0em 3em;
+  margin-bottom: 2px;
+  background:  /*#FFFF00*/  url("images/icons8-ask-question-50.png") left center/3em no-repeat /*!important*/;
+  border-style:solid;
+  border-color:#b478f5;
+}
+.rmd-question:before {
+  color: #b478f5;
+  font-size: 24px;
+  content: "Question";
+}
+
+.codeblock {
+  background-color: rgb(255, 251, 225) !important;
+}

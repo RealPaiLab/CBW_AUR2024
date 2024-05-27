@@ -1,0 +1,262 @@
+# Module 1: Exploratory Data Analysis and Clustering {-}
+
+The goal of this lab is to examine correlation structure in a sample transcriptomic dataset using clustering.
+
+We will start using a small mouse expression dataset from two tissues.
+* We will briefly explore the dataset using `dim()`, `head()`, and `summary()`
+* We will visualize correlation using `pairs()` and `corrplot()`
+* We will cluster samples using k-means and hierarchical clustering methods using `dist()` and `hclust()`
+  * We will assign samples to clusters using `cutree()` and visualize these using `heatmap()`
+* We will use `clValid` to find out what cluster number best separates groups
+
+Finally we will explore clustering in a more complex bladder cancer dataset. 
+
+## Load `mouse` data {-}
+
+For this exercise we are going to load a dataset built into the `clValid` package.
+This dataset measures 147 genes and expressed sequence tags in two developing mouse lineages: the neural crest cells and mesoderm-derived cells.
+There are three samples per group.
+
+Let's load the data.
+
+```{r, class.source="codeblock",eval=TRUE}
+suppressMessages(library(clValid))
+data(mouse)
+```
+
+Use `str()` to see what types of data the columns have:
+
+```{r, class.source="codeblock",eval=TRUE}
+str(mouse)
+```
+
+Another command is `head()`:
+```{r, class.source="codeblock",eval=TRUE}
+head(mouse)
+```
+
+Summary provides useful information about the distribution of variables. Note that `FC` has categorical variables:
+
+```{r, class.source="codeblock",eval=TRUE}
+summary(mouse)
+```
+
+What are the values in `FC`?
+
+```{r, class.source="codeblock",eval=TRUE}
+table(mouse$FC)
+```
+
+Usually the information about samples ("metadata") is in a different table. 
+
+Let's load the sample information about the mouse dataset:
+```{r,eval=TRUE}
+pheno <- read.delim("data/mouse_pheno.txt",sep="\t",h=T,as.is=T)
+```
+
+Let's look at it:
+```{r,eval=TRUE}
+head(pheno)
+```
+
+Let's use `pairs()`  to look at pairwise scatterplots of the expression data in a single plot. We need to subset the columns with the expression data first:
+
+```{r, class.source="codeblock",eval=TRUE}
+mouse_exp = mouse[,c("M1","M2","M3","NC1","NC2","NC3")]
+pairs(mouse_exp)
+```
+
+## Correlations, distances, and clustering {-}
+
+Let's look at sample correlation matrix. This should be a square matrix, equal to the number of samples.
+We have six samples, so the correlation matrix should be `6x6`.
+
+```{r, class.source="codeblock",eval=TRUE}
+library(corrplot)
+mouse_cor <- cor(mouse_exp)
+dim(mouse_cor)
+round(mouse_cor,2)
+corrplot(mouse_cor, method="color")
+```
+
+* Which samples appear to be best correlated with each other?
+* Which samples don't appear to be as well correlated with each other?
+
+## Hierarchical clustering {-}
+
+Hierarchical clustering requires distances between samples. Let's use `dist()` to compute these distances, and `hclust()` to generate the hierarchical clustering object. 
+
+```{r, class.source="codeblock",eval=TRUE}
+d <- dist(t(log(mouse_exp)))
+```
+ 
+Using these distances, we cluster the samples using hierarchical clustering:
+
+```{r,eval=TRUE}
+h <- hclust(d,method="ward.D2")
+```
+
+The output of this can be plotted:
+
+```{r,eval=TRUE}
+plot(h)
+```
+
+Can you guess how many clusters could best fit the data?
+
+
+Now let's add a heatmap to this dendrogram, so we can see the values of genes in each cluster. For this we will use the `heatmap()` function.
+First let's just try the heatmap function:
+
+```{r,eval=TRUE}
+mouse_exp <- as.matrix(mouse_exp)
+heatmap(mouse_exp)
+```
+
+We can clearly see the data separated into two. But now let's colour-code samples based on cluster assignments.
+We get cluster assignments by "cutting" the dendrogram for two clusters (something we expect from our experimental design). 
+We use `cutree()` for this.  
+```{r, class.source="codeblock",eval=TRUE}
+h2 <- cutree(h, k = 2)
+```
+
+Let's look at our assigned labels:
+```{r,eval=TRUE}
+h2
+```
+
+Let's assign colours to the clusters so that cluster 1 is in pink, and cluster 2 is in green:
+```{r,eval=TRUE}
+clust_colours <- c("pink","green")[h2]
+```
+
+Look at clust_colours:
+```{r,eval=TRUE}
+clust_colours
+```
+
+Now let's plot the heatmap using these assigned cluster labels:
+
+```{r,eval=TRUE}
+heatmap(mouse_exp,
+    ColSideColors=clust_colours)
+```
+
+Note that the two colours are completely divided (i.e., there is no interspersed pink and green). 
+
+However, not all datasets are this simple. Let's cluster a bladder cancer gene expression dataset.
+This is in the R package, `bladderbatch` which we have already installed.
+
+```{r,eval=TRUE}
+library(bladderbatch)
+```
+
+Load the dataset:
+```{r,eval=TRUE}
+data(bladderdata)
+```
+
+We will use specialized functions to get the expression data and sample information. 
+```{r,eval=TRUE}
+bexprs <- exprs(bladderEset)
+bpheno <- pData(bladderEset)
+```
+
+How many genes and samples do we have in this dataset?
+
+Let us use the same code as above to cluster these samples:
+```{r bladder-hclust,eval=TRUE}
+d <- dist(t(bexprs))
+h <- hclust(d, method="ward.D2")
+plot(h)
+```
+
+How many clusters do we see?
+
+Let's assume three clusters, and assign colours to these. As before we use `cutree()`:
+```{r bladder-cutree,eval=TRUE}
+h3 <- cutree(h, k=3)
+clust_colours <- c("red","green","blue")[h3]
+```
+
+Look at the colour assignments?
+```{r,eval=TRUE}
+table(h3)
+```
+
+Let's just plot the heatmap.
+```{r heatmap-bladder1,eval=TRUE}
+heatmap(bexprs,
+    ColSideColors=clust_colours)
+```
+
+Why aren't the samples clustering?
+
+Now try providing the `hclustfun`  to `heatmap()` so it uses the same method to cluster as we did.
+For this we will create a custom function:
+```{r hclust-func,eval=TRUE}
+myhclust <- function(x) {
+    hclust(x,method="ward.D2")
+}
+```
+
+And now we run heatmap again, using our clustering function:
+
+```{r heatmap-bladder2,eval=TRUE}
+heatmap(bexprs,
+    ColSideColors=clust_colours,
+    hclustfun=myhclust
+)
+```
+
+
+## K-means clustering {-}
+
+Let's try using k-means clustering, asking for three clusters:
+
+```{r, class.source="codeblock",eval=TRUE}
+kclust <- kmeans(
+    mouse_exp, 
+    centers = 3
+)
+kclust
+```
+
+## Using `clValid` to determine number of clusters {-}
+
+Use the `clValid()` function to validate clusters using the:
+
+* Dunn index,
+* silhouette scores, and
+* connectivity
+
+```{r, class.source="codeblock",eval=TRUE}
+validation_data <- clValid(
+    mouse_exp,
+    2:6, # num. clusters to evaluate
+    clMethods = c("hier","kmeans"), # methods to eval.
+    validation = "internal"
+)
+```
+
+Let's look at the results:
+```{r, class.source="codeblock",eval=TRUE}
+summary(validation_data)
+```
+
+All measures of clustering consistently indicate that **two** clusters best fit the data.
+
+Now let's cluster:
+
+```{r, class.source="codeblock",eval=TRUE}
+d <- dist(t(log(mouse_exp)))
+h <- hclust(d,method="ward.D2")
+cluster_ids <- cutree(h, k = 2)
+clust_colors <- c("dodgerblue","orangered")[cluster_ids]
+
+heatmap(
+    as.matrix(mouse_exp),
+    hclustfun = myhclust,
+    ColSideColors = clust_colors
+)
+```

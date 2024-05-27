@@ -1,0 +1,300 @@
+# Module 2: Dimensionality reduction {-}
+
+The goal of this lab is to learn how to reduce the dimension of your dataset.
+
+We will learn three different methods commonly used for dimension reduction:
+
+1. Principal Component Analysis
+2. t-stochastic Neighbour Embedding (tSNE)
+3. Uniform Manifold Approximation (UMAP)
+
+
+## Principal Component Analysis {-}
+
+Let's start with PCA. PCA is commonly used as one step in a series of analyses. The goal of PCA is to explain most of the variability in the data with a smaller number of variables than the original data set. You can use PCA to explain the variability in your data using fewer variables. Typically, it is useful to identify outliers and determine if there's batch effect in your data.
+
+Data: We will use the dataset that we used for exploratory analysis in Module 1. Load the mouse data.
+
+```{r, class.source="codeblock",eval=TRUE}
+library(clValid)
+data("mouse")
+mouse_exp <- mouse[,c("M1","M2","M3","NC1","NC2","NC3")]
+head(mouse_exp)
+```
+
+
+### Step 1. Preparing Our Data {-}
+
+It is important to make sure that all the variables in your dataset are on the same scale to ensure they are comparable. So, let us check if that is the case with our dataset. To do that, we will first compute the means and variances of each variable using `apply()`.
+
+```{r, class.source="codeblock",eval=TRUE}
+apply(mouse_exp, 2, mean)
+apply(mouse_exp, 2, var)
+```
+
+As you can see, the means and variances for all the six variables are almost the same and on the same scale, which is great!
+
+However, keep in mind that, the variables need not always be on the same scale in other non-omics datasets. PCA is influenced by the magnitude of each variable. So, it is important to include a scaling step during data preparation. Ideally, it is great to have variables centered at zero for PCA because it makes comparing each principal component to the mean straightforward. Scaling can be done either using `scale()`. 
+
+### Step 2. Apply PCA {-}
+
+Since our variables are on the same scale, we can directly apply PCA using `prcomp()`.
+
+```{r, class.source="codeblock",eval=TRUE}
+pc_out <- prcomp(t(mouse_exp))
+```
+
+The output of `prcomp()` is a list. Examine the internal structure of `pc_out`.
+
+```{r, class.source="codeblock",eval=TRUE}
+str(pc_out)
+```
+
+The output of `prcomp()` contains five elements `sdev`, `rotation`, `center`, `scale` and `x`. Let us examine what each looks like. 
+
+```{r, class.source="codeblock",eval=TRUE}
+pc_out$sdev
+```
+
+`sddev` gives standard deviation (used for computing variance explained). We will see how in sections below.
+
+
+```{r, class.source="codeblock",eval=TRUE}
+head(pc_out$rotation)
+```
+
+After PCA, the observations are expressed in new axes and the loadings are provided in `pc_out$rotation`. Each column of `pc_out$rotation` contains the corresponding principal component loading vector.
+
+We see that there are six distinct principal components, as indicated by column names of `pc_out$rotation`. 
+```{r, class.source="codeblock",eval=TRUE}
+pc_out$center
+pc_out$scale
+```
+
+The `center` and `scale` elements correspond to the means and standard deviations of the variables that were used for scaling prior to implementing PCA.
+
+```{r, class.source="codeblock",eval=TRUE}
+# See the principal components
+dim(pc_out$x)
+head(pc_out$x)
+```
+
+
+Let’s now see the summary of the analysis using the `summary()` function!
+
+```{r, class.source="codeblock",eval=TRUE}
+summary(pc_out)
+```
+
+The first row gives the `Standard deviation` of each component, which is the same as the result of `pc_out$sdev`. 
+
+The second row, `Proportion of Variance`, shows the percentage of explained variance, also obtained as variance/sum(variance) where variance is the square of sdev.
+
+Compute variance
+```{r, class.source="codeblock",eval=TRUE}
+pc_out$sdev^2 / sum(pc_out$sdev^2)
+```
+
+From the second row you can see that the first principal component explains over 89.15% of the total variance (Note: multiply each number by 100 to get the percentages). 
+
+The second principal component explains 8.9% of the variance, and the amount of variance explained reduces further down with each component. 
+
+Finally, the last row, `Cumulative Proportion`, calculates the cumulative sum of the second row. 
+
+Now, let's have some fun with visualising the results of PCA.
+
+### Step 3. Visualisation of PCA results {-}
+
+**A. Scree plot**
+
+We can visualize the percentage of explained variance per principal component by using what is called a scree plot. We will call the `fviz_eig()` function of the factoextra package for the application. You may need to install the package using `install.packages("factoextra")`.
+
+```{r, class.source="codeblock",eval=TRUE}
+library(factoextra)
+fviz_eig(pc_out, 
+         addlabels = TRUE)
+```
+
+The x-axis shows the PCs and the y-axis shows the percentage of variance explained that we saw above. Percentages are listed on top of the bars. It’s common to see that the first few principal components explain the major amount of variance.
+
+Scree plot can also be used to decide the number of components to keep for rest of your analysis. One of the ways is using the elbow rule. This method is about looking for the “elbow” shape on the curve and retaining all components before the point where the curve flattens out. Here, the elbow appears to occur at the second principal component. 
+
+Note that we will NOT remove any components for the current analysis since our goal is to understand how PCA can be used to identify batch effect in the data.
+
+**B. Scatter plot**
+
+After a PCA, the observations are expressed in principal component scores (as we saw above in `pc_out$rotation`). So, it is important to visualize the observations along the new axes (principal components) how observations have been transformed and to understand the relations in the dataset.
+
+This can be achieved by drawing a scatterplot. To do so, first, we need to extract and the principal component scores in `pc_out$rotation`, and then we will store them in a data frame called PC.
+
+```{r, class.source="codeblock",eval=TRUE}
+PC <- as.data.frame(pc_out$x)
+```
+
+Plot the first two principal components as follows:
+
+```{r, class.source="codeblock",eval=TRUE, fig.width=7, fig.height=7}
+plot(x = PC$PC1,
+     y = PC$PC2,
+     pch = 19,
+     xlab="PC1",
+     ylab="PC2")
+```
+
+We see six points in two different groups. The points correspond to six samples. But, we don't know what group/condition they belong to.
+
+That can be done by adding sample-related information to the data.frame `PC` (such as cell type, treatment type, batch they were processed etc) as new variables. Here we will add the sample names and the cell types. 
+
+```{r, class.source="codeblock",eval=TRUE}
+PC$sample <- factor(rownames(PC))
+PC$cells <- factor(c(rep("mesoderm", 3), rep("neural_crest", 3)))
+```
+
+Plot the scatterplot again and now, colour the points by cell type. Then, add sample names and legend.
+
+```{r, , class.source="codeblock",eval=TRUE, fig.width=7, fig.height=7}
+plot(x = PC$PC1,
+     y = PC$PC2,
+     col = PC$cells,
+     pch = 19,
+     xlab="PC1",
+     ylab="PC2")
+
+text(x= PC$PC1,
+     y = PC$PC2-0.15,
+     labels = PC$sample)
+
+legend("bottomright", 
+       legend = levels(PC$cells), 
+       col = seq_along(levels(PC$cells)), 
+       pch = 19)
+ 
+```
+
+Samples from each cell type are closer together on the scatter plot. If the batch information is available, it can also be used to colour the scatterplot. Ideally, samples from different conditions should cluster together, irrespective of the batch they were processed in.
+
+You can also plot other PCs such as PC2 vs PC3 by changing the x and y variables above. Another way to plot all PCs is using `pairs()`
+```{r, class.source="codeblock",eval=TRUE}
+pairs(PC[,1:6], 
+      col=c("black","red")[PC$cells], 
+      pch=16)
+```
+
+
+**C. Biplot**
+
+Another useful plots to understand the results are biplots. We will use the `fviz_pca_biplot()` function of the factoextra package. We will set label="var" argument to label the variables.
+
+```{r, class.source="codeblock",eval=TRUE, fig.width=7, fig.height=7}
+fviz_pca_biplot(pc_out, label = "var")
+```
+
+The axes show the principal component scores, and the vectors are the loading vectors, whose components are in the magnitudes of the loadings. Vectors indicate that samples from each cell type are closer together. 
+
+## t-Distributed Stochastic Neighbor Embedding (t-SNE) {-}
+
+t-SNE is a technique for dimensionality reduction that is particularly well suited for the visualization of high-dimensional datasets.
+
+There are several packages that have implemented t-SNE. Here we are going to use  the package `tsne` and the function `tsne`. Let’s run the t-SNE algorithm on the iris dataset and generate a t-SNE plot.
+
+```{r, class.source="codeblock",eval=TRUE}
+library(tsne)
+library(RColorBrewer)
+
+### load the input data
+data(iris)
+iris_data = iris[,c('Sepal.Length','Sepal.Width', 'Petal.Length','Petal.Width')]
+
+# set colours of the plot
+my_cols_vec = brewer.pal("Set1",n = length(levels(iris$Species)))
+species_cols = my_cols_vec[factor(iris$Species)]
+
+# run t-SNE
+iris_tsne = tsne(iris_data)
+
+plot(iris_tsne,
+     pch=16, 
+     col=species_cols)
+legend("topright",
+       legend = levels(iris$Species),
+       col = my_cols_vec,
+       pch = 19)
+```
+
+The `tsne` function has a parameter called `perplexity` which determines how to balance attention to neighborhood vs global structure. Default value is 30 which was used above. Set perplexity to 10, 20, 50, 100 and rerun tsne. Then visualise each result.
+
+```{r, class.source="codeblock",eval=TRUE}
+iris_tsne10 = tsne(iris_data,perplexity = 10)
+iris_tsne20 = tsne(iris_data,perplexity = 20)
+iris_tsne50 = tsne(iris_data,perplexity = 50)
+iris_tsne100 = tsne(iris_data,perplexity = 100)
+```
+
+
+```{r, fig.width=7, fig.height=7, class.source="codeblock",eval=TRUE}
+par(mfrow=c(2,2))
+
+plot(iris_tsne10[,1],
+     iris_tsne10[,2],
+     main = "Perplexity = 10",
+     col = species_cols,
+     pch=16)
+
+plot(iris_tsne20[,1],
+     iris_tsne20[,2],
+     main = "Perplexity = 20",
+     col = species_cols,
+     pch=16)
+
+plot(iris_tsne50[,1],
+     iris_tsne50[,2],
+     main = "Perplexity = 50",
+     col = species_cols,
+     pch=16)
+
+plot(iris_tsne100[,1],
+     iris_tsne100[,2],
+     main = "Perplexity = 100",
+     col = species_cols,
+     pch=16)
+```
+
+Higher perplexity leads to higher spread in your data.
+
+## Uniform Manifold Approximation and Projection (UMAP) {-}
+
+UMAP is another dimension reduction method and it uses similar neighborhood approach as t-SNE except uses Riemannian geometry.
+
+Here we are going to use  the package `umap` and the function `umap`. Let’s apply UMAP on the iris dataset and generate a UMAP plot.
+
+```{r, class.source="codeblock",eval=TRUE}
+## umap
+library(umap)
+
+iris_umap = umap(iris_data)
+str(iris_umap)
+```
+
+
+```{r, class.source="codeblock",eval=TRUE}
+par(mfrow=c(1,1))
+plot(iris_umap$layout[,1],
+     iris_umap$layout[,2],
+     col = species_cols, pch = 19)
+# legend("topright",
+#         legend = levels(mouse$FC),
+#         col = species_cols,
+#         pch = 19)
+```
+
+## Exercise {-}
+
+For your exercise, try the following:
+
+* Return to your crabs data
+* Compute the principle components (PCs) for the numeric columns 
+* Plot these PCs and color them by species (“sp”) and sex 
+* Now compute 2 t-SNE components for these data and color by species and sex
+* Finally compute 2 UMAP components for these data and color by species and sex 
+* Do any of these dimensionality reduction methods seem to segregate sex/species groups? 
+
