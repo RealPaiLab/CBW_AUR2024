@@ -2,7 +2,8 @@
 
 The goal of this lab is to examine correlation structure in a sample transcriptomic dataset using clustering.
 
-We will start using a small mouse expression dataset from two tissues.
+We will start using a small mouse expression dataset from two tissues:
+
 * We will briefly explore the dataset using `dim()`, `head()`, and `summary()`
 * We will visualize correlation using `pairs()` and `corrplot()`
 * We will cluster samples using k-means and hierarchical clustering methods using `dist()` and `hclust()`

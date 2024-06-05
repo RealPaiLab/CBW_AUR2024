@@ -29,7 +29,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="module-4-finding-differentially-expressed-genes-with-rna-seq.html"/>
+<link rel="prev" href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html"/>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -173,24 +173,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="module-2-exercise-results.html"><a href="module-2-exercise-results.html"><i class="fa fa-check"></i>Module 2: Exercise Results</a></li>
 <li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html"><i class="fa fa-check"></i>Module 3: Generalized Linear Models</a>
 <ul>
-<li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html#essential-r-read-tables-from-files-and-merge"><i class="fa fa-check"></i>Essential R: Read tables from files and merge</a></li>
-<li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html#read-data-from-files-and-explore-variable-distribution"><i class="fa fa-check"></i>Read data from files and explore variable distribution</a></li>
+<li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html#essential-r-reading-tables-from-files-merging-basic-data-exploration"><i class="fa fa-check"></i>Essential R: Reading tables from files, merging, basic data exploration</a></li>
 <li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html#explore-missing-data"><i class="fa fa-check"></i>Explore missing data</a></li>
-<li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html#create-plots-with-ggplot2-to-explore-variable-relationships"><i class="fa fa-check"></i>Create plots with <code>ggplot2</code> to explore variable relationships</a></li>
+<li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html#essential-r-plots-with-ggplot2"><i class="fa fa-check"></i>Essential R: Plots with <code>ggplot2</code></a></li>
 <li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html#fit-binary-response-variable-using-glm-and-logistic-regression"><i class="fa fa-check"></i>Fit binary response variable using <code>glm()</code> and logistic regression</a></li>
-<li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html#exercise-1"><i class="fa fa-check"></i>Exercise</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="module-3-exercise-results.html"><a href="module-3-exercise-results.html"><i class="fa fa-check"></i>Module 3: Exercise Results</a></li>
-<li class="chapter" data-level="" data-path="module-4-finding-differentially-expressed-genes-with-rna-seq.html"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html"><i class="fa fa-check"></i>Module 4: Finding differentially expressed genes with RNA-seq</a>
-<ul>
-<li class="chapter" data-level="" data-path="module-4-finding-differentially-expressed-genes-with-rna-seq.html"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#mini-introduction-to-bioconductor"><i class="fa fa-check"></i>Mini introduction to BioConductor</a></li>
-<li class="chapter" data-level="" data-path="module-4-finding-differentially-expressed-genes-with-rna-seq.html"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#fetch-breast-cancer-data-using-curatedtcgadata"><i class="fa fa-check"></i>Fetch breast cancer data using <code>curatedTCGAData</code></a>
-<ul>
-<li class="chapter" data-level="" data-path="module-4-finding-differentially-expressed-genes-with-rna-seq.html"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#prepare-data-for-differential-expression-analysis"><i class="fa fa-check"></i>Prepare data for differential expression analysis</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="module-4-finding-differentially-expressed-genes-with-rna-seq.html"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#differential-expression-analysis-with-edger"><i class="fa fa-check"></i>Differential expression analysis with <code>edgeR</code></a></li>
-<li class="chapter" data-level="" data-path="module-4-finding-differentially-expressed-genes-with-rna-seq.html"><a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html#exercise-2"><i class="fa fa-check"></i>Exercise</a></li>
-</ul></li>
+<li class="chapter" data-level="" data-path="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html"><i class="fa fa-check"></i>Module 4: Finding differentially expressed genes from RNAseq data</a></li>
 <li class="chapter" data-level="" data-path="module-4-exercise-results.html"><a href="module-4-exercise-results.html"><i class="fa fa-check"></i>Module 4: Exercise Results</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -214,56 +202,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="module-4-exercise-results" class="section level1 unnumbered hasAnchor">
 <h1>Module 4: Exercise Results<a href="module-4-exercise-results.html#module-4-exercise-results" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div class="sourceCode" id="cb259"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb259-1"><a href="module-4-exercise-results.html#cb259-1" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;yeastRNASeq&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) </span>
-<span id="cb259-2"><a href="module-4-exercise-results.html#cb259-2" tabindex="-1"></a>  BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;yeastRNASeq&quot;</span>)</span>
-<span id="cb259-3"><a href="module-4-exercise-results.html#cb259-3" tabindex="-1"></a></span>
-<span id="cb259-4"><a href="module-4-exercise-results.html#cb259-4" tabindex="-1"></a><span class="fu">library</span>(yeastRNASeq)</span>
-<span id="cb259-5"><a href="module-4-exercise-results.html#cb259-5" tabindex="-1"></a><span class="fu">library</span>(edgeR)</span></code></pre></div>
-<pre><code>## Loading required package: limma</code></pre>
-<pre><code>## 
-## Attaching package: &#39;limma&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:BiocGenerics&#39;:
-## 
-##     plotMA</code></pre>
-<div class="sourceCode" id="cb263"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb263-1"><a href="module-4-exercise-results.html#cb263-1" tabindex="-1"></a><span class="fu">data</span>(geneLevelData)</span>
-<span id="cb263-2"><a href="module-4-exercise-results.html#cb263-2" tabindex="-1"></a>gene_keep <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(geneLevelData) <span class="sc">&gt;</span> <span class="dv">2</span> </span>
-<span id="cb263-3"><a href="module-4-exercise-results.html#cb263-3" tabindex="-1"></a></span>
-<span id="cb263-4"><a href="module-4-exercise-results.html#cb263-4" tabindex="-1"></a><span class="co"># What genes pass this threshold?</span></span>
-<span id="cb263-5"><a href="module-4-exercise-results.html#cb263-5" tabindex="-1"></a>filtered <span class="ot">&lt;-</span> geneLevelData[gene_keep,] </span>
-<span id="cb263-6"><a href="module-4-exercise-results.html#cb263-6" tabindex="-1"></a><span class="fu">str</span>(filtered)</span></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb222-1"><a href="module-4-exercise-results.html#cb222-1" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;yeastRNASeq&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) </span>
+<span id="cb222-2"><a href="module-4-exercise-results.html#cb222-2" tabindex="-1"></a>  BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;yeastRNASeq&quot;</span>)</span>
+<span id="cb222-3"><a href="module-4-exercise-results.html#cb222-3" tabindex="-1"></a></span>
+<span id="cb222-4"><a href="module-4-exercise-results.html#cb222-4" tabindex="-1"></a><span class="fu">library</span>(yeastRNASeq)</span>
+<span id="cb222-5"><a href="module-4-exercise-results.html#cb222-5" tabindex="-1"></a><span class="fu">library</span>(edgeR)</span>
+<span id="cb222-6"><a href="module-4-exercise-results.html#cb222-6" tabindex="-1"></a></span>
+<span id="cb222-7"><a href="module-4-exercise-results.html#cb222-7" tabindex="-1"></a><span class="fu">data</span>(geneLevelData)</span>
+<span id="cb222-8"><a href="module-4-exercise-results.html#cb222-8" tabindex="-1"></a>gene_keep <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(geneLevelData) <span class="sc">&gt;</span> <span class="dv">2</span> </span>
+<span id="cb222-9"><a href="module-4-exercise-results.html#cb222-9" tabindex="-1"></a></span>
+<span id="cb222-10"><a href="module-4-exercise-results.html#cb222-10" tabindex="-1"></a><span class="co"># What genes pass this threshold?</span></span>
+<span id="cb222-11"><a href="module-4-exercise-results.html#cb222-11" tabindex="-1"></a>filtered <span class="ot">&lt;-</span> geneLevelData[gene_keep,] </span>
+<span id="cb222-12"><a href="module-4-exercise-results.html#cb222-12" tabindex="-1"></a><span class="fu">str</span>(filtered)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    6113 obs. of  4 variables:
 ##  $ mut_1: num  38 31 55 29 189 33 23 51 21 4 ...
 ##  $ mut_2: num  39 33 52 26 180 41 13 52 12 5 ...
 ##  $ wt_1 : num  35 40 47 5 151 32 73 54 3 4 ...
 ##  $ wt_2 : num  34 26 47 5 180 29 63 45 3 8 ...</code></pre>
-<div class="sourceCode" id="cb265"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb265-1"><a href="module-4-exercise-results.html#cb265-1" tabindex="-1"></a><span class="co">#  as.matrix(filtered): the count data in the right class</span></span>
-<span id="cb265-2"><a href="module-4-exercise-results.html#cb265-2" tabindex="-1"></a><span class="co"># phenoData: The sample information</span></span>
-<span id="cb265-3"><a href="module-4-exercise-results.html#cb265-3" tabindex="-1"></a></span>
-<span id="cb265-4"><a href="module-4-exercise-results.html#cb265-4" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Mut&quot;</span>, <span class="st">&quot;WT&quot;</span>),<span class="at">each=</span><span class="dv">2</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;WT&quot;</span>,<span class="st">&quot;Mut&quot;</span>)) </span>
-<span id="cb265-5"><a href="module-4-exercise-results.html#cb265-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">DGEList</span>(<span class="fu">as.matrix</span>(filtered), </span>
-<span id="cb265-6"><a href="module-4-exercise-results.html#cb265-6" tabindex="-1"></a>           <span class="at">group =</span> group)  </span>
-<span id="cb265-7"><a href="module-4-exercise-results.html#cb265-7" tabindex="-1"></a></span>
-<span id="cb265-8"><a href="module-4-exercise-results.html#cb265-8" tabindex="-1"></a><span class="do">## matrix of experimental design </span></span>
-<span id="cb265-9"><a href="module-4-exercise-results.html#cb265-9" tabindex="-1"></a>mod <span class="ot">=</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>group, y)</span>
-<span id="cb265-10"><a href="module-4-exercise-results.html#cb265-10" tabindex="-1"></a></span>
-<span id="cb265-11"><a href="module-4-exercise-results.html#cb265-11" tabindex="-1"></a></span>
-<span id="cb265-12"><a href="module-4-exercise-results.html#cb265-12" tabindex="-1"></a><span class="do">## Normalize data</span></span>
-<span id="cb265-13"><a href="module-4-exercise-results.html#cb265-13" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">calcNormFactors</span>(y, <span class="at">method =</span> <span class="st">&quot;upperquartile&quot;</span>)</span>
-<span id="cb265-14"><a href="module-4-exercise-results.html#cb265-14" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">estimateDisp</span>(y, mod)</span>
-<span id="cb265-15"><a href="module-4-exercise-results.html#cb265-15" tabindex="-1"></a></span>
-<span id="cb265-16"><a href="module-4-exercise-results.html#cb265-16" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">glmFit</span>(y, mod)</span>
-<span id="cb265-17"><a href="module-4-exercise-results.html#cb265-17" tabindex="-1"></a>lrt <span class="ot">=</span> <span class="fu">glmLRT</span>(fit, <span class="at">coef =</span> <span class="dv">2</span>)</span>
-<span id="cb265-18"><a href="module-4-exercise-results.html#cb265-18" tabindex="-1"></a>diffEx2 <span class="ot">&lt;-</span> <span class="fu">decideTestsDGE</span>(lrt, </span>
-<span id="cb265-19"><a href="module-4-exercise-results.html#cb265-19" tabindex="-1"></a>    <span class="at">adjust.method=</span><span class="st">&quot;BH&quot;</span>, </span>
-<span id="cb265-20"><a href="module-4-exercise-results.html#cb265-20" tabindex="-1"></a>    <span class="at">p.value=</span><span class="fl">0.05</span></span>
-<span id="cb265-21"><a href="module-4-exercise-results.html#cb265-21" tabindex="-1"></a>)</span>
-<span id="cb265-22"><a href="module-4-exercise-results.html#cb265-22" tabindex="-1"></a><span class="fu">table</span>(diffEx2)</span></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb224-1"><a href="module-4-exercise-results.html#cb224-1" tabindex="-1"></a><span class="co">#  as.matrix(filtered): the count data in the right class</span></span>
+<span id="cb224-2"><a href="module-4-exercise-results.html#cb224-2" tabindex="-1"></a><span class="co"># phenoData: The sample information</span></span>
+<span id="cb224-3"><a href="module-4-exercise-results.html#cb224-3" tabindex="-1"></a></span>
+<span id="cb224-4"><a href="module-4-exercise-results.html#cb224-4" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Mut&quot;</span>, <span class="st">&quot;WT&quot;</span>),<span class="at">each=</span><span class="dv">2</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;WT&quot;</span>,<span class="st">&quot;Mut&quot;</span>)) </span>
+<span id="cb224-5"><a href="module-4-exercise-results.html#cb224-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">DGEList</span>(<span class="fu">as.matrix</span>(filtered), </span>
+<span id="cb224-6"><a href="module-4-exercise-results.html#cb224-6" tabindex="-1"></a>           <span class="at">group =</span> group)  </span>
+<span id="cb224-7"><a href="module-4-exercise-results.html#cb224-7" tabindex="-1"></a></span>
+<span id="cb224-8"><a href="module-4-exercise-results.html#cb224-8" tabindex="-1"></a><span class="do">## matrix of experimental design </span></span>
+<span id="cb224-9"><a href="module-4-exercise-results.html#cb224-9" tabindex="-1"></a>mod <span class="ot">=</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>group, y)</span>
+<span id="cb224-10"><a href="module-4-exercise-results.html#cb224-10" tabindex="-1"></a></span>
+<span id="cb224-11"><a href="module-4-exercise-results.html#cb224-11" tabindex="-1"></a></span>
+<span id="cb224-12"><a href="module-4-exercise-results.html#cb224-12" tabindex="-1"></a><span class="do">## Normalize data</span></span>
+<span id="cb224-13"><a href="module-4-exercise-results.html#cb224-13" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">calcNormFactors</span>(y, <span class="at">method =</span> <span class="st">&quot;upperquartile&quot;</span>)</span>
+<span id="cb224-14"><a href="module-4-exercise-results.html#cb224-14" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">estimateDisp</span>(y, mod)</span>
+<span id="cb224-15"><a href="module-4-exercise-results.html#cb224-15" tabindex="-1"></a></span>
+<span id="cb224-16"><a href="module-4-exercise-results.html#cb224-16" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">glmFit</span>(y, mod)</span>
+<span id="cb224-17"><a href="module-4-exercise-results.html#cb224-17" tabindex="-1"></a>lrt <span class="ot">=</span> <span class="fu">glmLRT</span>(fit, <span class="at">coef =</span> <span class="dv">2</span>)</span>
+<span id="cb224-18"><a href="module-4-exercise-results.html#cb224-18" tabindex="-1"></a>diffEx2 <span class="ot">&lt;-</span> <span class="fu">decideTestsDGE</span>(lrt, </span>
+<span id="cb224-19"><a href="module-4-exercise-results.html#cb224-19" tabindex="-1"></a>    <span class="at">adjust.method=</span><span class="st">&quot;BH&quot;</span>, </span>
+<span id="cb224-20"><a href="module-4-exercise-results.html#cb224-20" tabindex="-1"></a>    <span class="at">p.value=</span><span class="fl">0.05</span></span>
+<span id="cb224-21"><a href="module-4-exercise-results.html#cb224-21" tabindex="-1"></a>)</span>
+<span id="cb224-22"><a href="module-4-exercise-results.html#cb224-22" tabindex="-1"></a><span class="fu">table</span>(diffEx2)</span></code></pre></div>
 <pre><code>## diffEx2
 ##   -1    0    1 
 ## 1282 3147 1684</code></pre>
-<div class="sourceCode" id="cb267"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb267-1"><a href="module-4-exercise-results.html#cb267-1" tabindex="-1"></a>DEGS <span class="ot">=</span> <span class="fu">topTags</span>(lrt, <span class="at">n=</span><span class="fu">nrow</span>(y))<span class="sc">$</span>table</span></code></pre></div>
-<div class="sourceCode" id="cb268"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb268-1"><a href="module-4-exercise-results.html#cb268-1" tabindex="-1"></a><span class="do">## check out differentially expressed genes</span></span>
-<span id="cb268-2"><a href="module-4-exercise-results.html#cb268-2" tabindex="-1"></a><span class="fu">head</span>(DEGS)</span></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb226-1"><a href="module-4-exercise-results.html#cb226-1" tabindex="-1"></a>DEGS <span class="ot">=</span> <span class="fu">topTags</span>(lrt, <span class="at">n=</span><span class="fu">nrow</span>(y))<span class="sc">$</span>table</span></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb227-1"><a href="module-4-exercise-results.html#cb227-1" tabindex="-1"></a><span class="do">## check out differentially expressed genes</span></span>
+<span id="cb227-2"><a href="module-4-exercise-results.html#cb227-2" tabindex="-1"></a><span class="fu">head</span>(DEGS)</span></code></pre></div>
 <pre><code>##            logFC    logCPM       LR
 ## snR59   8.918990 10.146912 2142.162
 ## snR49   8.541859  9.773155 1652.824
@@ -278,8 +261,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## YPL198W      0   0
 ## snR76        0   0
 ## snR81        0   0</code></pre>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb270-1"><a href="module-4-exercise-results.html#cb270-1" tabindex="-1"></a>DEGS_sig <span class="ot">=</span> DEGS[DEGS<span class="sc">$</span>FDR <span class="sc">&lt;</span> <span class="fl">0.05</span>,]</span>
-<span id="cb270-2"><a href="module-4-exercise-results.html#cb270-2" tabindex="-1"></a><span class="fu">head</span>(DEGS_sig)</span></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb229-1"><a href="module-4-exercise-results.html#cb229-1" tabindex="-1"></a>DEGS_sig <span class="ot">=</span> DEGS[DEGS<span class="sc">$</span>FDR <span class="sc">&lt;</span> <span class="fl">0.05</span>,]</span>
+<span id="cb229-2"><a href="module-4-exercise-results.html#cb229-2" tabindex="-1"></a><span class="fu">head</span>(DEGS_sig)</span></code></pre></div>
 <pre><code>##            logFC    logCPM       LR
 ## snR59   8.918990 10.146912 2142.162
 ## snR49   8.541859  9.773155 1652.824
@@ -294,19 +277,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## YPL198W      0   0
 ## snR76        0   0
 ## snR81        0   0</code></pre>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb272-1"><a href="module-4-exercise-results.html#cb272-1" tabindex="-1"></a><span class="fu">dim</span>(DEGS_sig)</span></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb231-1"><a href="module-4-exercise-results.html#cb231-1" tabindex="-1"></a><span class="fu">dim</span>(DEGS_sig)</span></code></pre></div>
 <pre><code>## [1] 2966    5</code></pre>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb274-1"><a href="module-4-exercise-results.html#cb274-1" tabindex="-1"></a>midx <span class="ot">&lt;-</span> <span class="fu">match</span>(<span class="fu">rownames</span>(DEGS), <span class="fu">rownames</span>(diffEx2))</span>
-<span id="cb274-2"><a href="module-4-exercise-results.html#cb274-2" tabindex="-1"></a>diffEx2 <span class="ot">&lt;-</span> diffEx2[midx,]</span>
-<span id="cb274-3"><a href="module-4-exercise-results.html#cb274-3" tabindex="-1"></a></span>
-<span id="cb274-4"><a href="module-4-exercise-results.html#cb274-4" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&quot;black&quot;</span>,<span class="fu">nrow</span>(diffEx2))</span>
-<span id="cb274-5"><a href="module-4-exercise-results.html#cb274-5" tabindex="-1"></a>cols[<span class="fu">which</span>(diffEx2<span class="sc">&gt;</span><span class="dv">0</span> )]  <span class="ot">&lt;-</span> <span class="st">&quot;red&quot;</span></span>
-<span id="cb274-6"><a href="module-4-exercise-results.html#cb274-6" tabindex="-1"></a>cols[<span class="fu">which</span>(diffEx2<span class="sc">&lt;</span><span class="dv">0</span>)]  <span class="ot">&lt;-</span> <span class="st">&quot;blue&quot;</span></span>
-<span id="cb274-7"><a href="module-4-exercise-results.html#cb274-7" tabindex="-1"></a><span class="co"># volcano plot</span></span>
-<span id="cb274-8"><a href="module-4-exercise-results.html#cb274-8" tabindex="-1"></a><span class="fu">plot</span>(DEGS<span class="sc">$</span>logFC,<span class="sc">-</span><span class="fu">log10</span>(DEGS<span class="sc">$</span>PValue),<span class="at">pch=</span><span class="dv">16</span>,</span>
-<span id="cb274-9"><a href="module-4-exercise-results.html#cb274-9" tabindex="-1"></a>    <span class="at">col=</span>cols)</span>
-<span id="cb274-10"><a href="module-4-exercise-results.html#cb274-10" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>,<span class="at">lty=</span><span class="dv">3</span>)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-82-1.png" width="672" /></p>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb233-1"><a href="module-4-exercise-results.html#cb233-1" tabindex="-1"></a>midx <span class="ot">&lt;-</span> <span class="fu">match</span>(<span class="fu">rownames</span>(DEGS), <span class="fu">rownames</span>(diffEx2))</span>
+<span id="cb233-2"><a href="module-4-exercise-results.html#cb233-2" tabindex="-1"></a>diffEx2 <span class="ot">&lt;-</span> diffEx2[midx,]</span>
+<span id="cb233-3"><a href="module-4-exercise-results.html#cb233-3" tabindex="-1"></a></span>
+<span id="cb233-4"><a href="module-4-exercise-results.html#cb233-4" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&quot;black&quot;</span>,<span class="fu">nrow</span>(diffEx2))</span>
+<span id="cb233-5"><a href="module-4-exercise-results.html#cb233-5" tabindex="-1"></a>cols[<span class="fu">which</span>(diffEx2<span class="sc">&gt;</span><span class="dv">0</span> )]  <span class="ot">&lt;-</span> <span class="st">&quot;red&quot;</span></span>
+<span id="cb233-6"><a href="module-4-exercise-results.html#cb233-6" tabindex="-1"></a>cols[<span class="fu">which</span>(diffEx2<span class="sc">&lt;</span><span class="dv">0</span>)]  <span class="ot">&lt;-</span> <span class="st">&quot;blue&quot;</span></span>
+<span id="cb233-7"><a href="module-4-exercise-results.html#cb233-7" tabindex="-1"></a><span class="co"># volcano plot</span></span>
+<span id="cb233-8"><a href="module-4-exercise-results.html#cb233-8" tabindex="-1"></a><span class="fu">plot</span>(DEGS<span class="sc">$</span>logFC,<span class="sc">-</span><span class="fu">log10</span>(DEGS<span class="sc">$</span>PValue),<span class="at">pch=</span><span class="dv">16</span>,</span>
+<span id="cb233-9"><a href="module-4-exercise-results.html#cb233-9" tabindex="-1"></a>    <span class="at">col=</span>cols)</span>
+<span id="cb233-10"><a href="module-4-exercise-results.html#cb233-10" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>,<span class="at">lty=</span><span class="dv">3</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-77-1.png" width="672" /></p>
 
 
 </div>
@@ -315,7 +298,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="module-4-finding-differentially-expressed-genes-with-rna-seq.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>

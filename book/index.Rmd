@@ -25,31 +25,30 @@ Investigator I, OICR<br>
 Assistant Professor, University of Toronto
 
 <img src="images/ShraddhaPai.jpeg" width=200 height=150 ALIGN="right"  hspace=25>
-Dr. Pai integrates genomics and computational methods to advance precision medicine. Her previous work involves DNA methylome-based biomarker discovery in psychosis, and building machine learning algorithms for patient classification from multi-modal data. The <a href="https://pailab.oicr.on.ca">Pai Lab at the Ontario Institute for Cancer Research</a> focuses on biomarker discovery for detection, diagnosis and prognosis in brain cancers and other brain-related disorders. 
+Dr. Pai integrates genomics and computational methods to advance precision medicine. Her previous work involves DNA methylome-based biomarker discovery in psychosis, and building machine learning algorithms for patient classification from multi-modal data. The <a href="https://www.shraddhapailab.com/">Pai Lab at the Ontario Institute for Cancer Research</a> focuses on biomarker discovery for detection, diagnosis and prognosis in brain cancers and other brain-related disorders. 
 
 ### Chaitra Sarathy {.unlisted .unnumbered}
 Scientific Associate <br>
-Princess Margaret Cancer Centre<br>
-University Health Network
+TBA<br>
+TBA
 
 <img src="images/Chaitra_Sarathy.jpeg" ALIGN="right" hspace=25>
-Dr. Sarathy is a computational biologist with experience in software development. During her PhD, she applied mathematical modelling, network analysis and multi-omics integration to study complex diseases. She has contributed to open-source toolboxes (openCOBRA) and developed softwares (EFMviz & ComMet) to analyse genome-scale metabolic models. She currently works in the Bader lab’s MODiL team (Multi Omics Data Integration and Analysis) and with groups at PMCC, where she develops pipelines to analyse various omics data types and discover new drug targets in cancer.
-
-### Delaram Pouyabahar {.unlisted .unnumbered}
-PhD Candidate <br>
-University of Toronto, Donnelly Centre <br>
-
-<img src="images/DelaramPouyabahar.jpeg" ALIGN="right" hspace=25>
-Delaram is a Ph.D. candidate in Computational Biology at the Molecular Genetics department at UofT. She completed her undergraduate studies at the University of Tehran before joining the Bader lab in Toronto. Her research centers around the development of computational tools to explore sources of variation in single-cell transcriptomics maps, with a particular emphasis on liver biology and transplantation.
-
+Dr. Sarathy is a computational biologist with experience in software development. During her PhD, she applied mathematical modelling, network analysis and multi-omics integration to study complex diseases. She has contributed to open-source toolboxes (openCOBRA) and developed softwares (EFMviz & ComMet) to analyse genome-scale metabolic models. She currently works in TBA.
 
 ### Ian Cheong {.unlisted .unnumbered}
 <img src="images/IanCheong.jpg" ALIGN="right" hspace=25 width=200 height=200 style="object-fit: cover;">
 MSc. Candidate<br>
 University of Toronto
 
-
 Ian is a Master's level candidate in the Department of Medical Biophysics at the University of Toronto. His thesis work in the Pai lab involves analysis of single-cell transcriptomes to find the link between brain development and the development of childhood brain cancer. 
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;<br>
+
+### Zoe Klein {.unlisted .unnumbered}
+PhD. Candidate<br>
+University of Toronto
+
+Zoe is a PhD level candidate in the Department of Molecular Genetics at the University of Toronto. Her thesis work in the Reimand lab involves using computational tools to investigate the role of non-coding RNA in cancer. 
 &nbsp;&nbsp;<br>
 &nbsp;&nbsp;<br>
 
@@ -83,13 +82,13 @@ Install these tools on your laptop before coming to the workshop:
 
 ```{r install-packages, eval=TRUE}
 pkgList <- c("tidyverse", "clValid","rgl","RColorBrewer","corrplot","ClusterR",
-  "Rtsne","umap","BiocManager","mlbench","plotrix", "factoextra")
+  "Rtsne","umap","BiocManager","mlbench","plotrix", "factoextra","bladderbatch",
+  "airway")
 for (cur in pkgList){
   message(sprintf("\tChecking for %s ...", cur))
   if (!requireNamespace(cur, quietly = TRUE)) install.packages(cur)
 }
 if (!requireNamespace("edgeR", quietly = TRUE)) BiocManager::install("edgeR")
-if (!requireNamespace("curatedTCGAData", quietly = TRUE)) BiocManager::install("curatedTCGAData")
 ```
 
 We are going to use `titanic.csv` in Module 3.

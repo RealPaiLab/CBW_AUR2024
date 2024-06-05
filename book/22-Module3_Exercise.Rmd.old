@@ -1,6 +1,6 @@
 # Module 3: Exercise Results{-}
 
-```{r ex3-load, class.source="codeblock",eval=FALSE}
+```{r ex3-load, class.source="codeblock",eval=TRUE}
 data(BreastCancer)
 bc <- BreastCancer
 for (k in 2:10) # altered for current lab
@@ -9,8 +9,8 @@ head(bc)
 ```
 
 Explore missingness:
-```{r ex3-miss1, class.source="codeblock",eval=FALSE}
-suppressMessages(require(plotrix))
+```{r ex3-miss1, class.source="codeblock",eval=TRUE}
+suppressMessages(library(plotrix))
 
 #' show data missingness as a chequered matrix
 #' 
@@ -34,13 +34,13 @@ plotMissMat <- function(x,xlab="columns",
 ```
 
 Explore missingness:
-```{r ex3-miss2, class.source="codeblock",eval=FALSE}
+```{r ex3-miss2, class.source="codeblock",eval=TRUE}
 plotMissMat(bc)
 colSums(is.na(bc))
 ```
 
 Plot relationship between variables
-```{r ex3-plot, class.source="codeblock",eval=FALSE}
+```{r ex3-plot, class.source="codeblock",eval=TRUE}
 require(ggplot2)
 
 ggplot(bc,aes(Cell.size,Normal.nucleoli)) + geom_point()
@@ -50,7 +50,7 @@ ggplot(bc) + geom_boxplot(aes(factor(Class), Bare.nuclei))
 ```
 
 Fit a binary outcome model:
-```{r ex3-glm, class.source="codeblock",eval=FALSE}
+```{r ex3-glm, class.source="codeblock",eval=TRUE}
 mod <- glm(
     Class ~ Cl.thickness + Bare.nuclei + Normal.nucleoli + Mitoses + Bl.cromatin, 
     bc,
