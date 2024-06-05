@@ -4,4 +4,14 @@
 
 This repo contains course materials for the "Analysis Using R" workshop offered as part of 2023 [Canadian Bioinformatics Workshop](https://bioinformatics.ca/), offered on 12-13 June 2024.  The book can be compiled using `bookdown::render_book()` in the `book/` subdirectory.
 
+## Serving up the bookdown on a website
+
+1. In the github repo, go to Settings > Pages. 
+2. Under "Build and Deployment" > Branch > set directory to "main" > "/docs". Click Save.
+3. Locally in R, generate your book with the `output_dir` set to `docs/`: bookdown::render_book("book/", output_dir="docs/").The `docs/` dir now contains all the HTML output from the book. 
+4. Add the `docs/` subdir to github. `github add docs/`
+
+
+
 Module author and instructor: Shraddha Pai
+
