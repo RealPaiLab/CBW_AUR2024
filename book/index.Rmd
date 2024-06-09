@@ -28,13 +28,12 @@ Assistant Professor, University of Toronto
 Dr. Pai integrates genomics and computational methods to advance precision medicine. Her previous work involves DNA methylome-based biomarker discovery in psychosis, and building machine learning algorithms for patient classification from multi-modal data. The <a href="https://www.shraddhapailab.com/">Pai Lab at the Ontario Institute for Cancer Research</a> focuses on biomarker discovery for detection, diagnosis and prognosis in brain cancers and other brain-related disorders. 
 
 ### Chaitra Sarathy {.unlisted .unnumbered}
-Scientific Associate <br>
-TBA<br>
-TBA
+Bioinformatics Specialist <br>
+Krembil Research Institute<br>
 
 <img src="images/Chaitra_Sarathy.jpeg" ALIGN="right" hspace=25>
 Dr. Sarathy is a computational biologist with industry experience in software development. 
-Her previous research centered around developing multi-scale mathematical models of human systems to characterise biochemical changes in obesity. In addition, she has developed methods based on machine learning and multi-omics integration to identify drug targets in cancer and stratify patients for clinical trials. She is currently a Bioinformatics Specialist at Krembil Research Institute where she focusses on characterising genetic malfunctions in neurological diseases.
+Her previous research centered around developing multi-scale mathematical models of human systems to characterise biochemical changes in obesity. In addition, she has developed methods based on machine learning and multi-omics integration to identify drug targets in cancer and stratify patients for clinical trials. She is currently focusses on characterising genetic malfunctions in neurological diseases.
 
 ### Ian Cheong {.unlisted .unnumbered}
 <img src="images/IanCheong.jpg" ALIGN="right" hspace=25 width=200 height=200 style="object-fit: cover;">
@@ -52,6 +51,17 @@ University of Toronto
 Zoe is a PhD level candidate in the Department of Molecular Genetics at the University of Toronto. Her thesis work in the Reimand lab involves using computational tools to investigate the role of non-coding RNA in cancer. 
 &nbsp;&nbsp;<br>
 &nbsp;&nbsp;<br>
+
+
+### Amin Nooranikhojasteh {.unlisted .unnumbered}
+TBA<br>
+TBA
+
+Amin, please add a short bio.
+ 
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;<br>
+
 
 ### Nia Hughes {.unlisted .unnumbered}
 

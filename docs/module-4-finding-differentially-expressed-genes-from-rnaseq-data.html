@@ -169,7 +169,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="module-2-dimensionality-reduction.html"><a href="module-2-dimensionality-reduction.html#t-distributed-stochastic-neighbor-embedding-t-sne"><i class="fa fa-check"></i>t-Distributed Stochastic Neighbor Embedding (t-SNE)</a></li>
 <li class="chapter" data-level="" data-path="module-2-dimensionality-reduction.html"><a href="module-2-dimensionality-reduction.html#uniform-manifold-approximation-and-projection-umap"><i class="fa fa-check"></i>Uniform Manifold Approximation and Projection (UMAP)</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="module-2-exercise-results.html"><a href="module-2-exercise-results.html"><i class="fa fa-check"></i>Module 2: Exercise Results</a></li>
 <li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html"><i class="fa fa-check"></i>Module 3: Generalized Linear Models</a>
 <ul>
 <li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html#essential-r-reading-tables-from-files-merging-basic-data-exploration"><i class="fa fa-check"></i>Essential R: Reading tables from files, merging, basic data exploration</a></li>
@@ -202,17 +201,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1>Module 4: Finding differentially expressed genes from RNAseq data<a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#module-4-finding-differentially-expressed-genes-from-rnaseq-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>In this exercise, we will use <code>edgeR</code> to call differentially-expressed genes. For the example we will use an RNAseq dataset from a treatment-vehicle design.</p>
 <p>If you haven’t already done so, install the <code>airway</code> dataset:</p>
-<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb210-1" tabindex="-1"></a><span class="co"># BiocManager::install(&quot;airway&quot;) </span></span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb204-1" tabindex="-1"></a><span class="co"># BiocManager::install(&quot;airway&quot;) </span></span></code></pre></div>
 <p>These data are from the paper:</p>
 <p>Himes BE, Jiang X, Wagner P, Hu R, Wang Q, Klanderman B, Whitaker RM, Duan Q, Lasky-Su J, Nikolos C, Jester W, Johnson M, Panettieri R Jr, Tantisira KG, Weiss ST, Lu Q. “RNA-Seq Transcriptome Profiling Identifies CRISPLD2 as a Glucocorticoid Responsive Gene that Modulates Cytokine Function in Airway Smooth Muscle Cells.” PLoS One. 2014 Jun 13;9(6):e99625. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/24926665/">24926665</a>.</p>
 <p>From the abstract of the original paper:
 “Using RNA-Seq, a high-throughput sequencing method, we characterized transcriptomic changes in four primary human ASM cell lines that were treated with dexamethasone - a potent synthetic glucocorticoid (1 micromolar for 18 hours).”</p>
 <p>Let’s load the data</p>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb211-1" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(airway))</span>
-<span id="cb211-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb211-2" tabindex="-1"></a><span class="fu">data</span>(airway)</span></code></pre></div>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb205-1" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(airway))</span>
+<span id="cb205-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb205-2" tabindex="-1"></a><span class="fu">data</span>(airway)</span></code></pre></div>
 <p>These data happen to be in a Bioconductor-specific format, so we use the special functions, <code>assay()</code> and <code>colData()</code> to get the expression data and smaple information.</p>
-<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb212-1" tabindex="-1"></a>xpr <span class="ot">&lt;-</span> <span class="fu">assay</span>(airway)</span>
-<span id="cb212-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb212-2" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">colData</span>(airway)</span></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb206-1" tabindex="-1"></a>xpr <span class="ot">&lt;-</span> <span class="fu">assay</span>(airway)</span>
+<span id="cb206-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb206-2" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">colData</span>(airway)</span></code></pre></div>
 <p><strong>Questions:</strong><br />
 * How many samples are in this experiment?
 * How many genes were measured?
@@ -221,15 +220,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Note: Make phenotype of interest categorical. In R that means converting to a <code>factor</code> type with categorical <code>levels</code>. You can think of levels as ordinal representations (e.g., first level = 1, second = 2, etc., )</p>
 <p>If <code>levels=</code> are not set, the default uses alphabetical order. We recommend explicitly setting levels so that there are no assumptions.</p>
 <p>Load the <code>edgeR</code> package:</p>
-<div class="sourceCode" id="cb213"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb213-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb213-1" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">require</span>(edgeR))</span></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb207-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb207-1" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">require</span>(edgeR))</span></code></pre></div>
 <p>Let’s create a <code>DGEList</code> object for the differential expression analysis. Note that <code>group</code> must be a categorical variable (use <code>factor()</code> to convert it to one):</p>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb214-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb214-1" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">factor</span>(samples<span class="sc">$</span>dex)</span>
-<span id="cb214-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb214-2" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">DGEList</span>(</span>
-<span id="cb214-3"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb214-3" tabindex="-1"></a>    <span class="at">counts =</span> xpr,</span>
-<span id="cb214-4"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb214-4" tabindex="-1"></a>    <span class="at">group =</span> group</span>
-<span id="cb214-5"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb214-5" tabindex="-1"></a>    )</span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb208-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb208-1" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">factor</span>(samples<span class="sc">$</span>dex)</span>
+<span id="cb208-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb208-2" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">DGEList</span>(</span>
+<span id="cb208-3"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb208-3" tabindex="-1"></a>    <span class="at">counts =</span> xpr,</span>
+<span id="cb208-4"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb208-4" tabindex="-1"></a>    <span class="at">group =</span> group</span>
+<span id="cb208-5"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb208-5" tabindex="-1"></a>    )</span></code></pre></div>
 <p>Remove low-count genes: To filter low count genes, we’re going to use a normalized count measure called <code>cpm</code> (counts per million). We are going to keep genes with 100 or greater counts per million for at least two samples:</p>
-<div class="sourceCode" id="cb215"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb215-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb215-1" tabindex="-1"></a><span class="fu">head</span>(dge<span class="sc">$</span>counts)</span></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb209-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb209-1" tabindex="-1"></a><span class="fu">head</span>(dge<span class="sc">$</span>counts)</span></code></pre></div>
 <pre><code>##                 SRR1039508 SRR1039509 SRR1039512 SRR1039513 SRR1039516 SRR1039517 SRR1039520
 ## ENSG00000000003        679        448        873        408       1138       1047        770
 ## ENSG00000000005          0          0          0          0          0          0          0
@@ -245,7 +244,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ENSG00000000460         60
 ## ENSG00000000938          0</code></pre>
 <p>Look at counts per million using <code>cpm</code>:</p>
-<div class="sourceCode" id="cb217"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb217-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb217-1" tabindex="-1"></a><span class="fu">cpm</span>(dge)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb211-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb211-1" tabindex="-1"></a><span class="fu">cpm</span>(dge)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code></pre></div>
 <pre><code>##                 SRR1039508 SRR1039509 SRR1039512 SRR1039513 SRR1039516
 ## ENSG00000000003  32.900521  23.817776  34.439705  26.906868  46.546998
 ## ENSG00000000005   0.000000   0.000000   0.000000   0.000000   0.000000
@@ -257,36 +256,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>We are using <code>cpm(dge)&gt;100</code> as a logical test (“which genes have cpm &gt; 100?”).</li>
 <li>For each gene, we want that test to be true for at least two samples. For this we use <code>rowSums()</code> to add up how many samples meet that criteria.</li>
 </ul>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb219-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb219-1" tabindex="-1"></a><span class="fu">dim</span>(dge) <span class="co">#before </span></span></code></pre></div>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb213-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb213-1" tabindex="-1"></a><span class="fu">dim</span>(dge) <span class="co">#before </span></span></code></pre></div>
 <pre><code>## [1] 63677     8</code></pre>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb221-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb221-1" tabindex="-1"></a><span class="co"># keep genes which have cpm&gt;100 in 2 or more samples</span></span>
-<span id="cb221-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb221-2" tabindex="-1"></a>tokeep <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">cpm</span>(dge)<span class="sc">&gt;</span><span class="dv">100</span>) <span class="sc">&gt;=</span> <span class="dv">2</span> </span>
-<span id="cb221-3"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb221-3" tabindex="-1"></a></span>
-<span id="cb221-4"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb221-4" tabindex="-1"></a><span class="co"># now filter for these</span></span>
-<span id="cb221-5"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb221-5" tabindex="-1"></a>dge <span class="ot">&lt;-</span> dge[tokeep,keep.lib.sizes <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
-<span id="cb221-6"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb221-6" tabindex="-1"></a></span>
-<span id="cb221-7"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb221-7" tabindex="-1"></a><span class="co"># how many genes do we have left?</span></span>
-<span id="cb221-8"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb221-8" tabindex="-1"></a><span class="fu">dim</span>(dge) <span class="co">#after</span></span></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb215-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb215-1" tabindex="-1"></a><span class="co"># keep genes which have cpm&gt;100 in 2 or more samples</span></span>
+<span id="cb215-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb215-2" tabindex="-1"></a>tokeep <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">cpm</span>(dge)<span class="sc">&gt;</span><span class="dv">100</span>) <span class="sc">&gt;=</span> <span class="dv">2</span> </span>
+<span id="cb215-3"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb215-3" tabindex="-1"></a></span>
+<span id="cb215-4"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb215-4" tabindex="-1"></a><span class="co"># now filter for these</span></span>
+<span id="cb215-5"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb215-5" tabindex="-1"></a>dge <span class="ot">&lt;-</span> dge[tokeep,keep.lib.sizes <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb215-6"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb215-6" tabindex="-1"></a></span>
+<span id="cb215-7"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb215-7" tabindex="-1"></a><span class="co"># how many genes do we have left?</span></span>
+<span id="cb215-8"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb215-8" tabindex="-1"></a><span class="fu">dim</span>(dge) <span class="co">#after</span></span></code></pre></div>
 <pre><code>## [1] 2086    8</code></pre>
 <p>Normalize the data:</p>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb223-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb223-1" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">calcNormFactors</span>(dge)</span></code></pre></div>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb217-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb217-1" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">calcNormFactors</span>(dge)</span></code></pre></div>
 <p>Visualize the data:</p>
-<div class="sourceCode" id="cb224"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb224-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb224-1" tabindex="-1"></a><span class="fu">plotMDS</span>(</span>
-<span id="cb224-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb224-2" tabindex="-1"></a>    dge, </span>
-<span id="cb224-3"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb224-3" tabindex="-1"></a>    <span class="at">col=</span><span class="fu">as.numeric</span>(dge<span class="sc">$</span>samples<span class="sc">$</span>group), </span>
-<span id="cb224-4"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb224-4" tabindex="-1"></a>    <span class="at">pch=</span><span class="dv">16</span></span>
-<span id="cb224-5"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb224-5" tabindex="-1"></a>)</span>
-<span id="cb224-6"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb224-6" tabindex="-1"></a><span class="fu">legend</span>(</span>
-<span id="cb224-7"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb224-7" tabindex="-1"></a>    <span class="st">&quot;bottomleft&quot;</span>, </span>
-<span id="cb224-8"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb224-8" tabindex="-1"></a>    <span class="fu">as.character</span>(<span class="fu">unique</span>(dge<span class="sc">$</span>samples<span class="sc">$</span>group)),</span>
-<span id="cb224-9"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb224-9" tabindex="-1"></a>    <span class="at">col=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">pch=</span><span class="dv">16</span></span>
-<span id="cb224-10"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb224-10" tabindex="-1"></a>    )</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-70-1.png" width="672" /></p>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb218-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb218-1" tabindex="-1"></a><span class="fu">plotMDS</span>(</span>
+<span id="cb218-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb218-2" tabindex="-1"></a>    dge, </span>
+<span id="cb218-3"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb218-3" tabindex="-1"></a>    <span class="at">col=</span><span class="fu">as.numeric</span>(dge<span class="sc">$</span>samples<span class="sc">$</span>group), </span>
+<span id="cb218-4"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb218-4" tabindex="-1"></a>    <span class="at">pch=</span><span class="dv">16</span></span>
+<span id="cb218-5"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb218-5" tabindex="-1"></a>)</span>
+<span id="cb218-6"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb218-6" tabindex="-1"></a><span class="fu">legend</span>(</span>
+<span id="cb218-7"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb218-7" tabindex="-1"></a>    <span class="st">&quot;bottomleft&quot;</span>, </span>
+<span id="cb218-8"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb218-8" tabindex="-1"></a>    <span class="fu">as.character</span>(<span class="fu">unique</span>(dge<span class="sc">$</span>samples<span class="sc">$</span>group)),</span>
+<span id="cb218-9"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb218-9" tabindex="-1"></a>    <span class="at">col=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">pch=</span><span class="dv">16</span></span>
+<span id="cb218-10"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb218-10" tabindex="-1"></a>    )</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-64-1.png" width="672" /></p>
 <p>Let’s create a model design to identify genes with a <code>group</code> effect:</p>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb225-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb225-1" tabindex="-1"></a>group <span class="ot">&lt;-</span> dge<span class="sc">$</span>samples<span class="sc">$</span>group</span>
-<span id="cb225-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb225-2" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>group)</span></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb219-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb219-1" tabindex="-1"></a>group <span class="ot">&lt;-</span> dge<span class="sc">$</span>samples<span class="sc">$</span>group</span>
+<span id="cb219-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb219-2" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>group)</span></code></pre></div>
 <p>Estimate variation (“dispersion”) for each gene:</p>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb226-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb226-1" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">estimateDisp</span>(dge, mod)</span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb220-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb220-1" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">estimateDisp</span>(dge, mod)</span></code></pre></div>
 <p>Call differentially expressed genes.</p>
 <p>Here we:</p>
 <ul>
@@ -298,11 +297,11 @@ or a full model (treatment effect is non-zero)</li>
 <p>Note that <code>coef=2</code> fetches the effects for the treatment effect; <code>coef=1</code> would fetch effects of the intercept term.<br>
   <br>
 <img src="images/model_coefs.png" width="75%"></p>
-<div class="sourceCode" id="cb227"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb227-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb227-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">glmFit</span>(dge,mod)</span>
-<span id="cb227-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb227-2" tabindex="-1"></a>diffEx <span class="ot">&lt;-</span> <span class="fu">glmLRT</span>(fit, <span class="at">coef =</span> <span class="dv">2</span>) <span class="co"># get coefficients for group term</span></span></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb221-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb221-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">glmFit</span>(dge,mod)</span>
+<span id="cb221-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb221-2" tabindex="-1"></a>diffEx <span class="ot">&lt;-</span> <span class="fu">glmLRT</span>(fit, <span class="at">coef =</span> <span class="dv">2</span>) <span class="co"># get coefficients for group term</span></span></code></pre></div>
 <p>Look at the top 10 differentially expressed genes:</p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb228-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb228-1" tabindex="-1"></a>tt <span class="ot">&lt;-</span> <span class="fu">topTags</span>(diffEx, <span class="at">n=</span><span class="dv">10</span>)</span>
-<span id="cb228-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb228-2" tabindex="-1"></a>tt</span></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb222-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb222-1" tabindex="-1"></a>tt <span class="ot">&lt;-</span> <span class="fu">topTags</span>(diffEx, <span class="at">n=</span><span class="dv">10</span>)</span>
+<span id="cb222-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb222-2" tabindex="-1"></a>tt</span></code></pre></div>
 <pre><code>## Coefficient:  groupuntrt 
 ##                     logFC   logCPM       LR       PValue          FDR
 ## ENSG00000152583 -4.512108 5.950547 190.5712 2.385925e-43 4.977039e-40
@@ -316,56 +315,56 @@ or a full model (treatment effect is non-zero)</li>
 ## ENSG00000134686 -1.294763 7.426574 121.0663 3.695702e-28 8.565816e-26
 ## ENSG00000166741 -2.072008 8.859215 114.0478 1.272045e-26 2.653486e-24</code></pre>
 <p>For the next steps we’re going to need stats on all the genes we’ve tested. So let’s get those:</p>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb230-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb230-1" tabindex="-1"></a>tt <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(</span>
-<span id="cb230-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb230-2" tabindex="-1"></a>    <span class="fu">topTags</span>(diffEx, <span class="at">n=</span><span class="fu">nrow</span>(dge)</span>
-<span id="cb230-3"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb230-3" tabindex="-1"></a>    )</span>
-<span id="cb230-4"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb230-4" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb224-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb224-1" tabindex="-1"></a>tt <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(</span>
+<span id="cb224-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb224-2" tabindex="-1"></a>    <span class="fu">topTags</span>(diffEx, <span class="at">n=</span><span class="fu">nrow</span>(dge)</span>
+<span id="cb224-3"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb224-3" tabindex="-1"></a>    )</span>
+<span id="cb224-4"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb224-4" tabindex="-1"></a>)</span></code></pre></div>
 <p>A QQplot directly compares the pvalues from our statistical tests to the expected values from a random uniform distribution (p-value selected at random).</p>
 <p>A deviation from the x=y line (diagonal) towards the top indicates an enrichment of signal.</p>
-<div class="sourceCode" id="cb231"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb231-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb231-1" tabindex="-1"></a><span class="fu">qqplot</span>(</span>
-<span id="cb231-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb231-2" tabindex="-1"></a>    tt<span class="sc">$</span>PValue, </span>
-<span id="cb231-3"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb231-3" tabindex="-1"></a>    <span class="fu">runif</span>(<span class="fu">nrow</span>(tt)), <span class="co"># randomly sample from uniform distribution</span></span>
-<span id="cb231-4"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb231-4" tabindex="-1"></a>    <span class="at">xlab=</span><span class="st">&quot;p-values from real data&quot;</span>,</span>
-<span id="cb231-5"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb231-5" tabindex="-1"></a>    <span class="at">ylab=</span><span class="st">&quot;Randomly-sampled values from Uniform distribution&quot;</span>,</span>
-<span id="cb231-6"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb231-6" tabindex="-1"></a>    <span class="at">pch=</span><span class="dv">16</span>,<span class="at">cex=</span><span class="fl">0.5</span></span>
-<span id="cb231-7"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb231-7" tabindex="-1"></a>)</span>
-<span id="cb231-8"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb231-8" tabindex="-1"></a></span>
-<span id="cb231-9"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb231-9" tabindex="-1"></a><span class="co"># x=y line as reference</span></span>
-<span id="cb231-10"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb231-10" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb225-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb225-1" tabindex="-1"></a><span class="fu">qqplot</span>(</span>
+<span id="cb225-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb225-2" tabindex="-1"></a>    tt<span class="sc">$</span>PValue, </span>
+<span id="cb225-3"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb225-3" tabindex="-1"></a>    <span class="fu">runif</span>(<span class="fu">nrow</span>(tt)), <span class="co"># randomly sample from uniform distribution</span></span>
+<span id="cb225-4"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb225-4" tabindex="-1"></a>    <span class="at">xlab=</span><span class="st">&quot;p-values from real data&quot;</span>,</span>
+<span id="cb225-5"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb225-5" tabindex="-1"></a>    <span class="at">ylab=</span><span class="st">&quot;Randomly-sampled values from Uniform distribution&quot;</span>,</span>
+<span id="cb225-6"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb225-6" tabindex="-1"></a>    <span class="at">pch=</span><span class="dv">16</span>,<span class="at">cex=</span><span class="fl">0.5</span></span>
+<span id="cb225-7"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb225-7" tabindex="-1"></a>)</span>
+<span id="cb225-8"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb225-8" tabindex="-1"></a></span>
+<span id="cb225-9"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb225-9" tabindex="-1"></a><span class="co"># x=y line as reference</span></span>
+<span id="cb225-10"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb225-10" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/qqplot-1.png" width="672" /></p>
 <p>Now let’s call differentially expressed genes using the <code>decideTestDGE()</code> function and use <code>summary()</code> to see how many genes are upregulated (value <code>+1</code>), downregulated (value <code>-1</code>) and not called as changed (value <code>0</code>)</p>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb232-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb232-1" tabindex="-1"></a>diffEx2 <span class="ot">&lt;-</span> <span class="fu">decideTestsDGE</span>(diffEx, </span>
-<span id="cb232-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb232-2" tabindex="-1"></a>    <span class="at">adjust.method=</span><span class="st">&quot;BH&quot;</span>, </span>
-<span id="cb232-3"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb232-3" tabindex="-1"></a>    <span class="at">p.value=</span><span class="fl">0.05</span></span>
-<span id="cb232-4"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb232-4" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb226-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb226-1" tabindex="-1"></a>diffEx2 <span class="ot">&lt;-</span> <span class="fu">decideTestsDGE</span>(diffEx, </span>
+<span id="cb226-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb226-2" tabindex="-1"></a>    <span class="at">adjust.method=</span><span class="st">&quot;BH&quot;</span>, </span>
+<span id="cb226-3"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb226-3" tabindex="-1"></a>    <span class="at">p.value=</span><span class="fl">0.05</span></span>
+<span id="cb226-4"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb226-4" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>## Warning in decideTestsDGE(diffEx, adjust.method = &quot;BH&quot;, p.value = 0.05): &#39;decideTestsDGE&#39; is deprecated.
 ## Use &#39;decideTests&#39; instead.
 ## See help(&quot;Deprecated&quot;)</code></pre>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb234-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb234-1" tabindex="-1"></a><span class="fu">summary</span>(diffEx2)</span></code></pre></div>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb228-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb228-1" tabindex="-1"></a><span class="fu">summary</span>(diffEx2)</span></code></pre></div>
 <pre><code>##        groupuntrt
 ## Down          317
 ## NotSig       1553
 ## Up            216</code></pre>
 <p>A <strong>volcano plot</strong> can help visualize effect magnitude - log2 fold-change or <code>log2FC</code> in the table ` against the corresponding p-value. Here we create a volcano plot, and colour-code upregulated genes in red, and downregulated genes in blue.</p>
 <p>Note that we are combining two different tables, <code>tt</code> and <code>diffEx2</code> so we need to ensure the order is the same. Otherwise the colours will be in the wrong order <em>(try it for yourself!)</em>.</p>
-<div class="sourceCode" id="cb236"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb236-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb236-1" tabindex="-1"></a>midx <span class="ot">&lt;-</span> <span class="fu">match</span>(<span class="fu">rownames</span>(tt), <span class="fu">rownames</span>(diffEx2))</span>
-<span id="cb236-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb236-2" tabindex="-1"></a>diffEx2 <span class="ot">&lt;-</span> diffEx2[midx,]</span>
-<span id="cb236-3"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb236-3" tabindex="-1"></a></span>
-<span id="cb236-4"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb236-4" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&quot;black&quot;</span>,<span class="fu">nrow</span>(diffEx2))</span>
-<span id="cb236-5"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb236-5" tabindex="-1"></a>cols[<span class="fu">which</span>(diffEx2<span class="sc">&gt;</span><span class="dv">0</span> )]  <span class="ot">&lt;-</span> <span class="st">&quot;red&quot;</span></span>
-<span id="cb236-6"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb236-6" tabindex="-1"></a>cols[<span class="fu">which</span>(diffEx2<span class="sc">&lt;</span><span class="dv">0</span>)]  <span class="ot">&lt;-</span> <span class="st">&quot;blue&quot;</span></span>
-<span id="cb236-7"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb236-7" tabindex="-1"></a><span class="co"># volcano plot</span></span>
-<span id="cb236-8"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb236-8" tabindex="-1"></a><span class="fu">plot</span>(tt<span class="sc">$</span>logFC,<span class="sc">-</span><span class="fu">log10</span>(tt<span class="sc">$</span>PValue),<span class="at">pch=</span><span class="dv">16</span>,</span>
-<span id="cb236-9"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb236-9" tabindex="-1"></a>    <span class="at">col=</span>cols)</span>
-<span id="cb236-10"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb236-10" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>,<span class="at">lty=</span><span class="dv">3</span>)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-71-1.png" width="672" /></p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb230-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb230-1" tabindex="-1"></a>midx <span class="ot">&lt;-</span> <span class="fu">match</span>(<span class="fu">rownames</span>(tt), <span class="fu">rownames</span>(diffEx2))</span>
+<span id="cb230-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb230-2" tabindex="-1"></a>diffEx2 <span class="ot">&lt;-</span> diffEx2[midx,]</span>
+<span id="cb230-3"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb230-3" tabindex="-1"></a></span>
+<span id="cb230-4"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb230-4" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&quot;black&quot;</span>,<span class="fu">nrow</span>(diffEx2))</span>
+<span id="cb230-5"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb230-5" tabindex="-1"></a>cols[<span class="fu">which</span>(diffEx2<span class="sc">&gt;</span><span class="dv">0</span> )]  <span class="ot">&lt;-</span> <span class="st">&quot;red&quot;</span></span>
+<span id="cb230-6"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb230-6" tabindex="-1"></a>cols[<span class="fu">which</span>(diffEx2<span class="sc">&lt;</span><span class="dv">0</span>)]  <span class="ot">&lt;-</span> <span class="st">&quot;blue&quot;</span></span>
+<span id="cb230-7"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb230-7" tabindex="-1"></a><span class="co"># volcano plot</span></span>
+<span id="cb230-8"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb230-8" tabindex="-1"></a><span class="fu">plot</span>(tt<span class="sc">$</span>logFC,<span class="sc">-</span><span class="fu">log10</span>(tt<span class="sc">$</span>PValue),<span class="at">pch=</span><span class="dv">16</span>,</span>
+<span id="cb230-9"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb230-9" tabindex="-1"></a>    <span class="at">col=</span>cols)</span>
+<span id="cb230-10"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb230-10" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>,<span class="at">lty=</span><span class="dv">3</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-65-1.png" width="672" /></p>
 <p>Finally we can write our differential expression results out to file:</p>
-<div class="sourceCode" id="cb237"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb237-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb237-1" tabindex="-1"></a><span class="fu">write.table</span>(tt,<span class="at">file=</span><span class="st">&quot;diffEx.results.txt&quot;</span>,</span>
-<span id="cb237-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb237-2" tabindex="-1"></a>    <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,</span>
-<span id="cb237-3"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb237-3" tabindex="-1"></a>    <span class="at">col=</span><span class="cn">TRUE</span>,</span>
-<span id="cb237-4"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb237-4" tabindex="-1"></a>    <span class="at">row=</span><span class="cn">TRUE</span>,</span>
-<span id="cb237-5"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb237-5" tabindex="-1"></a>    <span class="at">quote=</span><span class="cn">FALSE</span></span>
-<span id="cb237-6"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb237-6" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb231-1"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb231-1" tabindex="-1"></a><span class="fu">write.table</span>(tt,<span class="at">file=</span><span class="st">&quot;diffEx.results.txt&quot;</span>,</span>
+<span id="cb231-2"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb231-2" tabindex="-1"></a>    <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,</span>
+<span id="cb231-3"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb231-3" tabindex="-1"></a>    <span class="at">col=</span><span class="cn">TRUE</span>,</span>
+<span id="cb231-4"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb231-4" tabindex="-1"></a>    <span class="at">row=</span><span class="cn">TRUE</span>,</span>
+<span id="cb231-5"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb231-5" tabindex="-1"></a>    <span class="at">quote=</span><span class="cn">FALSE</span></span>
+<span id="cb231-6"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#cb231-6" tabindex="-1"></a>)</span></code></pre></div>
 
 
 </div>
