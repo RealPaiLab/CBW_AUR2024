@@ -2,7 +2,7 @@
 
 ![](book/images/Bioinfo_Logo.jpeg)
 
-This repo contains course materials for the "Analysis Using R" workshop offered as part of 2023 [Canadian Bioinformatics Workshop](https://bioinformatics.ca/), offered on 12-13 June 2024.  The book can be compiled using `bookdown::render_book()` in the `book/` subdirectory.
+This repo contains course materials for the "Analysis Using R" workshop offered as part of 2024 [Canadian Bioinformatics Workshop](https://bioinformatics.ca/), offered on 12-13 June 2024.  The book can be compiled using `bookdown::render_book()` in the `book/` subdirectory.
 
 ## Serving up the bookdown on a website
 

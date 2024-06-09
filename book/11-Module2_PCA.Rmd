@@ -58,7 +58,6 @@ pc_out$sdev
 
 `sddev` gives standard deviation (used for computing variance explained). We will see how in sections below.
 
-
 ```{r, class.source="codeblock",eval=TRUE}
 head(pc_out$rotation)
 ```
@@ -95,9 +94,9 @@ Compute variance
 pc_out$sdev^2 / sum(pc_out$sdev^2)
 ```
 
-From the second row you can see that the first principal component explains over 89.15% of the total variance (Note: multiply each number by 100 to get the percentages). 
+From the second row you can see that the first principal component explains over 82.4% of the total variance (Note: multiply each number by 100 to get the percentages). 
 
-The second principal component explains 8.9% of the variance, and the amount of variance explained reduces further down with each component. 
+The second principal component explains 8.2% of the variance, and the amount of variance explained reduces further down with each component. 
 
 Finally, the last row, `Cumulative Proportion`, calculates the cumulative sum of the second row. 
 
@@ -203,14 +202,14 @@ library(RColorBrewer)
 
 ### load the input data
 data(iris)
-iris_data = iris[,c('Sepal.Length','Sepal.Width', 'Petal.Length','Petal.Width')]
+iris_data <- iris[,-5]
 
 # set colours of the plot
-my_cols_vec = brewer.pal("Set1",n = length(levels(iris$Species)))
-species_cols = my_cols_vec[factor(iris$Species)]
+my_cols_vec <- brewer.pal("Set1",n = length(levels(iris$Species)))
+species_cols <- my_cols_vec[factor(iris$Species)]
 
 # run t-SNE
-iris_tsne = tsne(iris_data)
+iris_tsne <- tsne(iris_data)
 
 plot(iris_tsne,
      pch=16, 
@@ -224,10 +223,10 @@ legend("topright",
 The `tsne` function has a parameter called `perplexity` which determines how to balance attention to neighborhood vs global structure. Default value is 30 which was used above. Set perplexity to 10, 20, 50, 100 and rerun tsne. Then visualise each result.
 
 ```{r, class.source="codeblock",eval=TRUE}
-iris_tsne10 = tsne(iris_data,perplexity = 10)
-iris_tsne20 = tsne(iris_data,perplexity = 20)
-iris_tsne50 = tsne(iris_data,perplexity = 50)
-iris_tsne100 = tsne(iris_data,perplexity = 100)
+iris_tsne10 <- tsne(iris_data,perplexity = 10)
+iris_tsne20 <- tsne(iris_data,perplexity = 20)
+iris_tsne50 <- tsne(iris_data,perplexity = 50)
+iris_tsne100 <- tsne(iris_data,perplexity = 100)
 ```
 
 
@@ -271,7 +270,7 @@ Here we are going to use  the package `umap` and the function `umap`. Let’s ap
 ## umap
 library(umap)
 
-iris_umap = umap(iris_data)
+iris_umap <- umap(iris_data)
 str(iris_umap)
 ```
 
@@ -287,14 +286,4 @@ plot(iris_umap$layout[,1],
 #         pch = 19)
 ```
 
-## Exercise {-}
-
-For your exercise, try the following:
-
-* Return to your crabs data
-* Compute the principle components (PCs) for the numeric columns 
-* Plot these PCs and color them by species (“sp”) and sex 
-* Now compute 2 t-SNE components for these data and color by species and sex
-* Finally compute 2 UMAP components for these data and color by species and sex 
-* Do any of these dimensionality reduction methods seem to segregate sex/species groups? 
 

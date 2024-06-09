@@ -33,7 +33,8 @@ TBA<br>
 TBA
 
 <img src="images/Chaitra_Sarathy.jpeg" ALIGN="right" hspace=25>
-Dr. Sarathy is a computational biologist with experience in software development. During her PhD, she applied mathematical modelling, network analysis and multi-omics integration to study complex diseases. She has contributed to open-source toolboxes (openCOBRA) and developed softwares (EFMviz & ComMet) to analyse genome-scale metabolic models. She currently works in TBA.
+Dr. Sarathy is a computational biologist with industry experience in software development. 
+Her previous research centered around developing multi-scale mathematical models of human systems to characterise biochemical changes in obesity. In addition, she has developed methods based on machine learning and multi-omics integration to identify drug targets in cancer and stratify patients for clinical trials. She is currently a Bioinformatics Specialist at Krembil Research Institute where she focusses on characterising genetic malfunctions in neurological diseases.
 
 ### Ian Cheong {.unlisted .unnumbered}
 <img src="images/IanCheong.jpg" ALIGN="right" hspace=25 width=200 height=200 style="object-fit: cover;">
