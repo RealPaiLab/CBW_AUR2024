@@ -1,0 +1,86 @@
+# Module 1: Bonus Exercise Results {-}
+
+Load packages and data, subset needed columns:
+```{r, class.source="codeblock",eval=TRUE}
+library(MASS)
+data(crabs)
+```
+
+Learn more about the data:
+```{r, class.source="codeblock",eval=TRUE}
+?crabs
+head(crabs)
+```
+
+Subset needed columns:
+```{r, class.source="codeblock",eval=TRUE}
+crabs_meas <-  crabs[,c("FL","RW","CL","CW","BD")]
+```
+
+Perform hierarchical clustering:
+
+```{r, class.source="codeblock",eval=TRUE}
+c_dist <- dist(crabs_meas)
+c_hclust <- hclust(c_dist)
+plot(c_hclust)
+```
+
+Colour-code samples based on cluster assignment. Assume there are two clusters.
+
+```{r, class.source="codeblock",eval=TRUE}
+c_clusters = cutree(c_hclust,k = 2)
+```
+
+Now create a pairs plot, but colour-code by: 
+1. by gene-expression based clusters
+2. by species
+3. by sex
+
+```{r, class.source="codeblock",eval=TRUE}
+pairs(
+    crabs_meas, 
+    col = c("orchid","forestgreen")[c_clusters]
+)
+
+pairs(
+    crabs_meas, 
+    col = c("orchid","forestgreen")[factor(crabs$sp)]
+)
+
+pairs(
+    crabs_meas, 
+    col = c("orchid","forestgreen")[factor(crabs$sex)]
+)
+```
+
+Hierarchical clustering:
+```{r, class.source="codeblock",eval=TRUE}
+h <- hclust(dist(crabs_meas),method="ward.D2")
+c2 <- cutree(h,k=2)
+
+hclust_fun <- function(x){
+    f <- hclust(x, method = "ward.D2");
+    return(f)
+}
+
+heatmap(
+    as.matrix(crabs_meas),
+    hclustfun = hclust_fun,
+    col = brewer.pal("Blues",n=8),
+    RowSideColors = c("pink","brown")[c2], 
+    ColSideColors = rep("green",5)
+)
+```
+
+Plot by sex:
+```{r, class.source="codeblock",eval=TRUE}
+heatmap(
+    as.matrix(crabs_meas),
+    hclustfun = hclust_fun,
+    col = brewer.pal("Blues",n=8),
+    RowSideColors = c("pink","brown")[factor(crabs$sex)], 
+    ColSideColors = rep("green",5)
+)
+```
+
+

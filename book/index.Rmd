@@ -33,7 +33,7 @@ Krembil Research Institute<br>
 
 <img src="images/Chaitra_Sarathy.jpeg" ALIGN="right" hspace=25>
 Dr. Sarathy is a computational biologist with industry experience in software development. 
-Her previous research centered around developing multi-scale mathematical models of human systems to characterise biochemical changes in obesity. In addition, she has developed methods based on machine learning and multi-omics integration to identify drug targets in cancer and stratify patients for clinical trials. She is currently focusses on characterising genetic malfunctions in neurological diseases.
+Her previous research centered around developing multi-scale mathematical models of human systems to characterise biochemical changes in obesity. In addition, she has developed methods based on machine learning and multi-omics integration to identify drug targets in cancer and stratify patients for clinical trials. She currently focusses on characterising genetic malfunctions in neurological diseases.
 
 ### Ian Cheong {.unlisted .unnumbered}
 <img src="images/IanCheong.jpg" ALIGN="right" hspace=25 width=200 height=200 style="object-fit: cover;">
@@ -45,6 +45,7 @@ Ian is a Master's level candidate in the Department of Medical Biophysics at the
 &nbsp;&nbsp;<br>
 
 ### Zoe Klein {.unlisted .unnumbered}
+<img src="images/ZoeKlein.png" ALIGN="right" hspace=25 width=200 height=200 style="object-fit: cover;">
 PhD. Candidate<br>
 University of Toronto
 
@@ -54,14 +55,6 @@ Zoe is a PhD level candidate in the Department of Molecular Genetics at the Univ
 
 
 ### Amin Nooranikhojasteh {.unlisted .unnumbered}
-TBA<br>
-TBA
-
-Amin, please add a short bio.
- 
-&nbsp;&nbsp;<br>
-&nbsp;&nbsp;<br>
-
 
 ### Nia Hughes {.unlisted .unnumbered}
 
@@ -93,17 +86,23 @@ Install these tools on your laptop before coming to the workshop:
 
 ```{r install-packages, eval=TRUE}
 pkgList <- c("tidyverse", "clValid","rgl","RColorBrewer","corrplot","ClusterR",
-  "Rtsne","umap","BiocManager","mlbench","plotrix", "factoextra","bladderbatch",
-  "airway")
+  "Rtsne","umap","BiocManager","mlbench","plotrix", "factoextra")
 for (cur in pkgList){
   message(sprintf("\tChecking for %s ...", cur))
   if (!requireNamespace(cur, quietly = TRUE)) install.packages(cur)
 }
-if (!requireNamespace("edgeR", quietly = TRUE)) BiocManager::install("edgeR")
+
+biocPkg <- c("edgeR","bladderbatch","airway")
+for (cur in biocPkg){
+  if (!requireNamespace(cur, quietly = TRUE)) BiocManager::install(cur)
+}
 ```
 
-We are going to use `titanic.csv` in Module 3.
-Download [the dataset here](https://drive.google.com/file/d/1PdP7bZTbmcRrPPPYFf1Mr8vfucom-d4k/view?usp=sharing) and copy it into your working directory.
+### Download example data {-}
+
+1. Download data for the workshop: [AUR2024_data.zip](https://drive.google.com/file/d/1DUSqDM1DGQaqPOk1iL8JxfU0TgCr-4MR/view?usp=sharing).
+2. Move the zip file to your working directory (usually under "/Users/yourname"). 
+3. Unzip the file. You should see a folder with 4 files in it.
 
 # Lecture slides {-}
 

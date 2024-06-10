@@ -1,0 +1,90 @@
+# Module 2: Bonus Exercise Results {-}
+
+PCA
+```{r, class.source="codeblock",eval=TRUE}
+c_pcs = prcomp(crabs_meas)
+```
+
+Plot PC projections (embeddings). 
+```{r, class.source="codeblock",eval=TRUE}
+pairs(c_pcs$x, col = c("orchid","forestgreen")[factor(crabs$sp)])
+pairs(c_pcs$x, col = c("orchid","forestgreen")[factor(crabs$sex)])
+```
+
+tSNE:
+
+```{r, class.source="codeblock",eval=TRUE}
+library(tsne)
+c_tsne10 = tsne(crabs_meas,perplexity = 10)
+c_tsne20 = tsne(crabs_meas,perplexity = 20)
+c_tsne50 = tsne(crabs_meas,perplexity = 50)
+c_tsne100 = tsne(crabs_meas,perplexity = 100)
+```
+
+
+sex_cols = c("orchid","forestgreen")[factor(crabs$sex)]
+
+Color-code tSNE plot by species, try various perplexity levels:
+```{r, class.source="codeblock",eval=TRUE}
+species_cols = c("orchid","forestgreen")[factor(crabs$sp)]
+par(mfrow=c(2,2))
+plot(c_tsne10[,1],
+     c_tsne10[,2],
+     main = "Perplexity = 10",
+     col = species_cols)
+
+plot(c_tsne20[,1],
+     c_tsne20[,2],
+     main = "Perplexity = 20",
+     col = species_cols)
+plot(c_tsne50[,1],
+     c_tsne50[,2],
+     main = "Perplexity = 50",
+     col = species_cols)
+plot(c_tsne100[,1],
+     c_tsne100[,2],
+     main = "Perplexity = 100",
+     col = species_cols)
+```
+
+Now do the same, but colour-code for sex:
+
+```{r, class.source="codeblock",eval=TRUE}
+sex_cols = c("orchid","forestgreen")[factor(crabs$sex)]
+par(mfrow=c(2,2))
+plot(c_tsne10[,1],
+     c_tsne10[,2],
+     main = "Perplexity = 10",
+     col = sex_cols)
+plot(c_tsne20[,1],
+     c_tsne20[,2],
+     main = "Perplexity = 20",
+     col = sex_cols)
+plot(c_tsne50[,1],
+     c_tsne50[,2],
+     main = "Perplexity = 50",
+     col = sex_cols)
+plot(c_tsne100[,1],
+     c_tsne100[,2],
+     main = "Perplexity = 100",
+     col = sex_cols)
+```
+
+
+Run UMAP
+```{r, class.source="codeblock",eval=TRUE}
+library(umap)
+c_umap <- umap(crabs_meas)
+str(c_umap)
+
+par(mfrow=c(1,2))
+plot(c_umap$layout[,1],
+     c_umap$layout[,2],
+     col = species_cols, pch = 19, 
+     main = "Colored by species")
+
+plot(c_umap$layout[,1],
+     c_umap$layout[,2],
+     col = sex_cols, pch = 19, 
+     main = "Colored by sex")
+```

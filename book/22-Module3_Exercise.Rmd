@@ -1,0 +1,59 @@
+# Module 3: Bonus Exercise Results{-}
+
+```{r ex3-load, class.source="codeblock",eval=TRUE}
+data(BreastCancer)
+bc <- BreastCancer
+for (k in 2:10) # altered for current lab
+    bc[,k] <- as.numeric(bc[,k]) 
+head(bc)
+```
+
+Explore missingness:
+```{r ex3-miss1, class.source="codeblock",eval=TRUE}
+suppressMessages(require(plotrix))
+
+#' show data missingness as a chequered matrix
+#' 
+#' @param x (matrix) data matrix.
+#' @param outFile (char) path to file for printing graph
+#' @param wd (numeric) width in inches
+#' @param ht (numeric) height in inches
+#' @return plots missingness matrix to file
+#' @import plotrix
+#' @export
+plotMissMat <- function(x,xlab="columns",
+		ylab="rows",border=NA) {
+	
+	x <- !is.na(x)
+	class(x) <- "numeric"
+	color2D.matplot(x,show.values=FALSE,axes=FALSE,
+		cs1=c(1,0),cs2=c(1,0),cs3=c(1,0),border=border,
+		cex=0.8,
+		xlab=xlab,ylab=ylab)
+}
+```
+
+Explore missingness:
+```{r ex3-miss2, class.source="codeblock",eval=TRUE}
+plotMissMat(bc)
+colSums(is.na(bc))
+```
+
+Plot relationship between variables
+```{r ex3-plot, class.source="codeblock",eval=TRUE}
+require(ggplot2)
+
+ggplot(bc,aes(Cell.size,Normal.nucleoli)) + geom_point()
+ggplot(bc) + geom_boxplot(aes(factor(Class), Normal.nucleoli))
+ggplot(bc) + geom_boxplot(aes(factor(Class), Cl.thickness))
+ggplot(bc) + geom_boxplot(aes(factor(Class), Bare.nuclei))
+```
+
+Fit a binary outcome model:
+```{r ex3-glm, class.source="codeblock",eval=TRUE}
+mod <- glm(
+    Class ~ Cl.thickness + Bare.nuclei + Normal.nucleoli + Mitoses + Bl.cromatin, 
+    bc,
+    family="binomial")
+summary(mod)
+```

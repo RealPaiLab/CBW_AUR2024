@@ -18,10 +18,10 @@ For this we're going to use two data files available in the course data director
 Use `read.delim()` to read in tables. Note the use of the `sep=` parameter to indicate what the column separator is:
 
 ```{r, class.source="codeblock",eval=TRUE}
-x1 <- read.delim("data/tomerge1.csv",sep=",")
+x1 <- read.delim("AUR2024_data/tomerge1.csv",sep=",")
 head(x1)
 
-x2 <- read.delim("data/tomerge2.txt",sep=" ")
+x2 <- read.delim("AUR2024_data/tomerge2.txt",sep=" ")
 head(x2)
 ```
 
@@ -39,7 +39,7 @@ Download [the dataset here](https://drive.google.com/file/d/1PdP7bZTbmcRrPPPYFf1
 Let's read in the data from a file:
 ```{r, class.source="codeblock",eval=TRUE}
 dat <- read.delim(
-    "data/titanic.csv",
+    "AUR2024_data/titanic.csv",
     sep="," # indicate the column separator
     ) 
 ```
@@ -71,7 +71,7 @@ For this let's use a little script that converts a table into black and white sq
 ```{r, class.source="codeblock",eval=TRUE}
 if (!requireNamespace("plotrix", quietly = TRUE)) install.packages("plotrix")
 
-suppressMessages(require(plotrix))
+suppressMessages(library(plotrix))
 
 #' show data missingness as a chequered matrix
 #' 
@@ -178,14 +178,14 @@ So you can see number of passengers by "Pclass" split by survival.
 ```{r  barplot, class.source="codeblock",eval=TRUE}
 p + geom_bar(
     aes(fill=factor(Survived), 
-        Pclass)
+        x = Pclass)
 )
 ```
 
 The plot above shows count data. Let's convert this to proportions. We can see that the fraction of non-survivors in "Class 3" is high.
 ```{r barplot2 , class.source="codeblock",eval=TRUE}
 p + geom_bar(
-    aes(fill=factor(Survived), Pclass),
+    aes(fill=factor(Survived), x = Pclass),
     position = "fill"
 )
 ```
@@ -193,7 +193,7 @@ p + geom_bar(
 How about males versus females?
 ```{r finish-titanic, class.source="codeblock",eval=TRUE}
 p + geom_bar(
-    aes(fill=factor(Survived), Sex),
+    aes(fill=factor(Survived), x = Sex),
     position = "fill"
 )
 ```
@@ -261,3 +261,27 @@ In practice you may need to do more work to test multiple models to ascertain be
 
 We strongly recommend that you learn these topics before applying these methods to your own data.
 ```
+
+## Bonus Exercise {-}
+
+Now let's apply the ideas above to a dataset for classifying a breast cell as being either benign or malignant. 
+
+```{r bc-load, class.source="codeblock",eval=TRUE}
+data(BreastCancer)
+bc <- BreastCancer
+for (k in 2:10) # altered for current lab
+    bc[,k] <- as.numeric(bc[,k]) 
+head(bc)
+```
+
+Learn more about the dataset:
+```{r bc-explore, class.source="codeblock",eval=TRUE}
+?BreastCancer
+```
+
+For your exercise, answer the following questions:
+
+* Is there missing data?
+* Which columns are 
+* Use plots to explore the relationship between explanatory variables.
+* Fit a logistic model to identify which factors explain class (benign vs. malignant).

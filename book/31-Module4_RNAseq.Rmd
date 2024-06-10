@@ -4,7 +4,7 @@ In this exercise, we will use `edgeR` to call differentially-expressed genes. Fo
 
 If you haven't already done so, install the `airway` dataset:
 
-```{r,eval=TRUE}
+```{r, class.source="codeblock",eval=TRUE}
 # BiocManager::install("airway") 
 ```
 These data are from the paper:
@@ -15,19 +15,20 @@ From the abstract of the original paper:
  “Using RNA-Seq, a high-throughput sequencing method, we characterized transcriptomic changes in four primary human ASM cell lines that were treated with dexamethasone - a potent synthetic glucocorticoid (1 micromolar for 18 hours).”
 
 Let's load the data
-```{r, eval=TRUE}
+```{r,  class.source="codeblock",eval=TRUE}
 suppressMessages(library(airway))
 data(airway)
 ```
 
-These data happen to be in a Bioconductor-specific format, so we use the special functions, `assay()` and `colData()` to get the expression data and smaple information. 
+These data happen to be in a Bioconductor-specific format, so we use the special functions, `assay()` and `colData()` to get the expression data and sample information. 
 
-```{r, eval=TRUE}
+```{r,  class.source="codeblock", eval=TRUE}
 xpr <- assay(airway)
 samples <- colData(airway)
 ```
 
 **Questions:**  
+
 * How many samples are in this experiment?
 * How many genes were measured?
 * How many treatment groups are there (`dex` column)?
@@ -42,7 +43,7 @@ If `levels=` are not set, the default uses alphabetical order.  We recommend exp
 Load the `edgeR` package:
 
 ```{r , class.source="codeblock",eval=TRUE}
-suppressMessages(require(edgeR))
+suppressMessages(library(edgeR))
 ```
 
 Let's create a `DGEList` object for the differential expression analysis.  Note that `group` must be a categorical variable (use `factor()` to convert it to one):
@@ -200,3 +201,19 @@ write.table(tt,file="diffEx.results.txt",
     quote=FALSE
 )
 ```
+
+## Bonus Exercise {-}
+
+* Install the `yeastRNASeq` package from Bioconductor and `library` it into your environment
+* Import the geneLevelData using: `data("geneLevelData")`
+* Learn about this data and then put it through the same workflow we just did for the breast cancer: 
+1. Create a new `DGEList` object with your gene counts
+2. Filter genes with CPM > 25 in at least two samples
+3. Normalize and plot your data
+4. Create a model matrix for analysis
+5. Fit your model 
+6. How many significantly up-regulated genes are there at the 5% FDR level? How many significantly down-regulated genes? How many in total
+7. Create a volcano plot
+8. Bonus: Create a histogram of p-values. Is there a signal?
+
+Is there anything about the data that might make you question the results?

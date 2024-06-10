@@ -287,3 +287,15 @@ plot(iris_umap$layout[,1],
 ```
 
 
+## Bonus Exercise {-}
+
+For your exercise, try the following:
+
+* Return to your crabs data
+* Compute the principle components (PCs) for the numeric columns 
+* Plot these PCs and color them by species (“sp”) and sex 
+* Now compute 2 t-SNE components for these data and color by species and sex
+* Finally compute 2 UMAP components for these data and color by species and sex 
+* Do any of these dimensionality reduction methods seem to segregate sex/species groups? 
+
+

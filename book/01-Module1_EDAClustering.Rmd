@@ -51,12 +51,12 @@ table(mouse$FC)
 Usually the information about samples ("metadata") is in a different table. 
 
 Let's load the sample information about the mouse dataset:
-```{r,eval=TRUE}
-pheno <- read.delim("data/mouse_pheno.txt",sep="\t",h=T,as.is=T)
+```{r,eval=TRUE,  class.source="codeblock"}
+pheno <- read.delim("AUR2024_data/mouse_pheno.txt",sep="\t",h=T,as.is=T)
 ```
 
 Let's look at it:
-```{r,eval=TRUE}
+```{r, class.source="codeblock",eval=TRUE}
 head(pheno)
 ```
 
@@ -93,13 +93,13 @@ d <- dist(t(log(mouse_exp)))
  
 Using these distances, we cluster the samples using hierarchical clustering:
 
-```{r,eval=TRUE}
+```{r, class.source="codeblock",eval=TRUE}
 h <- hclust(d,method="ward.D2")
 ```
 
 The output of this can be plotted:
 
-```{r,eval=TRUE}
+```{r, class.source="codeblock",eval=TRUE}
 plot(h)
 ```
 
@@ -109,7 +109,7 @@ Can you guess how many clusters could best fit the data?
 Now let's add a heatmap to this dendrogram, so we can see the values of genes in each cluster. For this we will use the `heatmap()` function.
 First let's just try the heatmap function:
 
-```{r,eval=TRUE}
+```{r, class.source="codeblock",eval=TRUE}
 mouse_exp <- as.matrix(mouse_exp)
 heatmap(mouse_exp)
 ```
@@ -122,23 +122,23 @@ h2 <- cutree(h, k = 2)
 ```
 
 Let's look at our assigned labels:
-```{r,eval=TRUE}
+```{r, class.source="codeblock",eval=TRUE}
 h2
 ```
 
 Let's assign colours to the clusters so that cluster 1 is in pink, and cluster 2 is in green:
-```{r,eval=TRUE}
+```{r, class.source="codeblock",eval=TRUE}
 clust_colours <- c("pink","green")[h2]
 ```
 
 Look at clust_colours:
-```{r,eval=TRUE}
+```{r, class.source="codeblock",eval=TRUE}
 clust_colours
 ```
 
 Now let's plot the heatmap using these assigned cluster labels:
 
-```{r,eval=TRUE}
+```{r, class.source="codeblock",eval=TRUE}
 heatmap(mouse_exp,
     ColSideColors=clust_colours)
 ```
@@ -148,17 +148,17 @@ Note that the two colours are completely divided (i.e., there is no interspersed
 However, not all datasets are this simple. Let's cluster a bladder cancer gene expression dataset.
 This is in the R package, `bladderbatch` which we have already installed.
 
-```{r,eval=TRUE}
+```{r, class.source="codeblock",eval=TRUE}
 library(bladderbatch)
 ```
 
 Load the dataset:
-```{r,eval=TRUE}
+```{r, class.source="codeblock",eval=TRUE}
 data(bladderdata)
 ```
 
 We will use specialized functions to get the expression data and sample information. 
-```{r,eval=TRUE}
+```{r, class.source="codeblock",eval=TRUE}
 bexprs <- exprs(bladderEset)
 bpheno <- pData(bladderEset)
 ```
@@ -166,7 +166,7 @@ bpheno <- pData(bladderEset)
 How many genes and samples do we have in this dataset?
 
 Let us use the same code as above to cluster these samples:
-```{r bladder-hclust,eval=TRUE}
+```{r bladder-hclust, class.source="codeblock",eval=TRUE}
 d <- dist(t(bexprs))
 h <- hclust(d, method="ward.D2")
 plot(h)
@@ -175,18 +175,18 @@ plot(h)
 How many clusters do we see?
 
 Let's assume three clusters, and assign colours to these. As before we use `cutree()`:
-```{r bladder-cutree,eval=TRUE}
+```{r bladder-cutree, class.source="codeblock",eval=TRUE}
 h3 <- cutree(h, k=3)
 clust_colours <- c("red","green","blue")[h3]
 ```
 
 Look at the colour assignments?
-```{r,eval=TRUE}
+```{r, class.source="codeblock",eval=TRUE}
 table(h3)
 ```
 
 Let's just plot the heatmap.
-```{r heatmap-bladder1,eval=TRUE}
+```{r heatmap-bladder1, class.source="codeblock",eval=TRUE}
 heatmap(bexprs,
     ColSideColors=clust_colours)
 ```
@@ -195,7 +195,7 @@ Why aren't the samples clustering?
 
 Now try providing the `hclustfun`  to `heatmap()` so it uses the same method to cluster as we did.
 For this we will create a custom function:
-```{r hclust-func,eval=TRUE}
+```{r hclust-func, class.source="codeblock",eval=TRUE}
 myhclust <- function(x) {
     hclust(x,method="ward.D2")
 }
@@ -203,7 +203,7 @@ myhclust <- function(x) {
 
 And now we run heatmap again, using our clustering function:
 
-```{r heatmap-bladder2,eval=TRUE}
+```{r heatmap-bladder2, class.source="codeblock",eval=TRUE}
 heatmap(bexprs,
     ColSideColors=clust_colours,
     hclustfun=myhclust
@@ -261,3 +261,18 @@ heatmap(
     ColSideColors = clust_colors
 )
 ```
+
+
+## Bonus Exercise {-}
+
+For your exercise, try the following:
+
+* Load the MASS package using: `library(MASS)`
+* Import `crabs` dataset using: `data(crabs)`
+* Learn about this dataset using: `?crabs`
+* Extract the numeric columns describing the crab measurements (“FL”, “RW”, “CL”, “CW”, “BD”)
+* Cluster the numeric columns using your method of choice
+* Plot and color your data by clusters, by species (`sp`), and `sex`
+* Do your clusters seem to separate these groups in the same way? 
+
+
