@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Module 2: Exercise Results | Analysis Using R</title>
+  <title>Module 2: Bonus Exercise Results | Analysis Using R</title>
   <meta name="description" content="Principles of exploratory data analysis, RNAseq differential expression, and generalized linear models" />
   <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Module 2: Exercise Results | Analysis Using R" />
+  <meta property="og:title" content="Module 2: Bonus Exercise Results | Analysis Using R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Principles of exploratory data analysis, RNAseq differential expression, and generalized linear models" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Module 2: Exercise Results | Analysis Using R" />
+  <meta name="twitter:title" content="Module 2: Bonus Exercise Results | Analysis Using R" />
   
   <meta name="twitter:description" content="Principles of exploratory data analysis, RNAseq differential expression, and generalized linear models" />
   
@@ -173,7 +173,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="module-2-dimensionality-reduction.html"><a href="module-2-dimensionality-reduction.html#uniform-manifold-approximation-and-projection-umap"><i class="fa fa-check"></i>Uniform Manifold Approximation and Projection (UMAP)</a></li>
 <li class="chapter" data-level="" data-path="module-2-dimensionality-reduction.html"><a href="module-2-dimensionality-reduction.html#bonus-exercise-1"><i class="fa fa-check"></i>Bonus Exercise</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="module-2-exercise-results.html"><a href="module-2-exercise-results.html"><i class="fa fa-check"></i>Module 2: Exercise Results</a></li>
+<li class="chapter" data-level="" data-path="module-2-bonus-exercise-results.html"><a href="module-2-bonus-exercise-results.html"><i class="fa fa-check"></i>Module 2: Bonus Exercise Results</a></li>
 <li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html"><i class="fa fa-check"></i>Module 3: Generalized Linear Models</a>
 <ul>
 <li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html#essential-r-reading-tables-from-files-merging-basic-data-exploration"><i class="fa fa-check"></i>Essential R: Reading tables from files, merging, basic data exploration</a></li>
@@ -182,7 +182,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html#fit-binary-response-variable-using-glm-and-logistic-regression"><i class="fa fa-check"></i>Fit binary response variable using <code>glm()</code> and logistic regression</a></li>
 <li class="chapter" data-level="" data-path="module-3-generalized-linear-models.html"><a href="module-3-generalized-linear-models.html#bonus-exercise-2"><i class="fa fa-check"></i>Bonus Exercise</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="module-3-exercise-results.html"><a href="module-3-exercise-results.html"><i class="fa fa-check"></i>Module 3: Exercise Results</a></li>
+<li class="chapter" data-level="" data-path="module-3-bonus-exercise-results.html"><a href="module-3-bonus-exercise-results.html"><i class="fa fa-check"></i>Module 3: Bonus Exercise Results</a></li>
 <li class="chapter" data-level="" data-path="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html"><i class="fa fa-check"></i>Module 4: Finding differentially expressed genes from RNAseq data</a>
 <ul>
 <li class="chapter" data-level="" data-path="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#bonus-exercise-3"><i class="fa fa-check"></i>Bonus Exercise</a></li>
@@ -208,113 +208,113 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="module-2-exercise-results" class="section level1 unnumbered hasAnchor">
-<h1>Module 2: Exercise Results<a href="module-2-exercise-results.html#module-2-exercise-results" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="module-2-bonus-exercise-results" class="section level1 unnumbered hasAnchor">
+<h1>Module 2: Bonus Exercise Results<a href="module-2-bonus-exercise-results.html#module-2-bonus-exercise-results" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>PCA</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb169-1"><a href="module-2-exercise-results.html#cb169-1" tabindex="-1"></a>c_pcs <span class="ot">=</span> <span class="fu">prcomp</span>(crabs_meas)</span></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb169-1"><a href="module-2-bonus-exercise-results.html#cb169-1" tabindex="-1"></a>c_pcs <span class="ot">=</span> <span class="fu">prcomp</span>(crabs_meas)</span></code></pre></div>
 <p>Plot PC projections (embeddings).</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb170-1"><a href="module-2-exercise-results.html#cb170-1" tabindex="-1"></a><span class="fu">pairs</span>(c_pcs<span class="sc">$</span>x, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;orchid&quot;</span>,<span class="st">&quot;forestgreen&quot;</span>)[<span class="fu">factor</span>(crabs<span class="sc">$</span>sp)])</span></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb170-1"><a href="module-2-bonus-exercise-results.html#cb170-1" tabindex="-1"></a><span class="fu">pairs</span>(c_pcs<span class="sc">$</span>x, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;orchid&quot;</span>,<span class="st">&quot;forestgreen&quot;</span>)[<span class="fu">factor</span>(crabs<span class="sc">$</span>sp)])</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb171-1"><a href="module-2-exercise-results.html#cb171-1" tabindex="-1"></a><span class="fu">pairs</span>(c_pcs<span class="sc">$</span>x, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;orchid&quot;</span>,<span class="st">&quot;forestgreen&quot;</span>)[<span class="fu">factor</span>(crabs<span class="sc">$</span>sex)])</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb171-1"><a href="module-2-bonus-exercise-results.html#cb171-1" tabindex="-1"></a><span class="fu">pairs</span>(c_pcs<span class="sc">$</span>x, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;orchid&quot;</span>,<span class="st">&quot;forestgreen&quot;</span>)[<span class="fu">factor</span>(crabs<span class="sc">$</span>sex)])</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-58-2.png" width="672" /></p>
 <p>tSNE:</p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb172-1"><a href="module-2-exercise-results.html#cb172-1" tabindex="-1"></a><span class="fu">library</span>(tsne)</span>
-<span id="cb172-2"><a href="module-2-exercise-results.html#cb172-2" tabindex="-1"></a>c_tsne10 <span class="ot">=</span> <span class="fu">tsne</span>(crabs_meas,<span class="at">perplexity =</span> <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb172-1"><a href="module-2-bonus-exercise-results.html#cb172-1" tabindex="-1"></a><span class="fu">library</span>(tsne)</span>
+<span id="cb172-2"><a href="module-2-bonus-exercise-results.html#cb172-2" tabindex="-1"></a>c_tsne10 <span class="ot">=</span> <span class="fu">tsne</span>(crabs_meas,<span class="at">perplexity =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## sigma summary: Min. : 0.295392306171995 |1st Qu. : 0.424864940106807 |Median : 0.475900590252246 |Mean : 0.477263744443299 |3rd Qu. : 0.522810659014478 |Max. : 0.672971536327323 |</code></pre>
-<pre><code>## Epoch: Iteration #100 error is: 14.81212448672</code></pre>
-<pre><code>## Epoch: Iteration #200 error is: 0.453818437843539</code></pre>
-<pre><code>## Epoch: Iteration #300 error is: 0.427200565691026</code></pre>
-<pre><code>## Epoch: Iteration #400 error is: 0.416508684664611</code></pre>
-<pre><code>## Epoch: Iteration #500 error is: 0.412606385268213</code></pre>
-<pre><code>## Epoch: Iteration #600 error is: 0.410452302541608</code></pre>
-<pre><code>## Epoch: Iteration #700 error is: 0.409011019273465</code></pre>
-<pre><code>## Epoch: Iteration #800 error is: 0.4078303166215</code></pre>
-<pre><code>## Epoch: Iteration #900 error is: 0.402673371771594</code></pre>
-<pre><code>## Epoch: Iteration #1000 error is: 0.401517613843182</code></pre>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb184-1"><a href="module-2-exercise-results.html#cb184-1" tabindex="-1"></a>c_tsne20 <span class="ot">=</span> <span class="fu">tsne</span>(crabs_meas,<span class="at">perplexity =</span> <span class="dv">20</span>)</span></code></pre></div>
+<pre><code>## Epoch: Iteration #100 error is: 14.1812230707183</code></pre>
+<pre><code>## Epoch: Iteration #200 error is: 0.496989736763722</code></pre>
+<pre><code>## Epoch: Iteration #300 error is: 0.433454509231717</code></pre>
+<pre><code>## Epoch: Iteration #400 error is: 0.422123419047382</code></pre>
+<pre><code>## Epoch: Iteration #500 error is: 0.418268606285074</code></pre>
+<pre><code>## Epoch: Iteration #600 error is: 0.416248634587637</code></pre>
+<pre><code>## Epoch: Iteration #700 error is: 0.409892901470819</code></pre>
+<pre><code>## Epoch: Iteration #800 error is: 0.408322643089705</code></pre>
+<pre><code>## Epoch: Iteration #900 error is: 0.407541081396067</code></pre>
+<pre><code>## Epoch: Iteration #1000 error is: 0.40690755397338</code></pre>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb184-1"><a href="module-2-bonus-exercise-results.html#cb184-1" tabindex="-1"></a>c_tsne20 <span class="ot">=</span> <span class="fu">tsne</span>(crabs_meas,<span class="at">perplexity =</span> <span class="dv">20</span>)</span></code></pre></div>
 <pre><code>## sigma summary: Min. : 0.42069998064187 |1st Qu. : 0.505494820242659 |Median : 0.550282641638609 |Mean : 0.553782538032253 |3rd Qu. : 0.597446288884567 |Max. : 0.737568418500652 |</code></pre>
-<pre><code>## Epoch: Iteration #100 error is: 13.8791513569797</code></pre>
-<pre><code>## Epoch: Iteration #200 error is: 0.404713432841959</code></pre>
-<pre><code>## Epoch: Iteration #300 error is: 0.393137873574648</code></pre>
-<pre><code>## Epoch: Iteration #400 error is: 0.389906122753131</code></pre>
-<pre><code>## Epoch: Iteration #500 error is: 0.389084681854929</code></pre>
-<pre><code>## Epoch: Iteration #600 error is: 0.388709415277057</code></pre>
-<pre><code>## Epoch: Iteration #700 error is: 0.388489599057822</code></pre>
-<pre><code>## Epoch: Iteration #800 error is: 0.38833888268031</code></pre>
-<pre><code>## Epoch: Iteration #900 error is: 0.388231866814537</code></pre>
-<pre><code>## Epoch: Iteration #1000 error is: 0.388151042545127</code></pre>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb196-1"><a href="module-2-exercise-results.html#cb196-1" tabindex="-1"></a>c_tsne50 <span class="ot">=</span> <span class="fu">tsne</span>(crabs_meas,<span class="at">perplexity =</span> <span class="dv">50</span>)</span></code></pre></div>
+<pre><code>## Epoch: Iteration #100 error is: 14.1336213479228</code></pre>
+<pre><code>## Epoch: Iteration #200 error is: 0.375786175872394</code></pre>
+<pre><code>## Epoch: Iteration #300 error is: 0.363999384154206</code></pre>
+<pre><code>## Epoch: Iteration #400 error is: 0.359142996046126</code></pre>
+<pre><code>## Epoch: Iteration #500 error is: 0.353055564433036</code></pre>
+<pre><code>## Epoch: Iteration #600 error is: 0.35170740897964</code></pre>
+<pre><code>## Epoch: Iteration #700 error is: 0.351170929674753</code></pre>
+<pre><code>## Epoch: Iteration #800 error is: 0.350940860208693</code></pre>
+<pre><code>## Epoch: Iteration #900 error is: 0.350808416755702</code></pre>
+<pre><code>## Epoch: Iteration #1000 error is: 0.350711969037163</code></pre>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb196-1"><a href="module-2-bonus-exercise-results.html#cb196-1" tabindex="-1"></a>c_tsne50 <span class="ot">=</span> <span class="fu">tsne</span>(crabs_meas,<span class="at">perplexity =</span> <span class="dv">50</span>)</span></code></pre></div>
 <pre><code>## sigma summary: Min. : 0.539839363698465 |1st Qu. : 0.634067694694373 |Median : 0.675230651916411 |Mean : 0.676426601512199 |3rd Qu. : 0.712708887622463 |Max. : 0.85041386579969 |</code></pre>
-<pre><code>## Epoch: Iteration #100 error is: 13.709659802103</code></pre>
-<pre><code>## Epoch: Iteration #200 error is: 0.352370167057607</code></pre>
-<pre><code>## Epoch: Iteration #300 error is: 0.346251908157835</code></pre>
-<pre><code>## Epoch: Iteration #400 error is: 0.34550114311469</code></pre>
-<pre><code>## Epoch: Iteration #500 error is: 0.345501139304111</code></pre>
-<pre><code>## Epoch: Iteration #600 error is: 0.345501139304082</code></pre>
-<pre><code>## Epoch: Iteration #700 error is: 0.345501139304082</code></pre>
-<pre><code>## Epoch: Iteration #800 error is: 0.345501139304082</code></pre>
-<pre><code>## Epoch: Iteration #900 error is: 0.345501139304082</code></pre>
-<pre><code>## Epoch: Iteration #1000 error is: 0.345501139304082</code></pre>
-<div class="sourceCode" id="cb208"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb208-1"><a href="module-2-exercise-results.html#cb208-1" tabindex="-1"></a>c_tsne100 <span class="ot">=</span> <span class="fu">tsne</span>(crabs_meas,<span class="at">perplexity =</span> <span class="dv">100</span>)</span></code></pre></div>
+<pre><code>## Epoch: Iteration #100 error is: 12.9109585903881</code></pre>
+<pre><code>## Epoch: Iteration #200 error is: 0.337996887379098</code></pre>
+<pre><code>## Epoch: Iteration #300 error is: 0.306307317858804</code></pre>
+<pre><code>## Epoch: Iteration #400 error is: 0.304310953542115</code></pre>
+<pre><code>## Epoch: Iteration #500 error is: 0.30431094249515</code></pre>
+<pre><code>## Epoch: Iteration #600 error is: 0.304310942495115</code></pre>
+<pre><code>## Epoch: Iteration #700 error is: 0.304310942495115</code></pre>
+<pre><code>## Epoch: Iteration #800 error is: 0.304310942495115</code></pre>
+<pre><code>## Epoch: Iteration #900 error is: 0.304310942495115</code></pre>
+<pre><code>## Epoch: Iteration #1000 error is: 0.304310942495115</code></pre>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb208-1"><a href="module-2-bonus-exercise-results.html#cb208-1" tabindex="-1"></a>c_tsne100 <span class="ot">=</span> <span class="fu">tsne</span>(crabs_meas,<span class="at">perplexity =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>## sigma summary: Min. : 0.689338665294285 |1st Qu. : 0.801156853023062 |Median : 0.838030059692607 |Mean : 0.83585263946599 |3rd Qu. : 0.869043547272454 |Max. : 1.00462478171883 |</code></pre>
-<pre><code>## Epoch: Iteration #100 error is: 11.1574029645938</code></pre>
-<pre><code>## Epoch: Iteration #200 error is: 0.240522367077571</code></pre>
-<pre><code>## Epoch: Iteration #300 error is: 0.240510700080815</code></pre>
-<pre><code>## Epoch: Iteration #400 error is: 0.24051069648741</code></pre>
-<pre><code>## Epoch: Iteration #500 error is: 0.240510696487386</code></pre>
-<pre><code>## Epoch: Iteration #600 error is: 0.240510696487386</code></pre>
-<pre><code>## Epoch: Iteration #700 error is: 0.240510696487386</code></pre>
-<pre><code>## Epoch: Iteration #800 error is: 0.240510696487386</code></pre>
-<pre><code>## Epoch: Iteration #900 error is: 0.240510696487386</code></pre>
-<pre><code>## Epoch: Iteration #1000 error is: 0.240510696487386</code></pre>
+<pre><code>## Epoch: Iteration #100 error is: 11.0505707839334</code></pre>
+<pre><code>## Epoch: Iteration #200 error is: 0.228420082816217</code></pre>
+<pre><code>## Epoch: Iteration #300 error is: 0.223891841720401</code></pre>
+<pre><code>## Epoch: Iteration #400 error is: 0.223891841713541</code></pre>
+<pre><code>## Epoch: Iteration #500 error is: 0.223891841713541</code></pre>
+<pre><code>## Epoch: Iteration #600 error is: 0.223891841713541</code></pre>
+<pre><code>## Epoch: Iteration #700 error is: 0.223891841713541</code></pre>
+<pre><code>## Epoch: Iteration #800 error is: 0.223891841713541</code></pre>
+<pre><code>## Epoch: Iteration #900 error is: 0.223891841713541</code></pre>
+<pre><code>## Epoch: Iteration #1000 error is: 0.223891841713542</code></pre>
 <p>sex_cols = c(“orchid”,“forestgreen”)[factor(crabs$sex)]</p>
 <p>Color-code tSNE plot by species, try various perplexity levels:</p>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb220-1"><a href="module-2-exercise-results.html#cb220-1" tabindex="-1"></a>species_cols <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;orchid&quot;</span>,<span class="st">&quot;forestgreen&quot;</span>)[<span class="fu">factor</span>(crabs<span class="sc">$</span>sp)]</span>
-<span id="cb220-2"><a href="module-2-exercise-results.html#cb220-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb220-3"><a href="module-2-exercise-results.html#cb220-3" tabindex="-1"></a><span class="fu">plot</span>(c_tsne10[,<span class="dv">1</span>],</span>
-<span id="cb220-4"><a href="module-2-exercise-results.html#cb220-4" tabindex="-1"></a>     c_tsne10[,<span class="dv">2</span>],</span>
-<span id="cb220-5"><a href="module-2-exercise-results.html#cb220-5" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 10&quot;</span>,</span>
-<span id="cb220-6"><a href="module-2-exercise-results.html#cb220-6" tabindex="-1"></a>     <span class="at">col =</span> species_cols)</span>
-<span id="cb220-7"><a href="module-2-exercise-results.html#cb220-7" tabindex="-1"></a></span>
-<span id="cb220-8"><a href="module-2-exercise-results.html#cb220-8" tabindex="-1"></a><span class="fu">plot</span>(c_tsne20[,<span class="dv">1</span>],</span>
-<span id="cb220-9"><a href="module-2-exercise-results.html#cb220-9" tabindex="-1"></a>     c_tsne20[,<span class="dv">2</span>],</span>
-<span id="cb220-10"><a href="module-2-exercise-results.html#cb220-10" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 20&quot;</span>,</span>
-<span id="cb220-11"><a href="module-2-exercise-results.html#cb220-11" tabindex="-1"></a>     <span class="at">col =</span> species_cols)</span>
-<span id="cb220-12"><a href="module-2-exercise-results.html#cb220-12" tabindex="-1"></a><span class="fu">plot</span>(c_tsne50[,<span class="dv">1</span>],</span>
-<span id="cb220-13"><a href="module-2-exercise-results.html#cb220-13" tabindex="-1"></a>     c_tsne50[,<span class="dv">2</span>],</span>
-<span id="cb220-14"><a href="module-2-exercise-results.html#cb220-14" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 50&quot;</span>,</span>
-<span id="cb220-15"><a href="module-2-exercise-results.html#cb220-15" tabindex="-1"></a>     <span class="at">col =</span> species_cols)</span>
-<span id="cb220-16"><a href="module-2-exercise-results.html#cb220-16" tabindex="-1"></a><span class="fu">plot</span>(c_tsne100[,<span class="dv">1</span>],</span>
-<span id="cb220-17"><a href="module-2-exercise-results.html#cb220-17" tabindex="-1"></a>     c_tsne100[,<span class="dv">2</span>],</span>
-<span id="cb220-18"><a href="module-2-exercise-results.html#cb220-18" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 100&quot;</span>,</span>
-<span id="cb220-19"><a href="module-2-exercise-results.html#cb220-19" tabindex="-1"></a>     <span class="at">col =</span> species_cols)</span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb220-1"><a href="module-2-bonus-exercise-results.html#cb220-1" tabindex="-1"></a>species_cols <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;orchid&quot;</span>,<span class="st">&quot;forestgreen&quot;</span>)[<span class="fu">factor</span>(crabs<span class="sc">$</span>sp)]</span>
+<span id="cb220-2"><a href="module-2-bonus-exercise-results.html#cb220-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb220-3"><a href="module-2-bonus-exercise-results.html#cb220-3" tabindex="-1"></a><span class="fu">plot</span>(c_tsne10[,<span class="dv">1</span>],</span>
+<span id="cb220-4"><a href="module-2-bonus-exercise-results.html#cb220-4" tabindex="-1"></a>     c_tsne10[,<span class="dv">2</span>],</span>
+<span id="cb220-5"><a href="module-2-bonus-exercise-results.html#cb220-5" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 10&quot;</span>,</span>
+<span id="cb220-6"><a href="module-2-bonus-exercise-results.html#cb220-6" tabindex="-1"></a>     <span class="at">col =</span> species_cols)</span>
+<span id="cb220-7"><a href="module-2-bonus-exercise-results.html#cb220-7" tabindex="-1"></a></span>
+<span id="cb220-8"><a href="module-2-bonus-exercise-results.html#cb220-8" tabindex="-1"></a><span class="fu">plot</span>(c_tsne20[,<span class="dv">1</span>],</span>
+<span id="cb220-9"><a href="module-2-bonus-exercise-results.html#cb220-9" tabindex="-1"></a>     c_tsne20[,<span class="dv">2</span>],</span>
+<span id="cb220-10"><a href="module-2-bonus-exercise-results.html#cb220-10" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 20&quot;</span>,</span>
+<span id="cb220-11"><a href="module-2-bonus-exercise-results.html#cb220-11" tabindex="-1"></a>     <span class="at">col =</span> species_cols)</span>
+<span id="cb220-12"><a href="module-2-bonus-exercise-results.html#cb220-12" tabindex="-1"></a><span class="fu">plot</span>(c_tsne50[,<span class="dv">1</span>],</span>
+<span id="cb220-13"><a href="module-2-bonus-exercise-results.html#cb220-13" tabindex="-1"></a>     c_tsne50[,<span class="dv">2</span>],</span>
+<span id="cb220-14"><a href="module-2-bonus-exercise-results.html#cb220-14" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 50&quot;</span>,</span>
+<span id="cb220-15"><a href="module-2-bonus-exercise-results.html#cb220-15" tabindex="-1"></a>     <span class="at">col =</span> species_cols)</span>
+<span id="cb220-16"><a href="module-2-bonus-exercise-results.html#cb220-16" tabindex="-1"></a><span class="fu">plot</span>(c_tsne100[,<span class="dv">1</span>],</span>
+<span id="cb220-17"><a href="module-2-bonus-exercise-results.html#cb220-17" tabindex="-1"></a>     c_tsne100[,<span class="dv">2</span>],</span>
+<span id="cb220-18"><a href="module-2-bonus-exercise-results.html#cb220-18" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 100&quot;</span>,</span>
+<span id="cb220-19"><a href="module-2-bonus-exercise-results.html#cb220-19" tabindex="-1"></a>     <span class="at">col =</span> species_cols)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
 <p>Now do the same, but colour-code for sex:</p>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb221-1"><a href="module-2-exercise-results.html#cb221-1" tabindex="-1"></a>sex_cols <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;orchid&quot;</span>,<span class="st">&quot;forestgreen&quot;</span>)[<span class="fu">factor</span>(crabs<span class="sc">$</span>sex)]</span>
-<span id="cb221-2"><a href="module-2-exercise-results.html#cb221-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb221-3"><a href="module-2-exercise-results.html#cb221-3" tabindex="-1"></a><span class="fu">plot</span>(c_tsne10[,<span class="dv">1</span>],</span>
-<span id="cb221-4"><a href="module-2-exercise-results.html#cb221-4" tabindex="-1"></a>     c_tsne10[,<span class="dv">2</span>],</span>
-<span id="cb221-5"><a href="module-2-exercise-results.html#cb221-5" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 10&quot;</span>,</span>
-<span id="cb221-6"><a href="module-2-exercise-results.html#cb221-6" tabindex="-1"></a>     <span class="at">col =</span> sex_cols)</span>
-<span id="cb221-7"><a href="module-2-exercise-results.html#cb221-7" tabindex="-1"></a><span class="fu">plot</span>(c_tsne20[,<span class="dv">1</span>],</span>
-<span id="cb221-8"><a href="module-2-exercise-results.html#cb221-8" tabindex="-1"></a>     c_tsne20[,<span class="dv">2</span>],</span>
-<span id="cb221-9"><a href="module-2-exercise-results.html#cb221-9" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 20&quot;</span>,</span>
-<span id="cb221-10"><a href="module-2-exercise-results.html#cb221-10" tabindex="-1"></a>     <span class="at">col =</span> sex_cols)</span>
-<span id="cb221-11"><a href="module-2-exercise-results.html#cb221-11" tabindex="-1"></a><span class="fu">plot</span>(c_tsne50[,<span class="dv">1</span>],</span>
-<span id="cb221-12"><a href="module-2-exercise-results.html#cb221-12" tabindex="-1"></a>     c_tsne50[,<span class="dv">2</span>],</span>
-<span id="cb221-13"><a href="module-2-exercise-results.html#cb221-13" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 50&quot;</span>,</span>
-<span id="cb221-14"><a href="module-2-exercise-results.html#cb221-14" tabindex="-1"></a>     <span class="at">col =</span> sex_cols)</span>
-<span id="cb221-15"><a href="module-2-exercise-results.html#cb221-15" tabindex="-1"></a><span class="fu">plot</span>(c_tsne100[,<span class="dv">1</span>],</span>
-<span id="cb221-16"><a href="module-2-exercise-results.html#cb221-16" tabindex="-1"></a>     c_tsne100[,<span class="dv">2</span>],</span>
-<span id="cb221-17"><a href="module-2-exercise-results.html#cb221-17" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 100&quot;</span>,</span>
-<span id="cb221-18"><a href="module-2-exercise-results.html#cb221-18" tabindex="-1"></a>     <span class="at">col =</span> sex_cols)</span></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb221-1"><a href="module-2-bonus-exercise-results.html#cb221-1" tabindex="-1"></a>sex_cols <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;orchid&quot;</span>,<span class="st">&quot;forestgreen&quot;</span>)[<span class="fu">factor</span>(crabs<span class="sc">$</span>sex)]</span>
+<span id="cb221-2"><a href="module-2-bonus-exercise-results.html#cb221-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb221-3"><a href="module-2-bonus-exercise-results.html#cb221-3" tabindex="-1"></a><span class="fu">plot</span>(c_tsne10[,<span class="dv">1</span>],</span>
+<span id="cb221-4"><a href="module-2-bonus-exercise-results.html#cb221-4" tabindex="-1"></a>     c_tsne10[,<span class="dv">2</span>],</span>
+<span id="cb221-5"><a href="module-2-bonus-exercise-results.html#cb221-5" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 10&quot;</span>,</span>
+<span id="cb221-6"><a href="module-2-bonus-exercise-results.html#cb221-6" tabindex="-1"></a>     <span class="at">col =</span> sex_cols)</span>
+<span id="cb221-7"><a href="module-2-bonus-exercise-results.html#cb221-7" tabindex="-1"></a><span class="fu">plot</span>(c_tsne20[,<span class="dv">1</span>],</span>
+<span id="cb221-8"><a href="module-2-bonus-exercise-results.html#cb221-8" tabindex="-1"></a>     c_tsne20[,<span class="dv">2</span>],</span>
+<span id="cb221-9"><a href="module-2-bonus-exercise-results.html#cb221-9" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 20&quot;</span>,</span>
+<span id="cb221-10"><a href="module-2-bonus-exercise-results.html#cb221-10" tabindex="-1"></a>     <span class="at">col =</span> sex_cols)</span>
+<span id="cb221-11"><a href="module-2-bonus-exercise-results.html#cb221-11" tabindex="-1"></a><span class="fu">plot</span>(c_tsne50[,<span class="dv">1</span>],</span>
+<span id="cb221-12"><a href="module-2-bonus-exercise-results.html#cb221-12" tabindex="-1"></a>     c_tsne50[,<span class="dv">2</span>],</span>
+<span id="cb221-13"><a href="module-2-bonus-exercise-results.html#cb221-13" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 50&quot;</span>,</span>
+<span id="cb221-14"><a href="module-2-bonus-exercise-results.html#cb221-14" tabindex="-1"></a>     <span class="at">col =</span> sex_cols)</span>
+<span id="cb221-15"><a href="module-2-bonus-exercise-results.html#cb221-15" tabindex="-1"></a><span class="fu">plot</span>(c_tsne100[,<span class="dv">1</span>],</span>
+<span id="cb221-16"><a href="module-2-bonus-exercise-results.html#cb221-16" tabindex="-1"></a>     c_tsne100[,<span class="dv">2</span>],</span>
+<span id="cb221-17"><a href="module-2-bonus-exercise-results.html#cb221-17" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 100&quot;</span>,</span>
+<span id="cb221-18"><a href="module-2-bonus-exercise-results.html#cb221-18" tabindex="-1"></a>     <span class="at">col =</span> sex_cols)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-61-1.png" width="672" /></p>
 <p>Run UMAP</p>
-<div class="sourceCode" id="cb222"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb222-1"><a href="module-2-exercise-results.html#cb222-1" tabindex="-1"></a><span class="fu">library</span>(umap)</span>
-<span id="cb222-2"><a href="module-2-exercise-results.html#cb222-2" tabindex="-1"></a>c_umap <span class="ot">&lt;-</span> <span class="fu">umap</span>(crabs_meas)</span>
-<span id="cb222-3"><a href="module-2-exercise-results.html#cb222-3" tabindex="-1"></a><span class="fu">str</span>(c_umap)</span></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb222-1"><a href="module-2-bonus-exercise-results.html#cb222-1" tabindex="-1"></a><span class="fu">library</span>(umap)</span>
+<span id="cb222-2"><a href="module-2-bonus-exercise-results.html#cb222-2" tabindex="-1"></a>c_umap <span class="ot">&lt;-</span> <span class="fu">umap</span>(crabs_meas)</span>
+<span id="cb222-3"><a href="module-2-bonus-exercise-results.html#cb222-3" tabindex="-1"></a><span class="fu">str</span>(c_umap)</span></code></pre></div>
 <pre><code>## List of 4
-##  $ layout: num [1:200, 1:2] -0.0882 -0.0403 0.1414 0.4105 0.3865 ...
+##  $ layout: num [1:200, 1:2] -2.24 -2.09 -1.96 -1.53 -1.6 ...
 ##   ..- attr(*, &quot;dimnames&quot;)=List of 2
 ##   .. ..$ : chr [1:200] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...
 ##   .. ..$ : NULL
@@ -349,7 +349,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##   ..$ a                   : num 1.58
 ##   ..$ b                   : num 0.895
 ##   ..$ spread              : num 1
-##   ..$ random_state        : int 573443227
+##   ..$ random_state        : int 126868377
 ##   ..$ transform_state     : int NA
 ##   ..$ knn                 : logi NA
 ##   ..$ knn_repeats         : num 1
@@ -359,16 +359,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##   ..$ metric.function     :function (m, origin, targets)  
 ##   ..- attr(*, &quot;class&quot;)= chr &quot;umap.config&quot;
 ##  - attr(*, &quot;class&quot;)= chr &quot;umap&quot;</code></pre>
-<div class="sourceCode" id="cb224"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb224-1"><a href="module-2-exercise-results.html#cb224-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb224-2"><a href="module-2-exercise-results.html#cb224-2" tabindex="-1"></a><span class="fu">plot</span>(c_umap<span class="sc">$</span>layout[,<span class="dv">1</span>],</span>
-<span id="cb224-3"><a href="module-2-exercise-results.html#cb224-3" tabindex="-1"></a>     c_umap<span class="sc">$</span>layout[,<span class="dv">2</span>],</span>
-<span id="cb224-4"><a href="module-2-exercise-results.html#cb224-4" tabindex="-1"></a>     <span class="at">col =</span> species_cols, <span class="at">pch =</span> <span class="dv">19</span>, </span>
-<span id="cb224-5"><a href="module-2-exercise-results.html#cb224-5" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Colored by species&quot;</span>)</span>
-<span id="cb224-6"><a href="module-2-exercise-results.html#cb224-6" tabindex="-1"></a></span>
-<span id="cb224-7"><a href="module-2-exercise-results.html#cb224-7" tabindex="-1"></a><span class="fu">plot</span>(c_umap<span class="sc">$</span>layout[,<span class="dv">1</span>],</span>
-<span id="cb224-8"><a href="module-2-exercise-results.html#cb224-8" tabindex="-1"></a>     c_umap<span class="sc">$</span>layout[,<span class="dv">2</span>],</span>
-<span id="cb224-9"><a href="module-2-exercise-results.html#cb224-9" tabindex="-1"></a>     <span class="at">col =</span> sex_cols, <span class="at">pch =</span> <span class="dv">19</span>, </span>
-<span id="cb224-10"><a href="module-2-exercise-results.html#cb224-10" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Colored by sex&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb224-1"><a href="module-2-bonus-exercise-results.html#cb224-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb224-2"><a href="module-2-bonus-exercise-results.html#cb224-2" tabindex="-1"></a><span class="fu">plot</span>(c_umap<span class="sc">$</span>layout[,<span class="dv">1</span>],</span>
+<span id="cb224-3"><a href="module-2-bonus-exercise-results.html#cb224-3" tabindex="-1"></a>     c_umap<span class="sc">$</span>layout[,<span class="dv">2</span>],</span>
+<span id="cb224-4"><a href="module-2-bonus-exercise-results.html#cb224-4" tabindex="-1"></a>     <span class="at">col =</span> species_cols, <span class="at">pch =</span> <span class="dv">19</span>, </span>
+<span id="cb224-5"><a href="module-2-bonus-exercise-results.html#cb224-5" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Colored by species&quot;</span>)</span>
+<span id="cb224-6"><a href="module-2-bonus-exercise-results.html#cb224-6" tabindex="-1"></a></span>
+<span id="cb224-7"><a href="module-2-bonus-exercise-results.html#cb224-7" tabindex="-1"></a><span class="fu">plot</span>(c_umap<span class="sc">$</span>layout[,<span class="dv">1</span>],</span>
+<span id="cb224-8"><a href="module-2-bonus-exercise-results.html#cb224-8" tabindex="-1"></a>     c_umap<span class="sc">$</span>layout[,<span class="dv">2</span>],</span>
+<span id="cb224-9"><a href="module-2-bonus-exercise-results.html#cb224-9" tabindex="-1"></a>     <span class="at">col =</span> sex_cols, <span class="at">pch =</span> <span class="dv">19</span>, </span>
+<span id="cb224-10"><a href="module-2-bonus-exercise-results.html#cb224-10" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Colored by sex&quot;</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-62-1.png" width="672" /></p>
 
 </div>

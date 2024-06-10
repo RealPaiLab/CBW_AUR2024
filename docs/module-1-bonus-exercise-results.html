@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Analysis Using R</title>
+  <title>Module 1: Bonus Exercise Results | Analysis Using R</title>
   <meta name="description" content="Principles of exploratory data analysis, RNAseq differential expression, and generalized linear models" />
   <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Analysis Using R" />
+  <meta property="og:title" content="Module 1: Bonus Exercise Results | Analysis Using R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Principles of exploratory data analysis, RNAseq differential expression, and generalized linear models" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Analysis Using R" />
+  <meta name="twitter:title" content="Module 1: Bonus Exercise Results | Analysis Using R" />
   
   <meta name="twitter:description" content="Principles of exploratory data analysis, RNAseq differential expression, and generalized linear models" />
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
-
-
+<link rel="prev" href="module-1-exploratory-data-analysis-and-clustering.html"/>
+<link rel="next" href="module-2-dimensionality-reduction.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -208,19 +208,84 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="module-1-bonus-exercise-results" class="section level1 unnumbered hasAnchor">
+<h1>Module 1: Bonus Exercise Results<a href="module-1-bonus-exercise-results.html#module-1-bonus-exercise-results" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Load packages and data, subset needed columns:</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb60-1"><a href="module-1-bonus-exercise-results.html#cb60-1" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb60-2"><a href="module-1-bonus-exercise-results.html#cb60-2" tabindex="-1"></a><span class="fu">data</span>(crabs)</span></code></pre></div>
+<p>Learn more about the data:</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb61-1"><a href="module-1-bonus-exercise-results.html#cb61-1" tabindex="-1"></a>?crabs</span>
+<span id="cb61-2"><a href="module-1-bonus-exercise-results.html#cb61-2" tabindex="-1"></a><span class="fu">head</span>(crabs)</span></code></pre></div>
+<pre><code>##   sp sex index   FL  RW   CL   CW  BD
+## 1  B   M     1  8.1 6.7 16.1 19.0 7.0
+## 2  B   M     2  8.8 7.7 18.1 20.8 7.4
+## 3  B   M     3  9.2 7.8 19.0 22.4 7.7
+## 4  B   M     4  9.6 7.9 20.1 23.1 8.2
+## 5  B   M     5  9.8 8.0 20.3 23.0 8.2
+## 6  B   M     6 10.8 9.0 23.0 26.5 9.8</code></pre>
+<p>Subset needed columns:</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb63-1"><a href="module-1-bonus-exercise-results.html#cb63-1" tabindex="-1"></a>crabs_meas <span class="ot">&lt;-</span>  crabs[,<span class="fu">c</span>(<span class="st">&quot;FL&quot;</span>,<span class="st">&quot;RW&quot;</span>,<span class="st">&quot;CL&quot;</span>,<span class="st">&quot;CW&quot;</span>,<span class="st">&quot;BD&quot;</span>)]</span></code></pre></div>
+<p>Perform hierarchical clustering:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb64-1"><a href="module-1-bonus-exercise-results.html#cb64-1" tabindex="-1"></a>c_dist <span class="ot">&lt;-</span> <span class="fu">dist</span>(crabs_meas)</span>
+<span id="cb64-2"><a href="module-1-bonus-exercise-results.html#cb64-2" tabindex="-1"></a>c_hclust <span class="ot">&lt;-</span> <span class="fu">hclust</span>(c_dist)</span>
+<span id="cb64-3"><a href="module-1-bonus-exercise-results.html#cb64-3" tabindex="-1"></a><span class="fu">plot</span>(c_hclust)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>Colour-code samples based on cluster assignment. Assume there are two clusters.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb65-1"><a href="module-1-bonus-exercise-results.html#cb65-1" tabindex="-1"></a>c_clusters <span class="ot">=</span> <span class="fu">cutree</span>(c_hclust,<span class="at">k =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p>Now create a pairs plot, but colour-code by:
+1. by gene-expression based clusters
+2. by species
+3. by sex</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb66-1"><a href="module-1-bonus-exercise-results.html#cb66-1" tabindex="-1"></a><span class="fu">pairs</span>(</span>
+<span id="cb66-2"><a href="module-1-bonus-exercise-results.html#cb66-2" tabindex="-1"></a>    crabs_meas, </span>
+<span id="cb66-3"><a href="module-1-bonus-exercise-results.html#cb66-3" tabindex="-1"></a>    <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;orchid&quot;</span>,<span class="st">&quot;forestgreen&quot;</span>)[c_clusters]</span>
+<span id="cb66-4"><a href="module-1-bonus-exercise-results.html#cb66-4" tabindex="-1"></a>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb67-1"><a href="module-1-bonus-exercise-results.html#cb67-1" tabindex="-1"></a><span class="fu">pairs</span>(</span>
+<span id="cb67-2"><a href="module-1-bonus-exercise-results.html#cb67-2" tabindex="-1"></a>    crabs_meas, </span>
+<span id="cb67-3"><a href="module-1-bonus-exercise-results.html#cb67-3" tabindex="-1"></a>    <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;orchid&quot;</span>,<span class="st">&quot;forestgreen&quot;</span>)[<span class="fu">factor</span>(crabs<span class="sc">$</span>sp)]</span>
+<span id="cb67-4"><a href="module-1-bonus-exercise-results.html#cb67-4" tabindex="-1"></a>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-32-2.png" width="672" /></p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb68-1"><a href="module-1-bonus-exercise-results.html#cb68-1" tabindex="-1"></a><span class="fu">pairs</span>(</span>
+<span id="cb68-2"><a href="module-1-bonus-exercise-results.html#cb68-2" tabindex="-1"></a>    crabs_meas, </span>
+<span id="cb68-3"><a href="module-1-bonus-exercise-results.html#cb68-3" tabindex="-1"></a>    <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;orchid&quot;</span>,<span class="st">&quot;forestgreen&quot;</span>)[<span class="fu">factor</span>(crabs<span class="sc">$</span>sex)]</span>
+<span id="cb68-4"><a href="module-1-bonus-exercise-results.html#cb68-4" tabindex="-1"></a>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-32-3.png" width="672" /></p>
+<p>Hierarchical clustering:</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb69-1"><a href="module-1-bonus-exercise-results.html#cb69-1" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">hclust</span>(<span class="fu">dist</span>(crabs_meas),<span class="at">method=</span><span class="st">&quot;ward.D2&quot;</span>)</span>
+<span id="cb69-2"><a href="module-1-bonus-exercise-results.html#cb69-2" tabindex="-1"></a>c2 <span class="ot">&lt;-</span> <span class="fu">cutree</span>(h,<span class="at">k=</span><span class="dv">2</span>)</span>
+<span id="cb69-3"><a href="module-1-bonus-exercise-results.html#cb69-3" tabindex="-1"></a></span>
+<span id="cb69-4"><a href="module-1-bonus-exercise-results.html#cb69-4" tabindex="-1"></a>hclust_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb69-5"><a href="module-1-bonus-exercise-results.html#cb69-5" tabindex="-1"></a>    f <span class="ot">&lt;-</span> <span class="fu">hclust</span>(x, <span class="at">method =</span> <span class="st">&quot;ward.D2&quot;</span>);</span>
+<span id="cb69-6"><a href="module-1-bonus-exercise-results.html#cb69-6" tabindex="-1"></a>    <span class="fu">return</span>(f)</span>
+<span id="cb69-7"><a href="module-1-bonus-exercise-results.html#cb69-7" tabindex="-1"></a>}</span>
+<span id="cb69-8"><a href="module-1-bonus-exercise-results.html#cb69-8" tabindex="-1"></a></span>
+<span id="cb69-9"><a href="module-1-bonus-exercise-results.html#cb69-9" tabindex="-1"></a><span class="fu">heatmap</span>(</span>
+<span id="cb69-10"><a href="module-1-bonus-exercise-results.html#cb69-10" tabindex="-1"></a>    <span class="fu">as.matrix</span>(crabs_meas),</span>
+<span id="cb69-11"><a href="module-1-bonus-exercise-results.html#cb69-11" tabindex="-1"></a>    <span class="at">hclustfun =</span> hclust_fun,</span>
+<span id="cb69-12"><a href="module-1-bonus-exercise-results.html#cb69-12" tabindex="-1"></a>    <span class="at">col =</span> <span class="fu">brewer.pal</span>(<span class="st">&quot;Blues&quot;</span>,<span class="at">n=</span><span class="dv">8</span>),</span>
+<span id="cb69-13"><a href="module-1-bonus-exercise-results.html#cb69-13" tabindex="-1"></a>    <span class="at">RowSideColors =</span> <span class="fu">c</span>(<span class="st">&quot;pink&quot;</span>,<span class="st">&quot;brown&quot;</span>)[c2], </span>
+<span id="cb69-14"><a href="module-1-bonus-exercise-results.html#cb69-14" tabindex="-1"></a>    <span class="at">ColSideColors =</span> <span class="fu">rep</span>(<span class="st">&quot;green&quot;</span>,<span class="dv">5</span>)</span>
+<span id="cb69-15"><a href="module-1-bonus-exercise-results.html#cb69-15" tabindex="-1"></a>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<p>Plot by sex:</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb70-1"><a href="module-1-bonus-exercise-results.html#cb70-1" tabindex="-1"></a><span class="fu">heatmap</span>(</span>
+<span id="cb70-2"><a href="module-1-bonus-exercise-results.html#cb70-2" tabindex="-1"></a>    <span class="fu">as.matrix</span>(crabs_meas),</span>
+<span id="cb70-3"><a href="module-1-bonus-exercise-results.html#cb70-3" tabindex="-1"></a>    <span class="at">hclustfun =</span> hclust_fun,</span>
+<span id="cb70-4"><a href="module-1-bonus-exercise-results.html#cb70-4" tabindex="-1"></a>    <span class="at">col =</span> <span class="fu">brewer.pal</span>(<span class="st">&quot;Blues&quot;</span>,<span class="at">n=</span><span class="dv">8</span>),</span>
+<span id="cb70-5"><a href="module-1-bonus-exercise-results.html#cb70-5" tabindex="-1"></a>    <span class="at">RowSideColors =</span> <span class="fu">c</span>(<span class="st">&quot;pink&quot;</span>,<span class="st">&quot;brown&quot;</span>)[<span class="fu">factor</span>(crabs<span class="sc">$</span>sex)], </span>
+<span id="cb70-6"><a href="module-1-bonus-exercise-results.html#cb70-6" tabindex="-1"></a>    <span class="at">ColSideColors =</span> <span class="fu">rep</span>(<span class="st">&quot;green&quot;</span>,<span class="dv">5</span>)</span>
+<span id="cb70-7"><a href="module-1-bonus-exercise-results.html#cb70-7" tabindex="-1"></a>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-
+<a href="module-1-exploratory-data-analysis-and-clustering.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="module-2-dimensionality-reduction.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Analysis Using R</title>
+  <title>Module 4: Bonus Exercise Results | Analysis Using R</title>
   <meta name="description" content="Principles of exploratory data analysis, RNAseq differential expression, and generalized linear models" />
   <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Analysis Using R" />
+  <meta property="og:title" content="Module 4: Bonus Exercise Results | Analysis Using R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Principles of exploratory data analysis, RNAseq differential expression, and generalized linear models" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Analysis Using R" />
+  <meta name="twitter:title" content="Module 4: Bonus Exercise Results | Analysis Using R" />
   
   <meta name="twitter:description" content="Principles of exploratory data analysis, RNAseq differential expression, and generalized linear models" />
   
@@ -29,7 +29,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
-
+<link rel="prev" href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html"/>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -208,18 +208,104 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="module-4-bonus-exercise-results" class="section level1 unnumbered hasAnchor">
+<h1>Module 4: Bonus Exercise Results<a href="module-4-bonus-exercise-results.html#module-4-bonus-exercise-results" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb311-1"><a href="module-4-bonus-exercise-results.html#cb311-1" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;yeastRNASeq&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) </span>
+<span id="cb311-2"><a href="module-4-bonus-exercise-results.html#cb311-2" tabindex="-1"></a>  BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;yeastRNASeq&quot;</span>)</span>
+<span id="cb311-3"><a href="module-4-bonus-exercise-results.html#cb311-3" tabindex="-1"></a></span>
+<span id="cb311-4"><a href="module-4-bonus-exercise-results.html#cb311-4" tabindex="-1"></a><span class="fu">library</span>(yeastRNASeq)</span>
+<span id="cb311-5"><a href="module-4-bonus-exercise-results.html#cb311-5" tabindex="-1"></a></span>
+<span id="cb311-6"><a href="module-4-bonus-exercise-results.html#cb311-6" tabindex="-1"></a><span class="fu">data</span>(geneLevelData)</span>
+<span id="cb311-7"><a href="module-4-bonus-exercise-results.html#cb311-7" tabindex="-1"></a>gene_keep <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(geneLevelData) <span class="sc">&gt;</span> <span class="dv">2</span> </span>
+<span id="cb311-8"><a href="module-4-bonus-exercise-results.html#cb311-8" tabindex="-1"></a></span>
+<span id="cb311-9"><a href="module-4-bonus-exercise-results.html#cb311-9" tabindex="-1"></a><span class="co"># What genes pass this threshold?</span></span>
+<span id="cb311-10"><a href="module-4-bonus-exercise-results.html#cb311-10" tabindex="-1"></a>filtered <span class="ot">&lt;-</span> geneLevelData[gene_keep,] </span>
+<span id="cb311-11"><a href="module-4-bonus-exercise-results.html#cb311-11" tabindex="-1"></a><span class="fu">str</span>(filtered)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    6113 obs. of  4 variables:
+##  $ mut_1: num  38 31 55 29 189 33 23 51 21 4 ...
+##  $ mut_2: num  39 33 52 26 180 41 13 52 12 5 ...
+##  $ wt_1 : num  35 40 47 5 151 32 73 54 3 4 ...
+##  $ wt_2 : num  34 26 47 5 180 29 63 45 3 8 ...</code></pre>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb313-1"><a href="module-4-bonus-exercise-results.html#cb313-1" tabindex="-1"></a><span class="co">#  as.matrix(filtered): the count data in the right class</span></span>
+<span id="cb313-2"><a href="module-4-bonus-exercise-results.html#cb313-2" tabindex="-1"></a><span class="co"># phenoData: The sample information</span></span>
+<span id="cb313-3"><a href="module-4-bonus-exercise-results.html#cb313-3" tabindex="-1"></a></span>
+<span id="cb313-4"><a href="module-4-bonus-exercise-results.html#cb313-4" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Mut&quot;</span>, <span class="st">&quot;WT&quot;</span>),<span class="at">each=</span><span class="dv">2</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;WT&quot;</span>,<span class="st">&quot;Mut&quot;</span>)) </span>
+<span id="cb313-5"><a href="module-4-bonus-exercise-results.html#cb313-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">DGEList</span>(<span class="fu">as.matrix</span>(filtered), </span>
+<span id="cb313-6"><a href="module-4-bonus-exercise-results.html#cb313-6" tabindex="-1"></a>           <span class="at">group =</span> group)  </span>
+<span id="cb313-7"><a href="module-4-bonus-exercise-results.html#cb313-7" tabindex="-1"></a></span>
+<span id="cb313-8"><a href="module-4-bonus-exercise-results.html#cb313-8" tabindex="-1"></a><span class="do">## matrix of experimental design </span></span>
+<span id="cb313-9"><a href="module-4-bonus-exercise-results.html#cb313-9" tabindex="-1"></a>mod <span class="ot">=</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>group, y)</span>
+<span id="cb313-10"><a href="module-4-bonus-exercise-results.html#cb313-10" tabindex="-1"></a></span>
+<span id="cb313-11"><a href="module-4-bonus-exercise-results.html#cb313-11" tabindex="-1"></a></span>
+<span id="cb313-12"><a href="module-4-bonus-exercise-results.html#cb313-12" tabindex="-1"></a><span class="do">## Normalize data</span></span>
+<span id="cb313-13"><a href="module-4-bonus-exercise-results.html#cb313-13" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">calcNormFactors</span>(y, <span class="at">method =</span> <span class="st">&quot;upperquartile&quot;</span>)</span>
+<span id="cb313-14"><a href="module-4-bonus-exercise-results.html#cb313-14" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">estimateDisp</span>(y, mod)</span>
+<span id="cb313-15"><a href="module-4-bonus-exercise-results.html#cb313-15" tabindex="-1"></a></span>
+<span id="cb313-16"><a href="module-4-bonus-exercise-results.html#cb313-16" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">glmFit</span>(y, mod)</span>
+<span id="cb313-17"><a href="module-4-bonus-exercise-results.html#cb313-17" tabindex="-1"></a>lrt <span class="ot">=</span> <span class="fu">glmLRT</span>(fit, <span class="at">coef =</span> <span class="dv">2</span>)</span>
+<span id="cb313-18"><a href="module-4-bonus-exercise-results.html#cb313-18" tabindex="-1"></a>diffEx2 <span class="ot">&lt;-</span> <span class="fu">decideTestsDGE</span>(lrt, </span>
+<span id="cb313-19"><a href="module-4-bonus-exercise-results.html#cb313-19" tabindex="-1"></a>    <span class="at">adjust.method=</span><span class="st">&quot;BH&quot;</span>, </span>
+<span id="cb313-20"><a href="module-4-bonus-exercise-results.html#cb313-20" tabindex="-1"></a>    <span class="at">p.value=</span><span class="fl">0.05</span></span>
+<span id="cb313-21"><a href="module-4-bonus-exercise-results.html#cb313-21" tabindex="-1"></a>)</span>
+<span id="cb313-22"><a href="module-4-bonus-exercise-results.html#cb313-22" tabindex="-1"></a><span class="fu">table</span>(diffEx2)</span></code></pre></div>
+<pre><code>## diffEx2
+##   -1    0    1 
+## 1282 3147 1684</code></pre>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb315-1"><a href="module-4-bonus-exercise-results.html#cb315-1" tabindex="-1"></a>DEGS <span class="ot">=</span> <span class="fu">topTags</span>(lrt, <span class="at">n=</span><span class="fu">nrow</span>(y))<span class="sc">$</span>table</span></code></pre></div>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb316-1"><a href="module-4-bonus-exercise-results.html#cb316-1" tabindex="-1"></a><span class="do">## check out differentially expressed genes</span></span>
+<span id="cb316-2"><a href="module-4-bonus-exercise-results.html#cb316-2" tabindex="-1"></a><span class="fu">head</span>(DEGS)</span></code></pre></div>
+<pre><code>##            logFC    logCPM       LR
+## snR59   8.918990 10.146912 2142.162
+## snR49   8.541859  9.773155 1652.824
+## snR41   7.757413 11.217747 4287.880
+## YPL198W 7.499306 10.244671 2224.245
+## snR76   7.191421  9.776288 1602.758
+## snR81   7.028955 10.497704 2595.722
+##         PValue FDR
+## snR59        0   0
+## snR49        0   0
+## snR41        0   0
+## YPL198W      0   0
+## snR76        0   0
+## snR81        0   0</code></pre>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb318-1"><a href="module-4-bonus-exercise-results.html#cb318-1" tabindex="-1"></a>DEGS_sig <span class="ot">=</span> DEGS[DEGS<span class="sc">$</span>FDR <span class="sc">&lt;</span> <span class="fl">0.05</span>,]</span>
+<span id="cb318-2"><a href="module-4-bonus-exercise-results.html#cb318-2" tabindex="-1"></a><span class="fu">head</span>(DEGS_sig)</span></code></pre></div>
+<pre><code>##            logFC    logCPM       LR
+## snR59   8.918990 10.146912 2142.162
+## snR49   8.541859  9.773155 1652.824
+## snR41   7.757413 11.217747 4287.880
+## YPL198W 7.499306 10.244671 2224.245
+## snR76   7.191421  9.776288 1602.758
+## snR81   7.028955 10.497704 2595.722
+##         PValue FDR
+## snR59        0   0
+## snR49        0   0
+## snR41        0   0
+## YPL198W      0   0
+## snR76        0   0
+## snR81        0   0</code></pre>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb320-1"><a href="module-4-bonus-exercise-results.html#cb320-1" tabindex="-1"></a><span class="fu">dim</span>(DEGS_sig)</span></code></pre></div>
+<pre><code>## [1] 2966    5</code></pre>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb322-1"><a href="module-4-bonus-exercise-results.html#cb322-1" tabindex="-1"></a>midx <span class="ot">&lt;-</span> <span class="fu">match</span>(<span class="fu">rownames</span>(DEGS), <span class="fu">rownames</span>(diffEx2))</span>
+<span id="cb322-2"><a href="module-4-bonus-exercise-results.html#cb322-2" tabindex="-1"></a>diffEx2 <span class="ot">&lt;-</span> diffEx2[midx,]</span>
+<span id="cb322-3"><a href="module-4-bonus-exercise-results.html#cb322-3" tabindex="-1"></a></span>
+<span id="cb322-4"><a href="module-4-bonus-exercise-results.html#cb322-4" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&quot;black&quot;</span>,<span class="fu">nrow</span>(diffEx2))</span>
+<span id="cb322-5"><a href="module-4-bonus-exercise-results.html#cb322-5" tabindex="-1"></a>cols[<span class="fu">which</span>(diffEx2<span class="sc">&gt;</span><span class="dv">0</span> )]  <span class="ot">&lt;-</span> <span class="st">&quot;red&quot;</span></span>
+<span id="cb322-6"><a href="module-4-bonus-exercise-results.html#cb322-6" tabindex="-1"></a>cols[<span class="fu">which</span>(diffEx2<span class="sc">&lt;</span><span class="dv">0</span>)]  <span class="ot">&lt;-</span> <span class="st">&quot;blue&quot;</span></span>
+<span id="cb322-7"><a href="module-4-bonus-exercise-results.html#cb322-7" tabindex="-1"></a><span class="co"># volcano plot</span></span>
+<span id="cb322-8"><a href="module-4-bonus-exercise-results.html#cb322-8" tabindex="-1"></a><span class="fu">plot</span>(DEGS<span class="sc">$</span>logFC,<span class="sc">-</span><span class="fu">log10</span>(DEGS<span class="sc">$</span>PValue),<span class="at">pch=</span><span class="dv">16</span>,</span>
+<span id="cb322-9"><a href="module-4-bonus-exercise-results.html#cb322-9" tabindex="-1"></a>    <span class="at">col=</span>cols)</span>
+<span id="cb322-10"><a href="module-4-bonus-exercise-results.html#cb322-10" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>,<span class="at">lty=</span><span class="dv">3</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-85-1.png" width="672" /></p>
+
+
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
+<a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>
