@@ -447,9 +447,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3>Step 3. Visualisation of PCA results<a href="module-2-dimensionality-reduction.html#step-3.-visualisation-of-pca-results" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>A. Scree plot</strong></p>
 <p>We can visualize the percentage of explained variance per principal component by using what is called a scree plot. We will call the <code>fviz_eig()</code> function of the factoextra package for the application. You may need to install the package using <code>install.packages("factoextra")</code>.</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb96-1"><a href="module-2-dimensionality-reduction.html#cb96-1" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
-<span id="cb96-2"><a href="module-2-dimensionality-reduction.html#cb96-2" tabindex="-1"></a><span class="fu">fviz_eig</span>(pc_out, </span>
-<span id="cb96-3"><a href="module-2-dimensionality-reduction.html#cb96-3" tabindex="-1"></a>         <span class="at">addlabels =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb96-1"><a href="module-2-dimensionality-reduction.html#cb96-1" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span></code></pre></div>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<pre><code>## Need help getting started? Try
+## the R Graphics Cookbook:
+## https://r-graphics.org</code></pre>
+<pre><code>## Welcome! Want to learn more? See two factoextra-related books at https://goo.gl/ve3WBa</code></pre>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb100-1"><a href="module-2-dimensionality-reduction.html#cb100-1" tabindex="-1"></a><span class="fu">fviz_eig</span>(pc_out, </span>
+<span id="cb100-2"><a href="module-2-dimensionality-reduction.html#cb100-2" tabindex="-1"></a>         <span class="at">addlabels =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
 <p>The x-axis shows the PCs and the y-axis shows the percentage of variance explained that we saw above. Percentages are listed on top of the bars. It’s common to see that the first few principal components explain the major amount of variance.</p>
 <p>Scree plot can also be used to decide the number of components to keep for rest of your analysis. One of the ways is using the elbow rule. This method is about looking for the “elbow” shape on the curve and retaining all components before the point where the curve flattens out. Here, the elbow appears to occur at the second principal component.</p>
@@ -457,44 +462,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>B. Scatter plot</strong></p>
 <p>After a PCA, the observations are expressed in principal component scores (as we saw above in <code>pc_out$rotation</code>). So, it is important to visualize the observations along the new axes (principal components) how observations have been transformed and to understand the relations in the dataset.</p>
 <p>This can be achieved by drawing a scatterplot. To do so, first, we need to extract and the principal component scores in <code>pc_out$rotation</code>, and then we will store them in a data frame called PC.</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb97-1"><a href="module-2-dimensionality-reduction.html#cb97-1" tabindex="-1"></a>PC <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pc_out<span class="sc">$</span>x)</span></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb101-1"><a href="module-2-dimensionality-reduction.html#cb101-1" tabindex="-1"></a>PC <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pc_out<span class="sc">$</span>x)</span></code></pre></div>
 <p>Plot the first two principal components as follows:</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb98-1"><a href="module-2-dimensionality-reduction.html#cb98-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> PC<span class="sc">$</span>PC1,</span>
-<span id="cb98-2"><a href="module-2-dimensionality-reduction.html#cb98-2" tabindex="-1"></a>     <span class="at">y =</span> PC<span class="sc">$</span>PC2,</span>
-<span id="cb98-3"><a href="module-2-dimensionality-reduction.html#cb98-3" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb98-4"><a href="module-2-dimensionality-reduction.html#cb98-4" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;PC1&quot;</span>,</span>
-<span id="cb98-5"><a href="module-2-dimensionality-reduction.html#cb98-5" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;PC2&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb102-1"><a href="module-2-dimensionality-reduction.html#cb102-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> PC<span class="sc">$</span>PC1,</span>
+<span id="cb102-2"><a href="module-2-dimensionality-reduction.html#cb102-2" tabindex="-1"></a>     <span class="at">y =</span> PC<span class="sc">$</span>PC2,</span>
+<span id="cb102-3"><a href="module-2-dimensionality-reduction.html#cb102-3" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb102-4"><a href="module-2-dimensionality-reduction.html#cb102-4" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;PC1&quot;</span>,</span>
+<span id="cb102-5"><a href="module-2-dimensionality-reduction.html#cb102-5" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;PC2&quot;</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
 <p>We see six points in two different groups. The points correspond to six samples. But, we don’t know what group/condition they belong to.</p>
 <p>That can be done by adding sample-related information to the data.frame <code>PC</code> (such as cell type, treatment type, batch they were processed etc) as new variables. Here we will add the sample names and the cell types.</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb99-1"><a href="module-2-dimensionality-reduction.html#cb99-1" tabindex="-1"></a>PC<span class="sc">$</span>sample <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rownames</span>(PC))</span>
-<span id="cb99-2"><a href="module-2-dimensionality-reduction.html#cb99-2" tabindex="-1"></a>PC<span class="sc">$</span>cells <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;mesoderm&quot;</span>, <span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">&quot;neural_crest&quot;</span>, <span class="dv">3</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb103-1"><a href="module-2-dimensionality-reduction.html#cb103-1" tabindex="-1"></a>PC<span class="sc">$</span>sample <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rownames</span>(PC))</span>
+<span id="cb103-2"><a href="module-2-dimensionality-reduction.html#cb103-2" tabindex="-1"></a>PC<span class="sc">$</span>cells <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;mesoderm&quot;</span>, <span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">&quot;neural_crest&quot;</span>, <span class="dv">3</span>)))</span></code></pre></div>
 <p>Plot the scatterplot again and now, colour the points by cell type. Then, add sample names and legend.</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb100-1"><a href="module-2-dimensionality-reduction.html#cb100-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> PC<span class="sc">$</span>PC1,</span>
-<span id="cb100-2"><a href="module-2-dimensionality-reduction.html#cb100-2" tabindex="-1"></a>     <span class="at">y =</span> PC<span class="sc">$</span>PC2,</span>
-<span id="cb100-3"><a href="module-2-dimensionality-reduction.html#cb100-3" tabindex="-1"></a>     <span class="at">col =</span> PC<span class="sc">$</span>cells,</span>
-<span id="cb100-4"><a href="module-2-dimensionality-reduction.html#cb100-4" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb100-5"><a href="module-2-dimensionality-reduction.html#cb100-5" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;PC1&quot;</span>,</span>
-<span id="cb100-6"><a href="module-2-dimensionality-reduction.html#cb100-6" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;PC2&quot;</span>)</span>
-<span id="cb100-7"><a href="module-2-dimensionality-reduction.html#cb100-7" tabindex="-1"></a></span>
-<span id="cb100-8"><a href="module-2-dimensionality-reduction.html#cb100-8" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x=</span> PC<span class="sc">$</span>PC1,</span>
-<span id="cb100-9"><a href="module-2-dimensionality-reduction.html#cb100-9" tabindex="-1"></a>     <span class="at">y =</span> PC<span class="sc">$</span>PC2<span class="fl">-0.15</span>,</span>
-<span id="cb100-10"><a href="module-2-dimensionality-reduction.html#cb100-10" tabindex="-1"></a>     <span class="at">labels =</span> PC<span class="sc">$</span>sample)</span>
-<span id="cb100-11"><a href="module-2-dimensionality-reduction.html#cb100-11" tabindex="-1"></a></span>
-<span id="cb100-12"><a href="module-2-dimensionality-reduction.html#cb100-12" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, </span>
-<span id="cb100-13"><a href="module-2-dimensionality-reduction.html#cb100-13" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">levels</span>(PC<span class="sc">$</span>cells), </span>
-<span id="cb100-14"><a href="module-2-dimensionality-reduction.html#cb100-14" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">seq_along</span>(<span class="fu">levels</span>(PC<span class="sc">$</span>cells)), </span>
-<span id="cb100-15"><a href="module-2-dimensionality-reduction.html#cb100-15" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb104-1"><a href="module-2-dimensionality-reduction.html#cb104-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> PC<span class="sc">$</span>PC1,</span>
+<span id="cb104-2"><a href="module-2-dimensionality-reduction.html#cb104-2" tabindex="-1"></a>     <span class="at">y =</span> PC<span class="sc">$</span>PC2,</span>
+<span id="cb104-3"><a href="module-2-dimensionality-reduction.html#cb104-3" tabindex="-1"></a>     <span class="at">col =</span> PC<span class="sc">$</span>cells,</span>
+<span id="cb104-4"><a href="module-2-dimensionality-reduction.html#cb104-4" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb104-5"><a href="module-2-dimensionality-reduction.html#cb104-5" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;PC1&quot;</span>,</span>
+<span id="cb104-6"><a href="module-2-dimensionality-reduction.html#cb104-6" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;PC2&quot;</span>)</span>
+<span id="cb104-7"><a href="module-2-dimensionality-reduction.html#cb104-7" tabindex="-1"></a></span>
+<span id="cb104-8"><a href="module-2-dimensionality-reduction.html#cb104-8" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x=</span> PC<span class="sc">$</span>PC1,</span>
+<span id="cb104-9"><a href="module-2-dimensionality-reduction.html#cb104-9" tabindex="-1"></a>     <span class="at">y =</span> PC<span class="sc">$</span>PC2<span class="fl">-0.15</span>,</span>
+<span id="cb104-10"><a href="module-2-dimensionality-reduction.html#cb104-10" tabindex="-1"></a>     <span class="at">labels =</span> PC<span class="sc">$</span>sample)</span>
+<span id="cb104-11"><a href="module-2-dimensionality-reduction.html#cb104-11" tabindex="-1"></a></span>
+<span id="cb104-12"><a href="module-2-dimensionality-reduction.html#cb104-12" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, </span>
+<span id="cb104-13"><a href="module-2-dimensionality-reduction.html#cb104-13" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">levels</span>(PC<span class="sc">$</span>cells), </span>
+<span id="cb104-14"><a href="module-2-dimensionality-reduction.html#cb104-14" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">seq_along</span>(<span class="fu">levels</span>(PC<span class="sc">$</span>cells)), </span>
+<span id="cb104-15"><a href="module-2-dimensionality-reduction.html#cb104-15" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
 <p>Samples from each cell type are closer together on the scatter plot. If the batch information is available, it can also be used to colour the scatterplot. Ideally, samples from different conditions should cluster together, irrespective of the batch they were processed in.</p>
 <p>You can also plot other PCs such as PC2 vs PC3 by changing the x and y variables above. Another way to plot all PCs is using <code>pairs()</code></p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb101-1"><a href="module-2-dimensionality-reduction.html#cb101-1" tabindex="-1"></a><span class="fu">pairs</span>(PC[,<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>], </span>
-<span id="cb101-2"><a href="module-2-dimensionality-reduction.html#cb101-2" tabindex="-1"></a>      <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,<span class="st">&quot;red&quot;</span>)[PC<span class="sc">$</span>cells], </span>
-<span id="cb101-3"><a href="module-2-dimensionality-reduction.html#cb101-3" tabindex="-1"></a>      <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb105-1"><a href="module-2-dimensionality-reduction.html#cb105-1" tabindex="-1"></a><span class="fu">pairs</span>(PC[,<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>], </span>
+<span id="cb105-2"><a href="module-2-dimensionality-reduction.html#cb105-2" tabindex="-1"></a>      <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,<span class="st">&quot;red&quot;</span>)[PC<span class="sc">$</span>cells], </span>
+<span id="cb105-3"><a href="module-2-dimensionality-reduction.html#cb105-3" tabindex="-1"></a>      <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
 <p><strong>C. Biplot</strong></p>
 <p>Another useful plots to understand the results are biplots. We will use the <code>fviz_pca_biplot()</code> function of the factoextra package. We will set label=“var” argument to label the variables.</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb102-1"><a href="module-2-dimensionality-reduction.html#cb102-1" tabindex="-1"></a><span class="fu">fviz_pca_biplot</span>(pc_out, <span class="at">label =</span> <span class="st">&quot;var&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb106-1"><a href="module-2-dimensionality-reduction.html#cb106-1" tabindex="-1"></a><span class="fu">fviz_pca_biplot</span>(pc_out, <span class="at">label =</span> <span class="st">&quot;var&quot;</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
 <p>The axes show the principal component scores, and the vectors are the loading vectors, whose components are in the magnitudes of the loadings. Vectors indicate that samples from each cell type are closer together.</p>
 </div>
@@ -503,112 +508,112 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2>t-Distributed Stochastic Neighbor Embedding (t-SNE)<a href="module-2-dimensionality-reduction.html#t-distributed-stochastic-neighbor-embedding-t-sne" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>t-SNE is a technique for dimensionality reduction that is particularly well suited for the visualization of high-dimensional datasets.</p>
 <p>There are several packages that have implemented t-SNE. Here we are going to use the package <code>tsne</code> and the function <code>tsne</code>. Let’s run the t-SNE algorithm on the iris dataset and generate a t-SNE plot.</p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb103-1"><a href="module-2-dimensionality-reduction.html#cb103-1" tabindex="-1"></a><span class="fu">library</span>(tsne)</span>
-<span id="cb103-2"><a href="module-2-dimensionality-reduction.html#cb103-2" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
-<span id="cb103-3"><a href="module-2-dimensionality-reduction.html#cb103-3" tabindex="-1"></a></span>
-<span id="cb103-4"><a href="module-2-dimensionality-reduction.html#cb103-4" tabindex="-1"></a><span class="do">### load the input data</span></span>
-<span id="cb103-5"><a href="module-2-dimensionality-reduction.html#cb103-5" tabindex="-1"></a><span class="fu">data</span>(iris)</span>
-<span id="cb103-6"><a href="module-2-dimensionality-reduction.html#cb103-6" tabindex="-1"></a>iris_data <span class="ot">&lt;-</span> iris[,<span class="sc">-</span><span class="dv">5</span>]</span>
-<span id="cb103-7"><a href="module-2-dimensionality-reduction.html#cb103-7" tabindex="-1"></a></span>
-<span id="cb103-8"><a href="module-2-dimensionality-reduction.html#cb103-8" tabindex="-1"></a><span class="co"># set colours of the plot</span></span>
-<span id="cb103-9"><a href="module-2-dimensionality-reduction.html#cb103-9" tabindex="-1"></a>my_cols_vec <span class="ot">&lt;-</span> <span class="fu">brewer.pal</span>(<span class="st">&quot;Set1&quot;</span>,<span class="at">n =</span> <span class="fu">length</span>(<span class="fu">levels</span>(iris<span class="sc">$</span>Species)))</span>
-<span id="cb103-10"><a href="module-2-dimensionality-reduction.html#cb103-10" tabindex="-1"></a>species_cols <span class="ot">&lt;-</span> my_cols_vec[<span class="fu">factor</span>(iris<span class="sc">$</span>Species)]</span>
-<span id="cb103-11"><a href="module-2-dimensionality-reduction.html#cb103-11" tabindex="-1"></a></span>
-<span id="cb103-12"><a href="module-2-dimensionality-reduction.html#cb103-12" tabindex="-1"></a><span class="co"># run t-SNE</span></span>
-<span id="cb103-13"><a href="module-2-dimensionality-reduction.html#cb103-13" tabindex="-1"></a>iris_tsne <span class="ot">&lt;-</span> <span class="fu">tsne</span>(iris_data)</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb107-1"><a href="module-2-dimensionality-reduction.html#cb107-1" tabindex="-1"></a><span class="fu">library</span>(tsne)</span>
+<span id="cb107-2"><a href="module-2-dimensionality-reduction.html#cb107-2" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb107-3"><a href="module-2-dimensionality-reduction.html#cb107-3" tabindex="-1"></a></span>
+<span id="cb107-4"><a href="module-2-dimensionality-reduction.html#cb107-4" tabindex="-1"></a><span class="do">### load the input data</span></span>
+<span id="cb107-5"><a href="module-2-dimensionality-reduction.html#cb107-5" tabindex="-1"></a><span class="fu">data</span>(iris)</span>
+<span id="cb107-6"><a href="module-2-dimensionality-reduction.html#cb107-6" tabindex="-1"></a>iris_data <span class="ot">&lt;-</span> iris[,<span class="sc">-</span><span class="dv">5</span>]</span>
+<span id="cb107-7"><a href="module-2-dimensionality-reduction.html#cb107-7" tabindex="-1"></a></span>
+<span id="cb107-8"><a href="module-2-dimensionality-reduction.html#cb107-8" tabindex="-1"></a><span class="co"># set colours of the plot</span></span>
+<span id="cb107-9"><a href="module-2-dimensionality-reduction.html#cb107-9" tabindex="-1"></a>my_cols_vec <span class="ot">&lt;-</span> <span class="fu">brewer.pal</span>(<span class="st">&quot;Set1&quot;</span>,<span class="at">n =</span> <span class="fu">length</span>(<span class="fu">levels</span>(iris<span class="sc">$</span>Species)))</span>
+<span id="cb107-10"><a href="module-2-dimensionality-reduction.html#cb107-10" tabindex="-1"></a>species_cols <span class="ot">&lt;-</span> my_cols_vec[<span class="fu">factor</span>(iris<span class="sc">$</span>Species)]</span>
+<span id="cb107-11"><a href="module-2-dimensionality-reduction.html#cb107-11" tabindex="-1"></a></span>
+<span id="cb107-12"><a href="module-2-dimensionality-reduction.html#cb107-12" tabindex="-1"></a><span class="co"># run t-SNE</span></span>
+<span id="cb107-13"><a href="module-2-dimensionality-reduction.html#cb107-13" tabindex="-1"></a>iris_tsne <span class="ot">&lt;-</span> <span class="fu">tsne</span>(iris_data)</span></code></pre></div>
 <pre><code>## sigma summary: Min. : 0.486505661043274 |1st Qu. : 0.587913800179832 |Median : 0.614872437640536 |Mean : 0.623051089344394 |3rd Qu. : 0.654914112723525 |Max. : 0.796707932771489 |</code></pre>
-<pre><code>## Epoch: Iteration #100 error is: 12.3012344594364</code></pre>
-<pre><code>## Epoch: Iteration #200 error is: 0.26099301347683</code></pre>
-<pre><code>## Epoch: Iteration #300 error is: 0.248482613107971</code></pre>
-<pre><code>## Epoch: Iteration #400 error is: 0.248119794312897</code></pre>
-<pre><code>## Epoch: Iteration #500 error is: 0.248101361995647</code></pre>
-<pre><code>## Epoch: Iteration #600 error is: 0.248100228674155</code></pre>
-<pre><code>## Epoch: Iteration #700 error is: 0.248100169560009</code></pre>
-<pre><code>## Epoch: Iteration #800 error is: 0.248100166612742</code></pre>
-<pre><code>## Epoch: Iteration #900 error is: 0.248100166478462</code></pre>
-<pre><code>## Epoch: Iteration #1000 error is: 0.248100166470904</code></pre>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb115-1"><a href="module-2-dimensionality-reduction.html#cb115-1" tabindex="-1"></a><span class="fu">plot</span>(iris_tsne,</span>
-<span id="cb115-2"><a href="module-2-dimensionality-reduction.html#cb115-2" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">16</span>, </span>
-<span id="cb115-3"><a href="module-2-dimensionality-reduction.html#cb115-3" tabindex="-1"></a>     <span class="at">col=</span>species_cols)</span>
-<span id="cb115-4"><a href="module-2-dimensionality-reduction.html#cb115-4" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>,</span>
-<span id="cb115-5"><a href="module-2-dimensionality-reduction.html#cb115-5" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">levels</span>(iris<span class="sc">$</span>Species),</span>
-<span id="cb115-6"><a href="module-2-dimensionality-reduction.html#cb115-6" tabindex="-1"></a>       <span class="at">col =</span> my_cols_vec,</span>
-<span id="cb115-7"><a href="module-2-dimensionality-reduction.html#cb115-7" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div>
+<pre><code>## Epoch: Iteration #100 error is: 13.3041574467009</code></pre>
+<pre><code>## Epoch: Iteration #200 error is: 0.219406190715777</code></pre>
+<pre><code>## Epoch: Iteration #300 error is: 0.218665949401944</code></pre>
+<pre><code>## Epoch: Iteration #400 error is: 0.218623506988482</code></pre>
+<pre><code>## Epoch: Iteration #500 error is: 0.218622371948753</code></pre>
+<pre><code>## Epoch: Iteration #600 error is: 0.218622331780263</code></pre>
+<pre><code>## Epoch: Iteration #700 error is: 0.218622330100121</code></pre>
+<pre><code>## Epoch: Iteration #800 error is: 0.21862233002708</code></pre>
+<pre><code>## Epoch: Iteration #900 error is: 0.218622330023556</code></pre>
+<pre><code>## Epoch: Iteration #1000 error is: 0.218622330023421</code></pre>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb119-1"><a href="module-2-dimensionality-reduction.html#cb119-1" tabindex="-1"></a><span class="fu">plot</span>(iris_tsne,</span>
+<span id="cb119-2"><a href="module-2-dimensionality-reduction.html#cb119-2" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">16</span>, </span>
+<span id="cb119-3"><a href="module-2-dimensionality-reduction.html#cb119-3" tabindex="-1"></a>     <span class="at">col=</span>species_cols)</span>
+<span id="cb119-4"><a href="module-2-dimensionality-reduction.html#cb119-4" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>,</span>
+<span id="cb119-5"><a href="module-2-dimensionality-reduction.html#cb119-5" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">levels</span>(iris<span class="sc">$</span>Species),</span>
+<span id="cb119-6"><a href="module-2-dimensionality-reduction.html#cb119-6" tabindex="-1"></a>       <span class="at">col =</span> my_cols_vec,</span>
+<span id="cb119-7"><a href="module-2-dimensionality-reduction.html#cb119-7" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
 <p>The <code>tsne</code> function has a parameter called <code>perplexity</code> which determines how to balance attention to neighborhood vs global structure. Default value is 30 which was used above. Set perplexity to 10, 20, 50, 100 and rerun tsne. Then visualise each result.</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb116-1"><a href="module-2-dimensionality-reduction.html#cb116-1" tabindex="-1"></a>iris_tsne10 <span class="ot">&lt;-</span> <span class="fu">tsne</span>(iris_data,<span class="at">perplexity =</span> <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb120-1"><a href="module-2-dimensionality-reduction.html#cb120-1" tabindex="-1"></a>iris_tsne10 <span class="ot">&lt;-</span> <span class="fu">tsne</span>(iris_data,<span class="at">perplexity =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## sigma summary: Min. : 0.310480302725598 |1st Qu. : 0.434991399098757 |Median : 0.46366395344447 |Mean : 0.475404572165371 |3rd Qu. : 0.508931723050902 |Max. : 0.694616846992079 |</code></pre>
-<pre><code>## Epoch: Iteration #100 error is: 15.4364224612973</code></pre>
-<pre><code>## Epoch: Iteration #200 error is: 0.400107114110531</code></pre>
-<pre><code>## Epoch: Iteration #300 error is: 0.381527101895004</code></pre>
-<pre><code>## Epoch: Iteration #400 error is: 0.412070341630127</code></pre>
-<pre><code>## Epoch: Iteration #500 error is: 0.708390204197254</code></pre>
-<pre><code>## Epoch: Iteration #600 error is: 1.53229220914175</code></pre>
-<pre><code>## Epoch: Iteration #700 error is: 1.09857812305213</code></pre>
-<pre><code>## Epoch: Iteration #800 error is: 1.59087417081737</code></pre>
-<pre><code>## Epoch: Iteration #900 error is: 1.32233746990562</code></pre>
-<pre><code>## Epoch: Iteration #1000 error is: 1.83906121836153</code></pre>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb128-1"><a href="module-2-dimensionality-reduction.html#cb128-1" tabindex="-1"></a>iris_tsne20 <span class="ot">&lt;-</span> <span class="fu">tsne</span>(iris_data,<span class="at">perplexity =</span> <span class="dv">20</span>)</span></code></pre></div>
+<pre><code>## Epoch: Iteration #100 error is: 13.8199384799565</code></pre>
+<pre><code>## Epoch: Iteration #200 error is: 0.343425065230366</code></pre>
+<pre><code>## Epoch: Iteration #300 error is: 0.318153577758223</code></pre>
+<pre><code>## Epoch: Iteration #400 error is: 0.311297394600963</code></pre>
+<pre><code>## Epoch: Iteration #500 error is: 0.308030883555326</code></pre>
+<pre><code>## Epoch: Iteration #600 error is: 0.306276868368805</code></pre>
+<pre><code>## Epoch: Iteration #700 error is: 0.305068863247389</code></pre>
+<pre><code>## Epoch: Iteration #800 error is: 0.316067184162261</code></pre>
+<pre><code>## Epoch: Iteration #900 error is: 0.390582478147368</code></pre>
+<pre><code>## Epoch: Iteration #1000 error is: 0.733138528031683</code></pre>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb132-1"><a href="module-2-dimensionality-reduction.html#cb132-1" tabindex="-1"></a>iris_tsne20 <span class="ot">&lt;-</span> <span class="fu">tsne</span>(iris_data,<span class="at">perplexity =</span> <span class="dv">20</span>)</span></code></pre></div>
 <pre><code>## sigma summary: Min. : 0.42864778740551 |1st Qu. : 0.523593962475894 |Median : 0.553545139847788 |Mean : 0.563823813379956 |3rd Qu. : 0.596877396756174 |Max. : 0.752227354673175 |</code></pre>
-<pre><code>## Epoch: Iteration #100 error is: 13.8355313254689</code></pre>
-<pre><code>## Epoch: Iteration #200 error is: 0.2525434897715</code></pre>
-<pre><code>## Epoch: Iteration #300 error is: 0.247400472688379</code></pre>
-<pre><code>## Epoch: Iteration #400 error is: 0.245987364957231</code></pre>
-<pre><code>## Epoch: Iteration #500 error is: 0.245534057625229</code></pre>
-<pre><code>## Epoch: Iteration #600 error is: 0.245295897678437</code></pre>
-<pre><code>## Epoch: Iteration #700 error is: 0.245152283163286</code></pre>
-<pre><code>## Epoch: Iteration #800 error is: 0.245062333475509</code></pre>
-<pre><code>## Epoch: Iteration #900 error is: 0.244999137322414</code></pre>
-<pre><code>## Epoch: Iteration #1000 error is: 0.244952311572774</code></pre>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb140-1"><a href="module-2-dimensionality-reduction.html#cb140-1" tabindex="-1"></a>iris_tsne50 <span class="ot">&lt;-</span> <span class="fu">tsne</span>(iris_data,<span class="at">perplexity =</span> <span class="dv">50</span>)</span></code></pre></div>
+<pre><code>## Epoch: Iteration #100 error is: 13.8554899802217</code></pre>
+<pre><code>## Epoch: Iteration #200 error is: 0.267193105187663</code></pre>
+<pre><code>## Epoch: Iteration #300 error is: 0.258026493211793</code></pre>
+<pre><code>## Epoch: Iteration #400 error is: 0.255982847559468</code></pre>
+<pre><code>## Epoch: Iteration #500 error is: 0.255457132722014</code></pre>
+<pre><code>## Epoch: Iteration #600 error is: 0.255206779766628</code></pre>
+<pre><code>## Epoch: Iteration #700 error is: 0.255073505175481</code></pre>
+<pre><code>## Epoch: Iteration #800 error is: 0.254984447510208</code></pre>
+<pre><code>## Epoch: Iteration #900 error is: 0.254925919581817</code></pre>
+<pre><code>## Epoch: Iteration #1000 error is: 0.254884915049849</code></pre>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb144-1"><a href="module-2-dimensionality-reduction.html#cb144-1" tabindex="-1"></a>iris_tsne50 <span class="ot">&lt;-</span> <span class="fu">tsne</span>(iris_data,<span class="at">perplexity =</span> <span class="dv">50</span>)</span></code></pre></div>
 <pre><code>## sigma summary: Min. : 0.565012665854053 |1st Qu. : 0.681985646004023 |Median : 0.713004330336136 |Mean : 0.716213420895748 |3rd Qu. : 0.74581655363904 |Max. : 0.874979764925049 |</code></pre>
-<pre><code>## Epoch: Iteration #100 error is: 12.309018197322</code></pre>
-<pre><code>## Epoch: Iteration #200 error is: 0.251952724675323</code></pre>
-<pre><code>## Epoch: Iteration #300 error is: 0.251734742348168</code></pre>
-<pre><code>## Epoch: Iteration #400 error is: 0.251733133348292</code></pre>
-<pre><code>## Epoch: Iteration #500 error is: 0.251733130558626</code></pre>
-<pre><code>## Epoch: Iteration #600 error is: 0.251733130553838</code></pre>
-<pre><code>## Epoch: Iteration #700 error is: 0.25173313055383</code></pre>
-<pre><code>## Epoch: Iteration #800 error is: 0.25173313055383</code></pre>
-<pre><code>## Epoch: Iteration #900 error is: 0.25173313055383</code></pre>
-<pre><code>## Epoch: Iteration #1000 error is: 0.25173313055383</code></pre>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb152-1"><a href="module-2-dimensionality-reduction.html#cb152-1" tabindex="-1"></a>iris_tsne100 <span class="ot">&lt;-</span> <span class="fu">tsne</span>(iris_data,<span class="at">perplexity =</span> <span class="dv">100</span>)</span></code></pre></div>
+<pre><code>## Epoch: Iteration #100 error is: 12.2772760250306</code></pre>
+<pre><code>## Epoch: Iteration #200 error is: 0.199074429457984</code></pre>
+<pre><code>## Epoch: Iteration #300 error is: 0.199045473260693</code></pre>
+<pre><code>## Epoch: Iteration #400 error is: 0.199045466144585</code></pre>
+<pre><code>## Epoch: Iteration #500 error is: 0.199045466143367</code></pre>
+<pre><code>## Epoch: Iteration #600 error is: 0.199045466143302</code></pre>
+<pre><code>## Epoch: Iteration #700 error is: 0.199045466143298</code></pre>
+<pre><code>## Epoch: Iteration #800 error is: 0.199045466143298</code></pre>
+<pre><code>## Epoch: Iteration #900 error is: 0.199045466143298</code></pre>
+<pre><code>## Epoch: Iteration #1000 error is: 0.199045466143298</code></pre>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb156-1"><a href="module-2-dimensionality-reduction.html#cb156-1" tabindex="-1"></a>iris_tsne100 <span class="ot">&lt;-</span> <span class="fu">tsne</span>(iris_data,<span class="at">perplexity =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>## sigma summary: Min. : 0.776385211439336 |1st Qu. : 0.927141154386403 |Median : 0.971370883716192 |Mean : 0.961326081014028 |3rd Qu. : 0.99555893656996 |Max. : 1.09859103718956 |</code></pre>
-<pre><code>## Epoch: Iteration #100 error is: 11.4686598461033</code></pre>
-<pre><code>## Epoch: Iteration #200 error is: 0.11204304331111</code></pre>
-<pre><code>## Epoch: Iteration #300 error is: 0.112043043308343</code></pre>
-<pre><code>## Epoch: Iteration #400 error is: 0.112043043308343</code></pre>
-<pre><code>## Epoch: Iteration #500 error is: 0.112043043308343</code></pre>
-<pre><code>## Epoch: Iteration #600 error is: 0.112043043308343</code></pre>
-<pre><code>## Epoch: Iteration #700 error is: 0.112043043308343</code></pre>
-<pre><code>## Epoch: Iteration #800 error is: 0.112043043308343</code></pre>
-<pre><code>## Epoch: Iteration #900 error is: 0.112043043308343</code></pre>
-<pre><code>## Epoch: Iteration #1000 error is: 0.112043043308343</code></pre>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb164-1"><a href="module-2-dimensionality-reduction.html#cb164-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb164-2"><a href="module-2-dimensionality-reduction.html#cb164-2" tabindex="-1"></a></span>
-<span id="cb164-3"><a href="module-2-dimensionality-reduction.html#cb164-3" tabindex="-1"></a><span class="fu">plot</span>(iris_tsne10[,<span class="dv">1</span>],</span>
-<span id="cb164-4"><a href="module-2-dimensionality-reduction.html#cb164-4" tabindex="-1"></a>     iris_tsne10[,<span class="dv">2</span>],</span>
-<span id="cb164-5"><a href="module-2-dimensionality-reduction.html#cb164-5" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 10&quot;</span>,</span>
-<span id="cb164-6"><a href="module-2-dimensionality-reduction.html#cb164-6" tabindex="-1"></a>     <span class="at">col =</span> species_cols,</span>
-<span id="cb164-7"><a href="module-2-dimensionality-reduction.html#cb164-7" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">16</span>)</span>
-<span id="cb164-8"><a href="module-2-dimensionality-reduction.html#cb164-8" tabindex="-1"></a></span>
-<span id="cb164-9"><a href="module-2-dimensionality-reduction.html#cb164-9" tabindex="-1"></a><span class="fu">plot</span>(iris_tsne20[,<span class="dv">1</span>],</span>
-<span id="cb164-10"><a href="module-2-dimensionality-reduction.html#cb164-10" tabindex="-1"></a>     iris_tsne20[,<span class="dv">2</span>],</span>
-<span id="cb164-11"><a href="module-2-dimensionality-reduction.html#cb164-11" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 20&quot;</span>,</span>
-<span id="cb164-12"><a href="module-2-dimensionality-reduction.html#cb164-12" tabindex="-1"></a>     <span class="at">col =</span> species_cols,</span>
-<span id="cb164-13"><a href="module-2-dimensionality-reduction.html#cb164-13" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">16</span>)</span>
-<span id="cb164-14"><a href="module-2-dimensionality-reduction.html#cb164-14" tabindex="-1"></a></span>
-<span id="cb164-15"><a href="module-2-dimensionality-reduction.html#cb164-15" tabindex="-1"></a><span class="fu">plot</span>(iris_tsne50[,<span class="dv">1</span>],</span>
-<span id="cb164-16"><a href="module-2-dimensionality-reduction.html#cb164-16" tabindex="-1"></a>     iris_tsne50[,<span class="dv">2</span>],</span>
-<span id="cb164-17"><a href="module-2-dimensionality-reduction.html#cb164-17" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 50&quot;</span>,</span>
-<span id="cb164-18"><a href="module-2-dimensionality-reduction.html#cb164-18" tabindex="-1"></a>     <span class="at">col =</span> species_cols,</span>
-<span id="cb164-19"><a href="module-2-dimensionality-reduction.html#cb164-19" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">16</span>)</span>
-<span id="cb164-20"><a href="module-2-dimensionality-reduction.html#cb164-20" tabindex="-1"></a></span>
-<span id="cb164-21"><a href="module-2-dimensionality-reduction.html#cb164-21" tabindex="-1"></a><span class="fu">plot</span>(iris_tsne100[,<span class="dv">1</span>],</span>
-<span id="cb164-22"><a href="module-2-dimensionality-reduction.html#cb164-22" tabindex="-1"></a>     iris_tsne100[,<span class="dv">2</span>],</span>
-<span id="cb164-23"><a href="module-2-dimensionality-reduction.html#cb164-23" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 100&quot;</span>,</span>
-<span id="cb164-24"><a href="module-2-dimensionality-reduction.html#cb164-24" tabindex="-1"></a>     <span class="at">col =</span> species_cols,</span>
-<span id="cb164-25"><a href="module-2-dimensionality-reduction.html#cb164-25" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
+<pre><code>## Epoch: Iteration #100 error is: 9.57575274312879</code></pre>
+<pre><code>## Epoch: Iteration #200 error is: 0.0961571254562396</code></pre>
+<pre><code>## Epoch: Iteration #300 error is: 0.0961571252061174</code></pre>
+<pre><code>## Epoch: Iteration #400 error is: 0.0961571252061173</code></pre>
+<pre><code>## Epoch: Iteration #500 error is: 0.0961571252061173</code></pre>
+<pre><code>## Epoch: Iteration #600 error is: 0.0961571252061174</code></pre>
+<pre><code>## Epoch: Iteration #700 error is: 0.0961571252061173</code></pre>
+<pre><code>## Epoch: Iteration #800 error is: 0.0961571252061173</code></pre>
+<pre><code>## Epoch: Iteration #900 error is: 0.0961571252061173</code></pre>
+<pre><code>## Epoch: Iteration #1000 error is: 0.0961571252061173</code></pre>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb168-1"><a href="module-2-dimensionality-reduction.html#cb168-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb168-2"><a href="module-2-dimensionality-reduction.html#cb168-2" tabindex="-1"></a></span>
+<span id="cb168-3"><a href="module-2-dimensionality-reduction.html#cb168-3" tabindex="-1"></a><span class="fu">plot</span>(iris_tsne10[,<span class="dv">1</span>],</span>
+<span id="cb168-4"><a href="module-2-dimensionality-reduction.html#cb168-4" tabindex="-1"></a>     iris_tsne10[,<span class="dv">2</span>],</span>
+<span id="cb168-5"><a href="module-2-dimensionality-reduction.html#cb168-5" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 10&quot;</span>,</span>
+<span id="cb168-6"><a href="module-2-dimensionality-reduction.html#cb168-6" tabindex="-1"></a>     <span class="at">col =</span> species_cols,</span>
+<span id="cb168-7"><a href="module-2-dimensionality-reduction.html#cb168-7" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">16</span>)</span>
+<span id="cb168-8"><a href="module-2-dimensionality-reduction.html#cb168-8" tabindex="-1"></a></span>
+<span id="cb168-9"><a href="module-2-dimensionality-reduction.html#cb168-9" tabindex="-1"></a><span class="fu">plot</span>(iris_tsne20[,<span class="dv">1</span>],</span>
+<span id="cb168-10"><a href="module-2-dimensionality-reduction.html#cb168-10" tabindex="-1"></a>     iris_tsne20[,<span class="dv">2</span>],</span>
+<span id="cb168-11"><a href="module-2-dimensionality-reduction.html#cb168-11" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 20&quot;</span>,</span>
+<span id="cb168-12"><a href="module-2-dimensionality-reduction.html#cb168-12" tabindex="-1"></a>     <span class="at">col =</span> species_cols,</span>
+<span id="cb168-13"><a href="module-2-dimensionality-reduction.html#cb168-13" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">16</span>)</span>
+<span id="cb168-14"><a href="module-2-dimensionality-reduction.html#cb168-14" tabindex="-1"></a></span>
+<span id="cb168-15"><a href="module-2-dimensionality-reduction.html#cb168-15" tabindex="-1"></a><span class="fu">plot</span>(iris_tsne50[,<span class="dv">1</span>],</span>
+<span id="cb168-16"><a href="module-2-dimensionality-reduction.html#cb168-16" tabindex="-1"></a>     iris_tsne50[,<span class="dv">2</span>],</span>
+<span id="cb168-17"><a href="module-2-dimensionality-reduction.html#cb168-17" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 50&quot;</span>,</span>
+<span id="cb168-18"><a href="module-2-dimensionality-reduction.html#cb168-18" tabindex="-1"></a>     <span class="at">col =</span> species_cols,</span>
+<span id="cb168-19"><a href="module-2-dimensionality-reduction.html#cb168-19" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">16</span>)</span>
+<span id="cb168-20"><a href="module-2-dimensionality-reduction.html#cb168-20" tabindex="-1"></a></span>
+<span id="cb168-21"><a href="module-2-dimensionality-reduction.html#cb168-21" tabindex="-1"></a><span class="fu">plot</span>(iris_tsne100[,<span class="dv">1</span>],</span>
+<span id="cb168-22"><a href="module-2-dimensionality-reduction.html#cb168-22" tabindex="-1"></a>     iris_tsne100[,<span class="dv">2</span>],</span>
+<span id="cb168-23"><a href="module-2-dimensionality-reduction.html#cb168-23" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Perplexity = 100&quot;</span>,</span>
+<span id="cb168-24"><a href="module-2-dimensionality-reduction.html#cb168-24" tabindex="-1"></a>     <span class="at">col =</span> species_cols,</span>
+<span id="cb168-25"><a href="module-2-dimensionality-reduction.html#cb168-25" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-54-1.png" width="672" /></p>
 <p>Higher perplexity leads to higher spread in your data.</p>
 </div>
@@ -616,13 +621,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2>Uniform Manifold Approximation and Projection (UMAP)<a href="module-2-dimensionality-reduction.html#uniform-manifold-approximation-and-projection-umap" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>UMAP is another dimension reduction method and it uses similar neighborhood approach as t-SNE except uses Riemannian geometry.</p>
 <p>Here we are going to use the package <code>umap</code> and the function <code>umap</code>. Let’s apply UMAP on the iris dataset and generate a UMAP plot.</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb165-1"><a href="module-2-dimensionality-reduction.html#cb165-1" tabindex="-1"></a><span class="do">## umap</span></span>
-<span id="cb165-2"><a href="module-2-dimensionality-reduction.html#cb165-2" tabindex="-1"></a><span class="fu">library</span>(umap)</span>
-<span id="cb165-3"><a href="module-2-dimensionality-reduction.html#cb165-3" tabindex="-1"></a></span>
-<span id="cb165-4"><a href="module-2-dimensionality-reduction.html#cb165-4" tabindex="-1"></a>iris_umap <span class="ot">&lt;-</span> <span class="fu">umap</span>(iris_data)</span>
-<span id="cb165-5"><a href="module-2-dimensionality-reduction.html#cb165-5" tabindex="-1"></a><span class="fu">str</span>(iris_umap)</span></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb169-1"><a href="module-2-dimensionality-reduction.html#cb169-1" tabindex="-1"></a><span class="do">## umap</span></span>
+<span id="cb169-2"><a href="module-2-dimensionality-reduction.html#cb169-2" tabindex="-1"></a><span class="fu">library</span>(umap)</span>
+<span id="cb169-3"><a href="module-2-dimensionality-reduction.html#cb169-3" tabindex="-1"></a></span>
+<span id="cb169-4"><a href="module-2-dimensionality-reduction.html#cb169-4" tabindex="-1"></a>iris_umap <span class="ot">&lt;-</span> <span class="fu">umap</span>(iris_data)</span>
+<span id="cb169-5"><a href="module-2-dimensionality-reduction.html#cb169-5" tabindex="-1"></a><span class="fu">str</span>(iris_umap)</span></code></pre></div>
 <pre><code>## List of 4
-##  $ layout: num [1:150, 1:2] 13.8 12.9 12.5 12.7 13.9 ...
+##  $ layout: num [1:150, 1:2] 13.6 14.4 15.1 15.2 13.8 ...
 ##  $ data  : num [1:150, 1:4] 5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
 ##   ..- attr(*, &quot;dimnames&quot;)=List of 2
 ##   .. ..$ : NULL
@@ -648,7 +653,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##   ..$ a                   : num 1.58
 ##   ..$ b                   : num 0.895
 ##   ..$ spread              : num 1
-##   ..$ random_state        : int 1000163520
+##   ..$ random_state        : int 1069612324
 ##   ..$ transform_state     : int NA
 ##   ..$ knn                 : logi NA
 ##   ..$ knn_repeats         : num 1
@@ -658,15 +663,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##   ..$ metric.function     :function (m, origin, targets)  
 ##   ..- attr(*, &quot;class&quot;)= chr &quot;umap.config&quot;
 ##  - attr(*, &quot;class&quot;)= chr &quot;umap&quot;</code></pre>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb167-1"><a href="module-2-dimensionality-reduction.html#cb167-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb167-2"><a href="module-2-dimensionality-reduction.html#cb167-2" tabindex="-1"></a><span class="fu">plot</span>(iris_umap<span class="sc">$</span>layout[,<span class="dv">1</span>],</span>
-<span id="cb167-3"><a href="module-2-dimensionality-reduction.html#cb167-3" tabindex="-1"></a>     iris_umap<span class="sc">$</span>layout[,<span class="dv">2</span>],</span>
-<span id="cb167-4"><a href="module-2-dimensionality-reduction.html#cb167-4" tabindex="-1"></a>     <span class="at">col =</span> species_cols, <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb171-1"><a href="module-2-dimensionality-reduction.html#cb171-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb171-2"><a href="module-2-dimensionality-reduction.html#cb171-2" tabindex="-1"></a><span class="fu">plot</span>(iris_umap<span class="sc">$</span>layout[,<span class="dv">1</span>],</span>
+<span id="cb171-3"><a href="module-2-dimensionality-reduction.html#cb171-3" tabindex="-1"></a>     iris_umap<span class="sc">$</span>layout[,<span class="dv">2</span>],</span>
+<span id="cb171-4"><a href="module-2-dimensionality-reduction.html#cb171-4" tabindex="-1"></a>     <span class="at">col =</span> species_cols, <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb168-1"><a href="module-2-dimensionality-reduction.html#cb168-1" tabindex="-1"></a><span class="co"># legend(&quot;topright&quot;,</span></span>
-<span id="cb168-2"><a href="module-2-dimensionality-reduction.html#cb168-2" tabindex="-1"></a><span class="co">#         legend = levels(mouse$FC),</span></span>
-<span id="cb168-3"><a href="module-2-dimensionality-reduction.html#cb168-3" tabindex="-1"></a><span class="co">#         col = species_cols,</span></span>
-<span id="cb168-4"><a href="module-2-dimensionality-reduction.html#cb168-4" tabindex="-1"></a><span class="co">#         pch = 19)</span></span></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb172-1"><a href="module-2-dimensionality-reduction.html#cb172-1" tabindex="-1"></a><span class="co"># legend(&quot;topright&quot;,</span></span>
+<span id="cb172-2"><a href="module-2-dimensionality-reduction.html#cb172-2" tabindex="-1"></a><span class="co">#         legend = levels(mouse$FC),</span></span>
+<span id="cb172-3"><a href="module-2-dimensionality-reduction.html#cb172-3" tabindex="-1"></a><span class="co">#         col = species_cols,</span></span>
+<span id="cb172-4"><a href="module-2-dimensionality-reduction.html#cb172-4" tabindex="-1"></a><span class="co">#         pch = 19)</span></span></code></pre></div>
 </div>
 <div id="bonus-exercise-1" class="section level2 unnumbered hasAnchor">
 <h2>Bonus Exercise<a href="module-2-dimensionality-reduction.html#bonus-exercise-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>

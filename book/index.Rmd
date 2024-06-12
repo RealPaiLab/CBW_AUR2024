@@ -106,8 +106,8 @@ for (cur in biocPkg){
 
 # Lecture slides {-}
 
-* [Module 1: Exploratory Data Analysis and Clustering](https://github.com/RealPaiLab/CBW_AUR2023/blob/main/book/lectures/AUR_2023_Module1_EDA.pdf)
+* [Module 1: Exploratory Data Analysis and Clustering](https://github.com/RealPaiLab/CBW_AUR2024/blob/main/book/lectures/AUR_2024_Module1_EDA.pdf)
 * [Module 2: Dimensionality reduction for visualization and analysis](https://github.com/RealPaiLab/CBW_AUR2023/blob/main/book/lectures/AUR_2023_Module2_DimensionReduction.pdf)
-* [Module 3: Generalized linear models](https://github.com/RealPaiLab/CBW_AUR2023/blob/main/book/lectures/AUR_2023_Module3_GLM.pdf)
-* [Module 4: Multiple hypothesis testing with RNA-seq differential expression analysis](https://github.com/RealPaiLab/CBW_AUR2023/blob/main/book/lectures/AUR_2023_Module4_RNAseq.pdf)
+* [Module 3: Generalized linear models](https://github.com/RealPaiLab/CBW_AUR2024/blob/main/book/lectures/AUR_2024_Module3_GLM.pdf)
+* [Module 4: Multiple hypothesis testing with RNA-seq differential expression analysis](https://github.com/RealPaiLab/CBW_AUR2024/blob/main/book/lectures/AUR_2024_Module4_RNAseq.pdf)
 

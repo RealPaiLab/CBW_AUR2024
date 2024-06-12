@@ -210,11 +210,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="module-3-bonus-exercise-results" class="section level1 unnumbered hasAnchor">
 <h1>Module 3: Bonus Exercise Results<a href="module-3-bonus-exercise-results.html#module-3-bonus-exercise-results" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb272-1"><a href="module-3-bonus-exercise-results.html#cb272-1" tabindex="-1"></a><span class="fu">data</span>(BreastCancer)</span>
-<span id="cb272-2"><a href="module-3-bonus-exercise-results.html#cb272-2" tabindex="-1"></a>bc <span class="ot">&lt;-</span> BreastCancer</span>
-<span id="cb272-3"><a href="module-3-bonus-exercise-results.html#cb272-3" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>) <span class="co"># altered for current lab</span></span>
-<span id="cb272-4"><a href="module-3-bonus-exercise-results.html#cb272-4" tabindex="-1"></a>    bc[,k] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(bc[,k]) </span>
-<span id="cb272-5"><a href="module-3-bonus-exercise-results.html#cb272-5" tabindex="-1"></a><span class="fu">head</span>(bc)</span></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb276-1"><a href="module-3-bonus-exercise-results.html#cb276-1" tabindex="-1"></a><span class="fu">data</span>(BreastCancer)</span>
+<span id="cb276-2"><a href="module-3-bonus-exercise-results.html#cb276-2" tabindex="-1"></a>bc <span class="ot">&lt;-</span> BreastCancer</span>
+<span id="cb276-3"><a href="module-3-bonus-exercise-results.html#cb276-3" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>) <span class="co"># altered for current lab</span></span>
+<span id="cb276-4"><a href="module-3-bonus-exercise-results.html#cb276-4" tabindex="-1"></a>    bc[,k] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(bc[,k]) </span>
+<span id="cb276-5"><a href="module-3-bonus-exercise-results.html#cb276-5" tabindex="-1"></a><span class="fu">head</span>(bc)</span></code></pre></div>
 <pre><code>##        Id Cl.thickness Cell.size
 ## 1 1000025            5         1
 ## 2 1002945            5         4
@@ -251,31 +251,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5    benign
 ## 6 malignant</code></pre>
 <p>Explore missingness:</p>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb274-1"><a href="module-3-bonus-exercise-results.html#cb274-1" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">require</span>(plotrix))</span>
-<span id="cb274-2"><a href="module-3-bonus-exercise-results.html#cb274-2" tabindex="-1"></a></span>
-<span id="cb274-3"><a href="module-3-bonus-exercise-results.html#cb274-3" tabindex="-1"></a><span class="co">#&#39; show data missingness as a chequered matrix</span></span>
-<span id="cb274-4"><a href="module-3-bonus-exercise-results.html#cb274-4" tabindex="-1"></a><span class="co">#&#39; </span></span>
-<span id="cb274-5"><a href="module-3-bonus-exercise-results.html#cb274-5" tabindex="-1"></a><span class="co">#&#39; @param x (matrix) data matrix.</span></span>
-<span id="cb274-6"><a href="module-3-bonus-exercise-results.html#cb274-6" tabindex="-1"></a><span class="co">#&#39; @param outFile (char) path to file for printing graph</span></span>
-<span id="cb274-7"><a href="module-3-bonus-exercise-results.html#cb274-7" tabindex="-1"></a><span class="co">#&#39; @param wd (numeric) width in inches</span></span>
-<span id="cb274-8"><a href="module-3-bonus-exercise-results.html#cb274-8" tabindex="-1"></a><span class="co">#&#39; @param ht (numeric) height in inches</span></span>
-<span id="cb274-9"><a href="module-3-bonus-exercise-results.html#cb274-9" tabindex="-1"></a><span class="co">#&#39; @return plots missingness matrix to file</span></span>
-<span id="cb274-10"><a href="module-3-bonus-exercise-results.html#cb274-10" tabindex="-1"></a><span class="co">#&#39; @import plotrix</span></span>
-<span id="cb274-11"><a href="module-3-bonus-exercise-results.html#cb274-11" tabindex="-1"></a><span class="co">#&#39; @export</span></span>
-<span id="cb274-12"><a href="module-3-bonus-exercise-results.html#cb274-12" tabindex="-1"></a>plotMissMat <span class="ot">&lt;-</span> <span class="cf">function</span>(x,<span class="at">xlab=</span><span class="st">&quot;columns&quot;</span>,</span>
-<span id="cb274-13"><a href="module-3-bonus-exercise-results.html#cb274-13" tabindex="-1"></a>        <span class="at">ylab=</span><span class="st">&quot;rows&quot;</span>,<span class="at">border=</span><span class="cn">NA</span>) {</span>
-<span id="cb274-14"><a href="module-3-bonus-exercise-results.html#cb274-14" tabindex="-1"></a>    </span>
-<span id="cb274-15"><a href="module-3-bonus-exercise-results.html#cb274-15" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">is.na</span>(x)</span>
-<span id="cb274-16"><a href="module-3-bonus-exercise-results.html#cb274-16" tabindex="-1"></a>    <span class="fu">class</span>(x) <span class="ot">&lt;-</span> <span class="st">&quot;numeric&quot;</span></span>
-<span id="cb274-17"><a href="module-3-bonus-exercise-results.html#cb274-17" tabindex="-1"></a>    <span class="fu">color2D.matplot</span>(x,<span class="at">show.values=</span><span class="cn">FALSE</span>,<span class="at">axes=</span><span class="cn">FALSE</span>,</span>
-<span id="cb274-18"><a href="module-3-bonus-exercise-results.html#cb274-18" tabindex="-1"></a>        <span class="at">cs1=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">cs2=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">cs3=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">border=</span>border,</span>
-<span id="cb274-19"><a href="module-3-bonus-exercise-results.html#cb274-19" tabindex="-1"></a>        <span class="at">cex=</span><span class="fl">0.8</span>,</span>
-<span id="cb274-20"><a href="module-3-bonus-exercise-results.html#cb274-20" tabindex="-1"></a>        <span class="at">xlab=</span>xlab,<span class="at">ylab=</span>ylab)</span>
-<span id="cb274-21"><a href="module-3-bonus-exercise-results.html#cb274-21" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb278-1"><a href="module-3-bonus-exercise-results.html#cb278-1" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">require</span>(plotrix))</span>
+<span id="cb278-2"><a href="module-3-bonus-exercise-results.html#cb278-2" tabindex="-1"></a></span>
+<span id="cb278-3"><a href="module-3-bonus-exercise-results.html#cb278-3" tabindex="-1"></a><span class="co">#&#39; show data missingness as a chequered matrix</span></span>
+<span id="cb278-4"><a href="module-3-bonus-exercise-results.html#cb278-4" tabindex="-1"></a><span class="co">#&#39; </span></span>
+<span id="cb278-5"><a href="module-3-bonus-exercise-results.html#cb278-5" tabindex="-1"></a><span class="co">#&#39; @param x (matrix) data matrix.</span></span>
+<span id="cb278-6"><a href="module-3-bonus-exercise-results.html#cb278-6" tabindex="-1"></a><span class="co">#&#39; @param outFile (char) path to file for printing graph</span></span>
+<span id="cb278-7"><a href="module-3-bonus-exercise-results.html#cb278-7" tabindex="-1"></a><span class="co">#&#39; @param wd (numeric) width in inches</span></span>
+<span id="cb278-8"><a href="module-3-bonus-exercise-results.html#cb278-8" tabindex="-1"></a><span class="co">#&#39; @param ht (numeric) height in inches</span></span>
+<span id="cb278-9"><a href="module-3-bonus-exercise-results.html#cb278-9" tabindex="-1"></a><span class="co">#&#39; @return plots missingness matrix to file</span></span>
+<span id="cb278-10"><a href="module-3-bonus-exercise-results.html#cb278-10" tabindex="-1"></a><span class="co">#&#39; @import plotrix</span></span>
+<span id="cb278-11"><a href="module-3-bonus-exercise-results.html#cb278-11" tabindex="-1"></a><span class="co">#&#39; @export</span></span>
+<span id="cb278-12"><a href="module-3-bonus-exercise-results.html#cb278-12" tabindex="-1"></a>plotMissMat <span class="ot">&lt;-</span> <span class="cf">function</span>(x,<span class="at">xlab=</span><span class="st">&quot;columns&quot;</span>,</span>
+<span id="cb278-13"><a href="module-3-bonus-exercise-results.html#cb278-13" tabindex="-1"></a>        <span class="at">ylab=</span><span class="st">&quot;rows&quot;</span>,<span class="at">border=</span><span class="cn">NA</span>) {</span>
+<span id="cb278-14"><a href="module-3-bonus-exercise-results.html#cb278-14" tabindex="-1"></a>    </span>
+<span id="cb278-15"><a href="module-3-bonus-exercise-results.html#cb278-15" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">is.na</span>(x)</span>
+<span id="cb278-16"><a href="module-3-bonus-exercise-results.html#cb278-16" tabindex="-1"></a>    <span class="fu">class</span>(x) <span class="ot">&lt;-</span> <span class="st">&quot;numeric&quot;</span></span>
+<span id="cb278-17"><a href="module-3-bonus-exercise-results.html#cb278-17" tabindex="-1"></a>    <span class="fu">color2D.matplot</span>(x,<span class="at">show.values=</span><span class="cn">FALSE</span>,<span class="at">axes=</span><span class="cn">FALSE</span>,</span>
+<span id="cb278-18"><a href="module-3-bonus-exercise-results.html#cb278-18" tabindex="-1"></a>        <span class="at">cs1=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">cs2=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">cs3=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">border=</span>border,</span>
+<span id="cb278-19"><a href="module-3-bonus-exercise-results.html#cb278-19" tabindex="-1"></a>        <span class="at">cex=</span><span class="fl">0.8</span>,</span>
+<span id="cb278-20"><a href="module-3-bonus-exercise-results.html#cb278-20" tabindex="-1"></a>        <span class="at">xlab=</span>xlab,<span class="at">ylab=</span>ylab)</span>
+<span id="cb278-21"><a href="module-3-bonus-exercise-results.html#cb278-21" tabindex="-1"></a>}</span></code></pre></div>
 <p>Explore missingness:</p>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb275-1"><a href="module-3-bonus-exercise-results.html#cb275-1" tabindex="-1"></a><span class="fu">plotMissMat</span>(bc)</span></code></pre></div>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb279-1"><a href="module-3-bonus-exercise-results.html#cb279-1" tabindex="-1"></a><span class="fu">plotMissMat</span>(bc)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/ex3-miss2-1.png" width="672" /></p>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb276-1"><a href="module-3-bonus-exercise-results.html#cb276-1" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(bc))</span></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb280-1"><a href="module-3-bonus-exercise-results.html#cb280-1" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(bc))</span></code></pre></div>
 <pre><code>##              Id    Cl.thickness 
 ##               0               0 
 ##       Cell.size      Cell.shape 
@@ -289,25 +289,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##           Class 
 ##               0</code></pre>
 <p>Plot relationship between variables</p>
-<div class="sourceCode" id="cb278"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb278-1"><a href="module-3-bonus-exercise-results.html#cb278-1" tabindex="-1"></a><span class="fu">require</span>(ggplot2)</span>
-<span id="cb278-2"><a href="module-3-bonus-exercise-results.html#cb278-2" tabindex="-1"></a></span>
-<span id="cb278-3"><a href="module-3-bonus-exercise-results.html#cb278-3" tabindex="-1"></a><span class="fu">ggplot</span>(bc,<span class="fu">aes</span>(Cell.size,Normal.nucleoli)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb282-1"><a href="module-3-bonus-exercise-results.html#cb282-1" tabindex="-1"></a><span class="fu">require</span>(ggplot2)</span>
+<span id="cb282-2"><a href="module-3-bonus-exercise-results.html#cb282-2" tabindex="-1"></a></span>
+<span id="cb282-3"><a href="module-3-bonus-exercise-results.html#cb282-3" tabindex="-1"></a><span class="fu">ggplot</span>(bc,<span class="fu">aes</span>(Cell.size,Normal.nucleoli)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/ex3-plot-1.png" width="672" /></p>
-<div class="sourceCode" id="cb279"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb279-1"><a href="module-3-bonus-exercise-results.html#cb279-1" tabindex="-1"></a><span class="fu">ggplot</span>(bc) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="fu">factor</span>(Class), Normal.nucleoli))</span></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb283-1"><a href="module-3-bonus-exercise-results.html#cb283-1" tabindex="-1"></a><span class="fu">ggplot</span>(bc) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="fu">factor</span>(Class), Normal.nucleoli))</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/ex3-plot-2.png" width="672" /></p>
-<div class="sourceCode" id="cb280"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb280-1"><a href="module-3-bonus-exercise-results.html#cb280-1" tabindex="-1"></a><span class="fu">ggplot</span>(bc) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="fu">factor</span>(Class), Cl.thickness))</span></code></pre></div>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb284-1"><a href="module-3-bonus-exercise-results.html#cb284-1" tabindex="-1"></a><span class="fu">ggplot</span>(bc) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="fu">factor</span>(Class), Cl.thickness))</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/ex3-plot-3.png" width="672" /></p>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb281-1"><a href="module-3-bonus-exercise-results.html#cb281-1" tabindex="-1"></a><span class="fu">ggplot</span>(bc) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="fu">factor</span>(Class), Bare.nuclei))</span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb285-1"><a href="module-3-bonus-exercise-results.html#cb285-1" tabindex="-1"></a><span class="fu">ggplot</span>(bc) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="fu">factor</span>(Class), Bare.nuclei))</span></code></pre></div>
 <pre><code>## Warning: Removed 16 rows containing non-finite
 ## outside the scale range
 ## (`stat_boxplot()`).</code></pre>
 <p><img src="bookdown-demo_files/figure-html/ex3-plot-4.png" width="672" /></p>
 <p>Fit a binary outcome model:</p>
-<div class="sourceCode" id="cb283"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb283-1"><a href="module-3-bonus-exercise-results.html#cb283-1" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
-<span id="cb283-2"><a href="module-3-bonus-exercise-results.html#cb283-2" tabindex="-1"></a>    Class <span class="sc">~</span> Cl.thickness <span class="sc">+</span> Bare.nuclei <span class="sc">+</span> Normal.nucleoli <span class="sc">+</span> Mitoses <span class="sc">+</span> Bl.cromatin, </span>
-<span id="cb283-3"><a href="module-3-bonus-exercise-results.html#cb283-3" tabindex="-1"></a>    bc,</span>
-<span id="cb283-4"><a href="module-3-bonus-exercise-results.html#cb283-4" tabindex="-1"></a>    <span class="at">family=</span><span class="st">&quot;binomial&quot;</span>)</span>
-<span id="cb283-5"><a href="module-3-bonus-exercise-results.html#cb283-5" tabindex="-1"></a><span class="fu">summary</span>(mod)</span></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb287-1"><a href="module-3-bonus-exercise-results.html#cb287-1" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb287-2"><a href="module-3-bonus-exercise-results.html#cb287-2" tabindex="-1"></a>    Class <span class="sc">~</span> Cl.thickness <span class="sc">+</span> Bare.nuclei <span class="sc">+</span> Normal.nucleoli <span class="sc">+</span> Mitoses <span class="sc">+</span> Bl.cromatin, </span>
+<span id="cb287-3"><a href="module-3-bonus-exercise-results.html#cb287-3" tabindex="-1"></a>    bc,</span>
+<span id="cb287-4"><a href="module-3-bonus-exercise-results.html#cb287-4" tabindex="-1"></a>    <span class="at">family=</span><span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb287-5"><a href="module-3-bonus-exercise-results.html#cb287-5" tabindex="-1"></a><span class="fu">summary</span>(mod)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = Class ~ Cl.thickness + Bare.nuclei + Normal.nucleoli + 

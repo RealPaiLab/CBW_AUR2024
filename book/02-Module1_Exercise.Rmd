@@ -63,6 +63,7 @@ hclust_fun <- function(x){
     return(f)
 }
 
+library(RColorBrewer)
 heatmap(
     as.matrix(crabs_meas),
     hclustfun = hclust_fun,

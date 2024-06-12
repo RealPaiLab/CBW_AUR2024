@@ -210,50 +210,50 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="module-4-bonus-exercise-results" class="section level1 unnumbered hasAnchor">
 <h1>Module 4: Bonus Exercise Results<a href="module-4-bonus-exercise-results.html#module-4-bonus-exercise-results" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div class="sourceCode" id="cb311"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb311-1"><a href="module-4-bonus-exercise-results.html#cb311-1" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;yeastRNASeq&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) </span>
-<span id="cb311-2"><a href="module-4-bonus-exercise-results.html#cb311-2" tabindex="-1"></a>  BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;yeastRNASeq&quot;</span>)</span>
-<span id="cb311-3"><a href="module-4-bonus-exercise-results.html#cb311-3" tabindex="-1"></a></span>
-<span id="cb311-4"><a href="module-4-bonus-exercise-results.html#cb311-4" tabindex="-1"></a><span class="fu">library</span>(yeastRNASeq)</span>
-<span id="cb311-5"><a href="module-4-bonus-exercise-results.html#cb311-5" tabindex="-1"></a></span>
-<span id="cb311-6"><a href="module-4-bonus-exercise-results.html#cb311-6" tabindex="-1"></a><span class="fu">data</span>(geneLevelData)</span>
-<span id="cb311-7"><a href="module-4-bonus-exercise-results.html#cb311-7" tabindex="-1"></a>gene_keep <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(geneLevelData) <span class="sc">&gt;</span> <span class="dv">2</span> </span>
-<span id="cb311-8"><a href="module-4-bonus-exercise-results.html#cb311-8" tabindex="-1"></a></span>
-<span id="cb311-9"><a href="module-4-bonus-exercise-results.html#cb311-9" tabindex="-1"></a><span class="co"># What genes pass this threshold?</span></span>
-<span id="cb311-10"><a href="module-4-bonus-exercise-results.html#cb311-10" tabindex="-1"></a>filtered <span class="ot">&lt;-</span> geneLevelData[gene_keep,] </span>
-<span id="cb311-11"><a href="module-4-bonus-exercise-results.html#cb311-11" tabindex="-1"></a><span class="fu">str</span>(filtered)</span></code></pre></div>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb317-1"><a href="module-4-bonus-exercise-results.html#cb317-1" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;yeastRNASeq&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) </span>
+<span id="cb317-2"><a href="module-4-bonus-exercise-results.html#cb317-2" tabindex="-1"></a>  BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;yeastRNASeq&quot;</span>)</span>
+<span id="cb317-3"><a href="module-4-bonus-exercise-results.html#cb317-3" tabindex="-1"></a></span>
+<span id="cb317-4"><a href="module-4-bonus-exercise-results.html#cb317-4" tabindex="-1"></a><span class="fu">library</span>(yeastRNASeq)</span>
+<span id="cb317-5"><a href="module-4-bonus-exercise-results.html#cb317-5" tabindex="-1"></a></span>
+<span id="cb317-6"><a href="module-4-bonus-exercise-results.html#cb317-6" tabindex="-1"></a><span class="fu">data</span>(geneLevelData)</span>
+<span id="cb317-7"><a href="module-4-bonus-exercise-results.html#cb317-7" tabindex="-1"></a>gene_keep <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(geneLevelData) <span class="sc">&gt;</span> <span class="dv">2</span> </span>
+<span id="cb317-8"><a href="module-4-bonus-exercise-results.html#cb317-8" tabindex="-1"></a></span>
+<span id="cb317-9"><a href="module-4-bonus-exercise-results.html#cb317-9" tabindex="-1"></a><span class="co"># What genes pass this threshold?</span></span>
+<span id="cb317-10"><a href="module-4-bonus-exercise-results.html#cb317-10" tabindex="-1"></a>filtered <span class="ot">&lt;-</span> geneLevelData[gene_keep,] </span>
+<span id="cb317-11"><a href="module-4-bonus-exercise-results.html#cb317-11" tabindex="-1"></a><span class="fu">str</span>(filtered)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    6113 obs. of  4 variables:
 ##  $ mut_1: num  38 31 55 29 189 33 23 51 21 4 ...
 ##  $ mut_2: num  39 33 52 26 180 41 13 52 12 5 ...
 ##  $ wt_1 : num  35 40 47 5 151 32 73 54 3 4 ...
 ##  $ wt_2 : num  34 26 47 5 180 29 63 45 3 8 ...</code></pre>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb313-1"><a href="module-4-bonus-exercise-results.html#cb313-1" tabindex="-1"></a><span class="co">#  as.matrix(filtered): the count data in the right class</span></span>
-<span id="cb313-2"><a href="module-4-bonus-exercise-results.html#cb313-2" tabindex="-1"></a><span class="co"># phenoData: The sample information</span></span>
-<span id="cb313-3"><a href="module-4-bonus-exercise-results.html#cb313-3" tabindex="-1"></a></span>
-<span id="cb313-4"><a href="module-4-bonus-exercise-results.html#cb313-4" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Mut&quot;</span>, <span class="st">&quot;WT&quot;</span>),<span class="at">each=</span><span class="dv">2</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;WT&quot;</span>,<span class="st">&quot;Mut&quot;</span>)) </span>
-<span id="cb313-5"><a href="module-4-bonus-exercise-results.html#cb313-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">DGEList</span>(<span class="fu">as.matrix</span>(filtered), </span>
-<span id="cb313-6"><a href="module-4-bonus-exercise-results.html#cb313-6" tabindex="-1"></a>           <span class="at">group =</span> group)  </span>
-<span id="cb313-7"><a href="module-4-bonus-exercise-results.html#cb313-7" tabindex="-1"></a></span>
-<span id="cb313-8"><a href="module-4-bonus-exercise-results.html#cb313-8" tabindex="-1"></a><span class="do">## matrix of experimental design </span></span>
-<span id="cb313-9"><a href="module-4-bonus-exercise-results.html#cb313-9" tabindex="-1"></a>mod <span class="ot">=</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>group, y)</span>
-<span id="cb313-10"><a href="module-4-bonus-exercise-results.html#cb313-10" tabindex="-1"></a></span>
-<span id="cb313-11"><a href="module-4-bonus-exercise-results.html#cb313-11" tabindex="-1"></a></span>
-<span id="cb313-12"><a href="module-4-bonus-exercise-results.html#cb313-12" tabindex="-1"></a><span class="do">## Normalize data</span></span>
-<span id="cb313-13"><a href="module-4-bonus-exercise-results.html#cb313-13" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">calcNormFactors</span>(y, <span class="at">method =</span> <span class="st">&quot;upperquartile&quot;</span>)</span>
-<span id="cb313-14"><a href="module-4-bonus-exercise-results.html#cb313-14" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">estimateDisp</span>(y, mod)</span>
-<span id="cb313-15"><a href="module-4-bonus-exercise-results.html#cb313-15" tabindex="-1"></a></span>
-<span id="cb313-16"><a href="module-4-bonus-exercise-results.html#cb313-16" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">glmFit</span>(y, mod)</span>
-<span id="cb313-17"><a href="module-4-bonus-exercise-results.html#cb313-17" tabindex="-1"></a>lrt <span class="ot">=</span> <span class="fu">glmLRT</span>(fit, <span class="at">coef =</span> <span class="dv">2</span>)</span>
-<span id="cb313-18"><a href="module-4-bonus-exercise-results.html#cb313-18" tabindex="-1"></a>diffEx2 <span class="ot">&lt;-</span> <span class="fu">decideTestsDGE</span>(lrt, </span>
-<span id="cb313-19"><a href="module-4-bonus-exercise-results.html#cb313-19" tabindex="-1"></a>    <span class="at">adjust.method=</span><span class="st">&quot;BH&quot;</span>, </span>
-<span id="cb313-20"><a href="module-4-bonus-exercise-results.html#cb313-20" tabindex="-1"></a>    <span class="at">p.value=</span><span class="fl">0.05</span></span>
-<span id="cb313-21"><a href="module-4-bonus-exercise-results.html#cb313-21" tabindex="-1"></a>)</span>
-<span id="cb313-22"><a href="module-4-bonus-exercise-results.html#cb313-22" tabindex="-1"></a><span class="fu">table</span>(diffEx2)</span></code></pre></div>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb319-1"><a href="module-4-bonus-exercise-results.html#cb319-1" tabindex="-1"></a><span class="co">#  as.matrix(filtered): the count data in the right class</span></span>
+<span id="cb319-2"><a href="module-4-bonus-exercise-results.html#cb319-2" tabindex="-1"></a><span class="co"># phenoData: The sample information</span></span>
+<span id="cb319-3"><a href="module-4-bonus-exercise-results.html#cb319-3" tabindex="-1"></a></span>
+<span id="cb319-4"><a href="module-4-bonus-exercise-results.html#cb319-4" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Mut&quot;</span>, <span class="st">&quot;WT&quot;</span>),<span class="at">each=</span><span class="dv">2</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;WT&quot;</span>,<span class="st">&quot;Mut&quot;</span>)) </span>
+<span id="cb319-5"><a href="module-4-bonus-exercise-results.html#cb319-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">DGEList</span>(<span class="fu">as.matrix</span>(filtered), </span>
+<span id="cb319-6"><a href="module-4-bonus-exercise-results.html#cb319-6" tabindex="-1"></a>           <span class="at">group =</span> group)  </span>
+<span id="cb319-7"><a href="module-4-bonus-exercise-results.html#cb319-7" tabindex="-1"></a></span>
+<span id="cb319-8"><a href="module-4-bonus-exercise-results.html#cb319-8" tabindex="-1"></a><span class="do">## matrix of experimental design </span></span>
+<span id="cb319-9"><a href="module-4-bonus-exercise-results.html#cb319-9" tabindex="-1"></a>mod <span class="ot">=</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>group, y)</span>
+<span id="cb319-10"><a href="module-4-bonus-exercise-results.html#cb319-10" tabindex="-1"></a></span>
+<span id="cb319-11"><a href="module-4-bonus-exercise-results.html#cb319-11" tabindex="-1"></a></span>
+<span id="cb319-12"><a href="module-4-bonus-exercise-results.html#cb319-12" tabindex="-1"></a><span class="do">## Normalize data</span></span>
+<span id="cb319-13"><a href="module-4-bonus-exercise-results.html#cb319-13" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">calcNormFactors</span>(y, <span class="at">method =</span> <span class="st">&quot;upperquartile&quot;</span>)</span>
+<span id="cb319-14"><a href="module-4-bonus-exercise-results.html#cb319-14" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">estimateDisp</span>(y, mod)</span>
+<span id="cb319-15"><a href="module-4-bonus-exercise-results.html#cb319-15" tabindex="-1"></a></span>
+<span id="cb319-16"><a href="module-4-bonus-exercise-results.html#cb319-16" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">glmFit</span>(y, mod)</span>
+<span id="cb319-17"><a href="module-4-bonus-exercise-results.html#cb319-17" tabindex="-1"></a>lrt <span class="ot">=</span> <span class="fu">glmLRT</span>(fit, <span class="at">coef =</span> <span class="dv">2</span>)</span>
+<span id="cb319-18"><a href="module-4-bonus-exercise-results.html#cb319-18" tabindex="-1"></a>diffEx2 <span class="ot">&lt;-</span> <span class="fu">decideTestsDGE</span>(lrt, </span>
+<span id="cb319-19"><a href="module-4-bonus-exercise-results.html#cb319-19" tabindex="-1"></a>    <span class="at">adjust.method=</span><span class="st">&quot;BH&quot;</span>, </span>
+<span id="cb319-20"><a href="module-4-bonus-exercise-results.html#cb319-20" tabindex="-1"></a>    <span class="at">p.value=</span><span class="fl">0.05</span></span>
+<span id="cb319-21"><a href="module-4-bonus-exercise-results.html#cb319-21" tabindex="-1"></a>)</span>
+<span id="cb319-22"><a href="module-4-bonus-exercise-results.html#cb319-22" tabindex="-1"></a><span class="fu">table</span>(diffEx2)</span></code></pre></div>
 <pre><code>## diffEx2
 ##   -1    0    1 
 ## 1282 3147 1684</code></pre>
-<div class="sourceCode" id="cb315"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb315-1"><a href="module-4-bonus-exercise-results.html#cb315-1" tabindex="-1"></a>DEGS <span class="ot">=</span> <span class="fu">topTags</span>(lrt, <span class="at">n=</span><span class="fu">nrow</span>(y))<span class="sc">$</span>table</span></code></pre></div>
-<div class="sourceCode" id="cb316"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb316-1"><a href="module-4-bonus-exercise-results.html#cb316-1" tabindex="-1"></a><span class="do">## check out differentially expressed genes</span></span>
-<span id="cb316-2"><a href="module-4-bonus-exercise-results.html#cb316-2" tabindex="-1"></a><span class="fu">head</span>(DEGS)</span></code></pre></div>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb321-1"><a href="module-4-bonus-exercise-results.html#cb321-1" tabindex="-1"></a>DEGS <span class="ot">=</span> <span class="fu">topTags</span>(lrt, <span class="at">n=</span><span class="fu">nrow</span>(y))<span class="sc">$</span>table</span></code></pre></div>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb322-1"><a href="module-4-bonus-exercise-results.html#cb322-1" tabindex="-1"></a><span class="do">## check out differentially expressed genes</span></span>
+<span id="cb322-2"><a href="module-4-bonus-exercise-results.html#cb322-2" tabindex="-1"></a><span class="fu">head</span>(DEGS)</span></code></pre></div>
 <pre><code>##            logFC    logCPM       LR
 ## snR59   8.918990 10.146912 2142.162
 ## snR49   8.541859  9.773155 1652.824
@@ -268,8 +268,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## YPL198W      0   0
 ## snR76        0   0
 ## snR81        0   0</code></pre>
-<div class="sourceCode" id="cb318"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb318-1"><a href="module-4-bonus-exercise-results.html#cb318-1" tabindex="-1"></a>DEGS_sig <span class="ot">=</span> DEGS[DEGS<span class="sc">$</span>FDR <span class="sc">&lt;</span> <span class="fl">0.05</span>,]</span>
-<span id="cb318-2"><a href="module-4-bonus-exercise-results.html#cb318-2" tabindex="-1"></a><span class="fu">head</span>(DEGS_sig)</span></code></pre></div>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb324-1"><a href="module-4-bonus-exercise-results.html#cb324-1" tabindex="-1"></a>DEGS_sig <span class="ot">=</span> DEGS[DEGS<span class="sc">$</span>FDR <span class="sc">&lt;</span> <span class="fl">0.05</span>,]</span>
+<span id="cb324-2"><a href="module-4-bonus-exercise-results.html#cb324-2" tabindex="-1"></a><span class="fu">head</span>(DEGS_sig)</span></code></pre></div>
 <pre><code>##            logFC    logCPM       LR
 ## snR59   8.918990 10.146912 2142.162
 ## snR49   8.541859  9.773155 1652.824
@@ -284,18 +284,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## YPL198W      0   0
 ## snR76        0   0
 ## snR81        0   0</code></pre>
-<div class="sourceCode" id="cb320"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb320-1"><a href="module-4-bonus-exercise-results.html#cb320-1" tabindex="-1"></a><span class="fu">dim</span>(DEGS_sig)</span></code></pre></div>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb326-1"><a href="module-4-bonus-exercise-results.html#cb326-1" tabindex="-1"></a><span class="fu">dim</span>(DEGS_sig)</span></code></pre></div>
 <pre><code>## [1] 2966    5</code></pre>
-<div class="sourceCode" id="cb322"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb322-1"><a href="module-4-bonus-exercise-results.html#cb322-1" tabindex="-1"></a>midx <span class="ot">&lt;-</span> <span class="fu">match</span>(<span class="fu">rownames</span>(DEGS), <span class="fu">rownames</span>(diffEx2))</span>
-<span id="cb322-2"><a href="module-4-bonus-exercise-results.html#cb322-2" tabindex="-1"></a>diffEx2 <span class="ot">&lt;-</span> diffEx2[midx,]</span>
-<span id="cb322-3"><a href="module-4-bonus-exercise-results.html#cb322-3" tabindex="-1"></a></span>
-<span id="cb322-4"><a href="module-4-bonus-exercise-results.html#cb322-4" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&quot;black&quot;</span>,<span class="fu">nrow</span>(diffEx2))</span>
-<span id="cb322-5"><a href="module-4-bonus-exercise-results.html#cb322-5" tabindex="-1"></a>cols[<span class="fu">which</span>(diffEx2<span class="sc">&gt;</span><span class="dv">0</span> )]  <span class="ot">&lt;-</span> <span class="st">&quot;red&quot;</span></span>
-<span id="cb322-6"><a href="module-4-bonus-exercise-results.html#cb322-6" tabindex="-1"></a>cols[<span class="fu">which</span>(diffEx2<span class="sc">&lt;</span><span class="dv">0</span>)]  <span class="ot">&lt;-</span> <span class="st">&quot;blue&quot;</span></span>
-<span id="cb322-7"><a href="module-4-bonus-exercise-results.html#cb322-7" tabindex="-1"></a><span class="co"># volcano plot</span></span>
-<span id="cb322-8"><a href="module-4-bonus-exercise-results.html#cb322-8" tabindex="-1"></a><span class="fu">plot</span>(DEGS<span class="sc">$</span>logFC,<span class="sc">-</span><span class="fu">log10</span>(DEGS<span class="sc">$</span>PValue),<span class="at">pch=</span><span class="dv">16</span>,</span>
-<span id="cb322-9"><a href="module-4-bonus-exercise-results.html#cb322-9" tabindex="-1"></a>    <span class="at">col=</span>cols)</span>
-<span id="cb322-10"><a href="module-4-bonus-exercise-results.html#cb322-10" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>,<span class="at">lty=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb328-1"><a href="module-4-bonus-exercise-results.html#cb328-1" tabindex="-1"></a>midx <span class="ot">&lt;-</span> <span class="fu">match</span>(<span class="fu">rownames</span>(DEGS), <span class="fu">rownames</span>(diffEx2))</span>
+<span id="cb328-2"><a href="module-4-bonus-exercise-results.html#cb328-2" tabindex="-1"></a>diffEx2 <span class="ot">&lt;-</span> diffEx2[midx,]</span>
+<span id="cb328-3"><a href="module-4-bonus-exercise-results.html#cb328-3" tabindex="-1"></a></span>
+<span id="cb328-4"><a href="module-4-bonus-exercise-results.html#cb328-4" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&quot;black&quot;</span>,<span class="fu">nrow</span>(diffEx2))</span>
+<span id="cb328-5"><a href="module-4-bonus-exercise-results.html#cb328-5" tabindex="-1"></a>cols[<span class="fu">which</span>(diffEx2<span class="sc">&gt;</span><span class="dv">0</span> )]  <span class="ot">&lt;-</span> <span class="st">&quot;red&quot;</span></span>
+<span id="cb328-6"><a href="module-4-bonus-exercise-results.html#cb328-6" tabindex="-1"></a>cols[<span class="fu">which</span>(diffEx2<span class="sc">&lt;</span><span class="dv">0</span>)]  <span class="ot">&lt;-</span> <span class="st">&quot;blue&quot;</span></span>
+<span id="cb328-7"><a href="module-4-bonus-exercise-results.html#cb328-7" tabindex="-1"></a><span class="co"># volcano plot</span></span>
+<span id="cb328-8"><a href="module-4-bonus-exercise-results.html#cb328-8" tabindex="-1"></a><span class="fu">plot</span>(DEGS<span class="sc">$</span>logFC,<span class="sc">-</span><span class="fu">log10</span>(DEGS<span class="sc">$</span>PValue),<span class="at">pch=</span><span class="dv">16</span>,</span>
+<span id="cb328-9"><a href="module-4-bonus-exercise-results.html#cb328-9" tabindex="-1"></a>    <span class="at">col=</span>cols)</span>
+<span id="cb328-10"><a href="module-4-bonus-exercise-results.html#cb328-10" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>,<span class="at">lty=</span><span class="dv">3</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-85-1.png" width="672" /></p>
 
 
