@@ -7,10 +7,20 @@ if (!requireNamespace("yeastRNASeq", quietly = TRUE))
 library(yeastRNASeq)
 
 data(geneLevelData)
-gene_keep <- rowMeans(geneLevelData) > 2 
 
-# What genes pass this threshold?
-filtered <- geneLevelData[gene_keep,] 
+# only keep genes with cpm > 25 in more than two samples
+
+# table of TRUE/FALSE values
+genes_passing_cutoff <- cpm(geneLevelData) > 25 
+
+# For each gene, add up how many samples it is TRUE in (rowSums())
+# Then only keep those strictly greater than 2.
+genes_keep <- rowSums(genes_passing_cutoff) > 2
+
+# Finally subset the data
+filtered <- geneLevelData[genes_keep,]
+
+# How many genes pass this threshold?
 str(filtered)
 ```
 
@@ -18,7 +28,8 @@ str(filtered)
 #  as.matrix(filtered): the count data in the right class
 # phenoData: The sample information
 
-group <- factor(rep(c("Mut", "WT"),each=2), levels = c("WT","Mut")) 
+group <- factor(rep(c("Mut", "WT"),each=2), 
+    levels = c("WT","Mut")) # we tell R to use "WT" as the reference
 y <- DGEList(as.matrix(filtered), 
            group = group)  
 
@@ -52,16 +63,46 @@ head(DEGS_sig)
 dim(DEGS_sig)
 ```
 
-```{r, class.source="codeblock",eval=TRUE}
-midx <- match(rownames(DEGS), rownames(diffEx2))
-diffEx2 <- diffEx2[midx,]
+Now merge the `DEG` and table with the table with the table that has the up/downregulated status:
 
-cols <- rep("black",nrow(diffEx2))
-cols[which(diffEx2>0 )]  <- "red"
-cols[which(diffEx2<0)]  <- "blue"
-# volcano plot
-plot(DEGS$logFC,-log10(DEGS$PValue),pch=16,
-    col=cols)
-abline(v=0,lty=3)
+```{r, class.source="codeblock",eval=TRUE}
+# needed to use merge function
+diffEx2 <- as.data.frame(diffEx2) 
+# give column more intuitive name
+colnames(diffEx2)[1] <- "gene_status"
+
+# add the common "gene" column to merge the two tables
+diffEx2$gene <- rownames(diffEx2)
+DEGS$gene <- rownames(DEGS)
+
+mega <- merge(x = DEGS, y = diffEx2, by="gene")
 ```
 
+Assign the column name for gene status:
+
+```{r, class.source="codeblock",eval=TRUE}
+is_sig <- rep("n.s.", nrow(mega)) # default is ns
+is_sig[which(mega$gene_status > 0)] <- "Upregulated"
+is_sig[which(mega$gene_status < 0)] <- "Downregulated"
+
+# use levels() to tell R how to order the categorical 
+# variables. Downregulated = 1, n.s.=2, and Upregulated=3. 
+# By default, R orders categorical variables alphabetically,
+# which may not make sense!
+mega$is_sig <- factor(is_sig, 
+    levels = c("Downregulated","n.s.","Upregulated"))
+```
+
+Finally create the volcano plot:
+
+```{r,class.source="codeblock",eval=TRUE}
+p1 <- ggplot(mega, 
+    aes(x = logFC, y = -log10(FDR))) + # -log10 conversion  
+    geom_point(aes(color=is_sig),size = 2/5) +  
+    xlab(expression("log"[2]*"FC")) + 
+    ylab(expression("-log"[10]*"FDR")) + 
+    scale_color_manual(
+        values = c("dodgerblue3", "gray50", "firebrick3")) 
+
+p1
+```

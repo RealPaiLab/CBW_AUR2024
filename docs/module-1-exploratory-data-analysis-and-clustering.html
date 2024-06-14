@@ -185,6 +185,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="module-3-bonus-exercise-results.html"><a href="module-3-bonus-exercise-results.html"><i class="fa fa-check"></i>Module 3: Bonus Exercise Results</a></li>
 <li class="chapter" data-level="" data-path="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html"><i class="fa fa-check"></i>Module 4: Finding differentially expressed genes from RNAseq data</a>
 <ul>
+<li class="chapter" data-level="" data-path="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#volcano-plot-r-base-graphics"><i class="fa fa-check"></i>Volcano plot (R base graphics)</a></li>
+<li class="chapter" data-level="" data-path="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#volcano-plot-ggplot2"><i class="fa fa-check"></i>Volcano plot (ggplot2)</a></li>
 <li class="chapter" data-level="" data-path="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html"><a href="module-4-finding-differentially-expressed-genes-from-rnaseq-data.html#bonus-exercise-3"><i class="fa fa-check"></i>Bonus Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="module-4-bonus-exercise-results.html"><a href="module-4-bonus-exercise-results.html"><i class="fa fa-check"></i>Module 4: Bonus Exercise Results</a></li>
@@ -243,20 +245,27 @@ There are three samples per group.</p>
 ##  $ FC : Factor w/ 9 levels &quot;ECM/Receptors&quot;,..: 3 8 6 6 1 3 1 6 5 6 ...</code></pre>
 <p>Another command is <code>head()</code>:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb18-1"><a href="module-1-exploratory-data-analysis-and-clustering.html#cb18-1" tabindex="-1"></a><span class="fu">head</span>(mouse)</span></code></pre></div>
-<pre><code>##             ID       M1       M2
-## 1   1448995_at 4.706812 4.528291
-## 2 1436392_s_at 3.867962 4.052354
-## 3 1437434_a_at 2.875112 3.379619
-## 4   1428922_at 5.326943 5.498930
-## 5 1452671_s_at 5.370125 4.546810
-## 6   1448147_at 3.471347 4.129992
-##         M3      NC1      NC2      NC3
-## 1 4.325836 5.568435 6.915079 7.353144
-## 2 3.474651 4.995836 5.056199 5.183585
-## 3 3.239800 3.877053 4.459629 4.850978
-## 4 5.629814 6.795194 6.535522 6.622577
-## 5 5.704810 6.407555 6.310487 6.195847
-## 6 3.964431 4.474737 5.185631 5.177967
+<pre><code>##             ID       M1
+## 1   1448995_at 4.706812
+## 2 1436392_s_at 3.867962
+## 3 1437434_a_at 2.875112
+## 4   1428922_at 5.326943
+## 5 1452671_s_at 5.370125
+## 6   1448147_at 3.471347
+##         M2       M3      NC1
+## 1 4.528291 4.325836 5.568435
+## 2 4.052354 3.474651 4.995836
+## 3 3.379619 3.239800 3.877053
+## 4 5.498930 5.629814 6.795194
+## 5 4.546810 5.704810 6.407555
+## 6 4.129992 3.964431 4.474737
+##        NC2      NC3
+## 1 6.915079 7.353144
+## 2 5.056199 5.183585
+## 3 4.459629 4.850978
+## 4 6.535522 6.622577
+## 5 6.310487 6.195847
+## 6 5.185631 5.177967
 ##                       FC
 ## 1 Growth/Differentiation
 ## 2   Transcription factor
@@ -266,30 +275,54 @@ There are three samples per group.</p>
 ## 6 Growth/Differentiation</code></pre>
 <p>Summary provides useful information about the distribution of variables. Note that <code>FC</code> has categorical variables:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb20-1"><a href="module-1-exploratory-data-analysis-and-clustering.html#cb20-1" tabindex="-1"></a><span class="fu">summary</span>(mouse)</span></code></pre></div>
-<pre><code>##           ID            M1       
-##  1415787_at:  1   Min.   :2.352  
-##  1415904_at:  1   1st Qu.:4.188  
-##  1415993_at:  1   Median :4.994  
-##  1416164_at:  1   Mean   :5.166  
-##  1416181_at:  1   3rd Qu.:6.147  
-##  1416221_at:  1   Max.   :9.282  
-##  (Other)   :141                  
-##        M2              M3       
-##  Min.   :2.139   Min.   :2.500  
-##  1st Qu.:4.151   1st Qu.:4.207  
-##  Median :5.043   Median :5.054  
-##  Mean   :5.140   Mean   :5.231  
-##  3rd Qu.:6.015   3rd Qu.:6.129  
-##  Max.   :9.273   Max.   :9.228  
-##                                 
-##       NC1             NC2       
-##  Min.   :2.100   Min.   :1.996  
-##  1st Qu.:4.174   1st Qu.:4.136  
-##  Median :4.996   Median :5.056  
-##  Mean   :5.120   Mean   :5.134  
-##  3rd Qu.:5.860   3rd Qu.:5.920  
-##  Max.   :8.905   Max.   :8.954  
-##                                 
+<pre><code>##           ID     
+##  1415787_at:  1  
+##  1415904_at:  1  
+##  1415993_at:  1  
+##  1416164_at:  1  
+##  1416181_at:  1  
+##  1416221_at:  1  
+##  (Other)   :141  
+##        M1       
+##  Min.   :2.352  
+##  1st Qu.:4.188  
+##  Median :4.994  
+##  Mean   :5.166  
+##  3rd Qu.:6.147  
+##  Max.   :9.282  
+##                 
+##        M2       
+##  Min.   :2.139  
+##  1st Qu.:4.151  
+##  Median :5.043  
+##  Mean   :5.140  
+##  3rd Qu.:6.015  
+##  Max.   :9.273  
+##                 
+##        M3       
+##  Min.   :2.500  
+##  1st Qu.:4.207  
+##  Median :5.054  
+##  Mean   :5.231  
+##  3rd Qu.:6.129  
+##  Max.   :9.228  
+##                 
+##       NC1       
+##  Min.   :2.100  
+##  1st Qu.:4.174  
+##  Median :4.996  
+##  Mean   :5.120  
+##  3rd Qu.:5.860  
+##  Max.   :8.905  
+##                 
+##       NC2       
+##  Min.   :1.996  
+##  1st Qu.:4.136  
+##  Median :5.056  
+##  Mean   :5.134  
+##  3rd Qu.:5.920  
+##  Max.   :8.954  
+##                 
 ##       NC3       
 ##  Min.   :2.125  
 ##  1st Qu.:4.293  
@@ -353,13 +386,20 @@ We have six samples, so the correlation matrix should be <code>6x6</code>.</p>
 <span id="cb28-3"><a href="module-1-exploratory-data-analysis-and-clustering.html#cb28-3" tabindex="-1"></a><span class="fu">dim</span>(mouse_cor)</span></code></pre></div>
 <pre><code>## [1] 6 6</code></pre>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb30-1"><a href="module-1-exploratory-data-analysis-and-clustering.html#cb30-1" tabindex="-1"></a><span class="fu">round</span>(mouse_cor,<span class="dv">2</span>)</span></code></pre></div>
-<pre><code>##       M1   M2   M3  NC1  NC2  NC3
-## M1  1.00 0.98 0.98 0.84 0.81 0.78
-## M2  0.98 1.00 0.95 0.84 0.81 0.79
-## M3  0.98 0.95 1.00 0.82 0.78 0.75
-## NC1 0.84 0.84 0.82 1.00 0.97 0.95
-## NC2 0.81 0.81 0.78 0.97 1.00 0.99
-## NC3 0.78 0.79 0.75 0.95 0.99 1.00</code></pre>
+<pre><code>##       M1   M2   M3  NC1  NC2
+## M1  1.00 0.98 0.98 0.84 0.81
+## M2  0.98 1.00 0.95 0.84 0.81
+## M3  0.98 0.95 1.00 0.82 0.78
+## NC1 0.84 0.84 0.82 1.00 0.97
+## NC2 0.81 0.81 0.78 0.97 1.00
+## NC3 0.78 0.79 0.75 0.95 0.99
+##      NC3
+## M1  0.78
+## M2  0.79
+## M3  0.75
+## NC1 0.95
+## NC2 0.99
+## NC3 1.00</code></pre>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb32-1"><a href="module-1-exploratory-data-analysis-and-clustering.html#cb32-1" tabindex="-1"></a><span class="fu">corrplot</span>(mouse_cor, <span class="at">method=</span><span class="st">&quot;color&quot;</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <ul>
@@ -394,8 +434,8 @@ We use <code>cutree()</code> for this.</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb40-1"><a href="module-1-exploratory-data-analysis-and-clustering.html#cb40-1" tabindex="-1"></a>clust_colours <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;pink&quot;</span>,<span class="st">&quot;green&quot;</span>)[h2]</span></code></pre></div>
 <p>Look at clust_colours:</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb41-1"><a href="module-1-exploratory-data-analysis-and-clustering.html#cb41-1" tabindex="-1"></a>clust_colours</span></code></pre></div>
-<pre><code>## [1] &quot;pink&quot;  &quot;pink&quot;  &quot;pink&quot;  &quot;green&quot;
-## [5] &quot;green&quot; &quot;green&quot;</code></pre>
+<pre><code>## [1] &quot;pink&quot;  &quot;pink&quot;  &quot;pink&quot; 
+## [4] &quot;green&quot; &quot;green&quot; &quot;green&quot;</code></pre>
 <p>Now let’s plot the heatmap using these assigned cluster labels:</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r codeblock"><code class="sourceCode r"><span id="cb43-1"><a href="module-1-exploratory-data-analysis-and-clustering.html#cb43-1" tabindex="-1"></a><span class="fu">heatmap</span>(mouse_exp,</span>
 <span id="cb43-2"><a href="module-1-exploratory-data-analysis-and-clustering.html#cb43-2" tabindex="-1"></a>    <span class="at">ColSideColors=</span>clust_colours)</span></code></pre></div>
@@ -449,64 +489,77 @@ For this we will create a custom function:</p>
 <span id="cb54-3"><a href="module-1-exploratory-data-analysis-and-clustering.html#cb54-3" tabindex="-1"></a>    <span class="at">centers =</span> <span class="dv">3</span></span>
 <span id="cb54-4"><a href="module-1-exploratory-data-analysis-and-clustering.html#cb54-4" tabindex="-1"></a>)</span>
 <span id="cb54-5"><a href="module-1-exploratory-data-analysis-and-clustering.html#cb54-5" tabindex="-1"></a>kclust</span></code></pre></div>
-<pre><code>## K-means clustering with 3 clusters of sizes 61, 64, 22
+<pre><code>## K-means clustering with 3 clusters of sizes 22, 61, 64
 ## 
 ## Cluster means:
-##         M1       M2       M3      NC1
-## 1 3.947440 3.946048 4.012209 3.922949
-## 2 5.553148 5.499583 5.642404 5.426931
-## 3 7.416536 7.406216 7.414799 7.548674
-##        NC2      NC3
-## 1 3.950984 4.004362
-## 2 5.435363 5.353342
-## 3 7.534414 7.520608
+##         M1       M2       M3
+## 1 7.416536 7.406216 7.414799
+## 2 3.947440 3.946048 4.012209
+## 3 5.553148 5.499583 5.642404
+##        NC1      NC2      NC3
+## 1 7.548674 7.534414 7.520608
+## 2 3.922949 3.950984 4.004362
+## 3 5.426931 5.435363 5.353342
 ## 
 ## Clustering vector:
-##   1   2   3   4   5   6   7   8   9 
-##   2   1   1   2   2   1   2   2   2 
-##  10  11  12  13  14  15  16  17  18 
-##   1   3   1   2   3   1   2   3   3 
-##  19  20  21  22  23  24  25  26  27 
-##   1   2   2   2   1   1   1   1   3 
-##  28  29  30  31  32  33  34  35  36 
-##   2   1   2   2   3   1   2   2   1 
-##  37  38  39  40  41  42  43  44  45 
-##   1   1   2   1   2   3   3   1   1 
-##  46  47  48  49  50  51  52  53  54 
-##   3   1   1   1   1   2   1   3   3 
-##  55  56  57  58  59  60  61  62  63 
-##   2   2   1   1   2   1   1   3   2 
-##  64  65  66  67  68  69  70  71  72 
-##   1   2   1   2   3   2   1   2   2 
-##  73  74  75  76  77  78  79  80  81 
-##   2   2   2   3   1   1   2   3   2 
-##  82  83  84  85  86  87  88  89  90 
-##   3   1   2   2   1   3   2   1   2 
-##  91  92  93  94  95  96  97  98  99 
-##   1   1   1   1   1   1   1   2   1 
-## 100 101 102 103 104 105 106 107 108 
-##   2   1   2   1   1   1   1   3   2 
-## 109 110 111 112 113 114 115 116 117 
-##   1   2   2   1   2   2   2   2   3 
-## 118 119 120 121 122 123 124 125 126 
-##   3   1   2   2   2   3   1   2   2 
-## 127 128 129 130 131 132 133 134 135 
-##   2   1   2   2   2   2   2   1   1 
-## 136 137 138 139 140 141 142 143 144 
-##   1   1   1   1   2   2   1   2   3 
-## 145 146 147 
-##   2   2   2 
+##   1   2   3   4   5   6   7 
+##   3   2   2   3   3   2   3 
+##   8   9  10  11  12  13  14 
+##   3   3   2   1   2   3   1 
+##  15  16  17  18  19  20  21 
+##   2   3   1   1   2   3   3 
+##  22  23  24  25  26  27  28 
+##   3   2   2   2   2   1   3 
+##  29  30  31  32  33  34  35 
+##   2   3   3   1   2   3   3 
+##  36  37  38  39  40  41  42 
+##   2   2   2   3   2   3   1 
+##  43  44  45  46  47  48  49 
+##   1   2   2   1   2   2   2 
+##  50  51  52  53  54  55  56 
+##   2   3   2   1   1   3   3 
+##  57  58  59  60  61  62  63 
+##   2   2   3   2   2   1   3 
+##  64  65  66  67  68  69  70 
+##   2   3   2   3   1   3   2 
+##  71  72  73  74  75  76  77 
+##   3   3   3   3   3   1   2 
+##  78  79  80  81  82  83  84 
+##   2   3   1   3   1   2   3 
+##  85  86  87  88  89  90  91 
+##   3   2   1   3   2   3   2 
+##  92  93  94  95  96  97  98 
+##   2   2   2   2   2   2   3 
+##  99 100 101 102 103 104 105 
+##   2   3   2   3   2   2   2 
+## 106 107 108 109 110 111 112 
+##   2   1   3   2   3   3   2 
+## 113 114 115 116 117 118 119 
+##   3   3   3   3   1   1   2 
+## 120 121 122 123 124 125 126 
+##   3   3   3   1   2   3   3 
+## 127 128 129 130 131 132 133 
+##   3   2   3   3   3   3   3 
+## 134 135 136 137 138 139 140 
+##   2   2   2   2   2   2   3 
+## 141 142 143 144 145 146 147 
+##   3   2   3   1   3   3   3 
 ## 
 ## Within cluster sum of squares by cluster:
-## [1] 193.59229 166.24343  81.44264
+## [1]  81.44264 193.59229
+## [3] 166.24343
 ##  (between_SS / total_SS =  74.3 %)
 ## 
 ## Available components:
 ## 
-## [1] &quot;cluster&quot;      &quot;centers&quot;     
-## [3] &quot;totss&quot;        &quot;withinss&quot;    
-## [5] &quot;tot.withinss&quot; &quot;betweenss&quot;   
-## [7] &quot;size&quot;         &quot;iter&quot;        
+## [1] &quot;cluster&quot;     
+## [2] &quot;centers&quot;     
+## [3] &quot;totss&quot;       
+## [4] &quot;withinss&quot;    
+## [5] &quot;tot.withinss&quot;
+## [6] &quot;betweenss&quot;   
+## [7] &quot;size&quot;        
+## [8] &quot;iter&quot;        
 ## [9] &quot;ifault&quot;</code></pre>
 </div>
 <div id="using-clvalid-to-determine-number-of-clusters" class="section level2 unnumbered hasAnchor">
@@ -544,10 +597,14 @@ For this we will create a custom function:</p>
 ## 
 ## Optimal Scores:
 ## 
-##              Score  Method      
-## Connectivity 5.3270 hierarchical
-## Dunn         0.1291 hierarchical
-## Silhouette   0.5133 hierarchical
+##              Score 
+## Connectivity 5.3270
+## Dunn         0.1291
+## Silhouette   0.5133
+##              Method      
+## Connectivity hierarchical
+## Dunn         hierarchical
+## Silhouette   hierarchical
 ##              Clusters
 ## Connectivity 2       
 ## Dunn         2       

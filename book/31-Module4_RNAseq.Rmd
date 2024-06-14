@@ -175,26 +175,84 @@ diffEx2 <- decideTestsDGE(diffEx,
 summary(diffEx2)
 ```
 
+### Volcano plot (R base graphics) {-}
+
 A **volcano plot** can help visualize effect magnitude - log2 fold-change or `log2FC` in the table ` against the corresponding p-value. Here we create a volcano plot, and colour-code upregulated genes in red, and downregulated genes in blue.
 
-Note that we are combining two different tables, `tt` and `diffEx2` so we need to ensure the order is the same. Otherwise the colours will be in the wrong order *(try it for yourself!)*.
+Let's merge the data from `tt` and `diffEx2` (which has the up-/down-regulated status):
 
 ```{r, class.source="codeblock",eval=TRUE}
-midx <- match(rownames(tt), rownames(diffEx2))
-diffEx2 <- diffEx2[midx,]
+# needed to use merge function
+diffEx2 <- as.data.frame(diffEx2) 
+# give column more intuitive name
+colnames(diffEx2)[1] <- "gene_status"
 
-cols <- rep("black",nrow(diffEx2))
-cols[which(diffEx2>0 )]  <- "red"
-cols[which(diffEx2<0)]  <- "blue"
+# add the common "gene" column to merge the two tables
+diffEx2$gene <- rownames(diffEx2)
+tt$gene <- rownames(tt)
+
+mega <- merge(x = tt, y = diffEx2, by="gene")
+```
+
+Now we create a vector of colours, so that our upregulated genes are in red, downregulated genes are in blue, and not-significant genes are in black:
+
+```{r, class.source="codeblock",eval=TRUE}
+cols <- rep("black",nrow(tt))
+cols[which(mega$gene_status > 0)] <- "red" # upregulated
+cols[which(mega$gene_status < 0)] <- "blue" # downregulated
+mega$cols <- cols
+
 # volcano plot
-plot(tt$logFC,-log10(tt$PValue),pch=16,
-    col=cols)
+plot(mega$logFC,
+    -log10(mega$PValue),
+    pch=16, 
+    col=mega$cols,
+    xlab="log(fold-change)",
+    ylab="-log10(p-value)"
+)
 abline(v=0,lty=3)
 ```
 
+### Volcano plot (ggplot2) {-}
+Let's create a volcano plot using the `ggplot2` library.
+
+For this let's add a NEW column indicating whether a gene is up-regulated, down-regulated, or n.s.
+
+```{r,class.source="codeblock",eval=TRUE}
+is_sig <- rep("n.s.", nrow(mega)) # default is ns
+is_sig[which(mega$gene_status > 0)] <- "Upregulated"
+is_sig[which(mega$gene_status < 0)] <- "Downregulated"
+
+# use levels() to tell R how to order the categorical 
+# variables. Downregulated = 1, n.s.=2, and Upregulated=3. 
+# By default, R orders categorical variables alphabetically,
+# which may not make sense!
+mega$is_sig <- factor(is_sig, 
+    levels = c("Downregulated","n.s.","Upregulated"))
+
+```
+
+Now let's create a volcano plot, colouring the dots by significance status. 
+
+We will use `scale_color_manual()` from the `ggplot2` package to add a custom colour scheme. 
+
+```{r,class.source="codeblock",eval=TRUE}
+p1 <- ggplot(mega, 
+    aes(x = logFC, y = -log10(FDR))) + # -log10 conversion  
+    geom_point(aes(color=is_sig),size = 2/5) +  
+    xlab(expression("log"[2]*"FC")) + 
+    ylab(expression("-log"[10]*"FDR")) + 
+    scale_color_manual(
+        values = c("dodgerblue3", "gray50", "firebrick3")) 
+
+p1
+```
+
+
 Finally we can write our differential expression results out to file:
 ```{r, class.source="codeblock",eval=TRUE}
-write.table(tt,file="diffEx.results.txt",
+write.table(mega,
+    file="diffEx.results.txt",
     sep="\t",
     col=TRUE,
     row=TRUE,
